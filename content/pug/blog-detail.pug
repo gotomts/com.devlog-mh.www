@@ -1,0 +1,77 @@
+- var title = "WebデザイナーからWebエンジニア？になった人のブログ";
+doctype html
+html(lang="ja")
+  head
+    //- 設定
+    include ./_includes/_meta.pug
+    title #{title}
+  body
+    //- テンプレートヘッダー
+    include ./_includes/_header.pug
+
+    //- ▼ コンテンツエリア ST
+    main.container.container-sm
+        article.blog-post
+          header.blog-post-header
+            h1.blog-post-title
+              a(href="./blog-detail.html").text-dark WebデザイナーからWebエンジニア？になった人のブログ
+            p.blog-post-meta 2018/01/01 
+              a(href="") 雑記
+          figure
+            img(src="https://placehold.jp/640x320.png", alt="ダミー画像").img-fluid
+          p これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。<br>
+            | これはテキストです。
+            strong これは&lt;strongタグです&gt;です。
+            | これはテキストです。これはテキストです。
+            em これは&lt;emタグです&gt;です。
+            | これはテキストです。これはテキストです。これはテキストです。これはテキストです。
+          h2.heading 見出しHeading2 これは中見出しです。Heading2 これは中見出しです。
+          figure
+            img(src="https://placehold.jp/640x320.png", alt="ダミー画像").img-fluid
+          p これはテキストです。これはテキストです。
+            a(href="") これはリンクテキストです。これはリンクテキストです。
+            | これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。<br>
+            | これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。
+          ul
+            li 順不同リスト 箇条書き
+            li 順不同リスト 箇条書き
+            li 順不同リスト 箇条書き
+          p これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。
+          ol
+            li 順序リスト
+            li 順序リスト
+            li 順序リスト
+          p これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。
+          h3.sub-heading 見出しHeading3 これは小見出しです。Heading3 これは中見出しです。
+          p これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。<br>
+            | これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。
+          aside.mt-5
+            h3 おすすめ記事
+            .clearfix.row
+              - for (var i = 0; i < 4; i++)
+                .col-6.mb-4
+                  a(href="").card
+                    img(src="https://placehold.jp/320x160.png", alt="ダミー画像").img-fluid.card-img-top
+                    .card-body
+                      p.card-meta 2019/01/01
+                      h4.card-title WebデザイナーからWebエンジニア？になった人のブログ
+                      p.btn-sm.btn-primary(href="") 続きを読む
+          .clearfix.around-pagination
+            p.float-left
+              a(href="./blog-detail.html") &laquo; 前の記事 WebデザイナーからWebエンジニア？になった人のブログ-Heading1
+            p.float-right
+              a(href="./blog-detail.html") 見出し1 - Heading1 次の記事 &raquo;
+          nav(aria-label="breadcrumb").blog-breadcrumb
+            ol.breadcrumb
+              li.breadcrumb-item
+                a(href="./") 
+                  i.fas.fa-home
+                  |  Home
+              li.breadcrumb-item
+                a(href="#") カテゴリ
+              li.breadcrumb-item.active
+                | WebデザイナーからWebエンジニア？になった人のブログ
+    //- ▼ コンテンツエリア ED
+
+    //- テンプレートフッター
+    include ./_includes/_footer.pug

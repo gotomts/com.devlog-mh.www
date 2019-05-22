@@ -1,0 +1,42 @@
+- var title = "WebデザイナーからWebエンジニア？になった人のブログ";
+doctype html
+html(lang="ja")
+  head
+    //- 設定
+    include ./_includes/_meta.pug
+    title #{title}
+  body
+    //- テンプレートヘッダー
+    include ./_includes/_header.pug
+
+    //- ▼ コンテンツエリア ST
+    main.container.container-sm
+      - for (var i = 0; i < 5; i++)
+        article.blog-post
+          header.blog-post-header
+            h1.blog-post-title
+              a(href="./blog-detail.html").text-dark WebデザイナーからWebエンジニア？になった人のブログ
+            p.blog-post-meta 2018/01/01 
+              a(href="") 雑記
+          p これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。これはテキストです。<br>
+            a(href="./blog-detail.html").btn.btn-primary.mt-2 続きを読む
+      nav(area-label="Page navigation").mb-10
+        ul.pagination.justify-content-center
+          li.page-item.disabled
+            a(href="#")(aria-label="Previous").page-link
+              span(aria-hidden="true") &laquo;
+              span.sr-only 前へ
+          li.page-item.active
+            a(href="#").page-link 1
+          li.page-item
+            a(href="#").page-link 2
+          li.page-item
+            a(href="#").page-link 3
+          li.page-item
+            a(href="#")(aria-label="Next").page-link
+              span(aria-hidden="true") &raquo;
+              span.sr-only 次へ
+    //- ▼ コンテンツエリア ED
+
+    //- テンプレートフッター
+    include ./_includes/_footer.pug
