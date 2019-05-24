@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+
+<!-- ページタイトル -->
+<div class="page-title" layout:fragment="pageTitle(title)">
+    <h1 th:text="${title}">タイトル</h1>
+</div>
+
+<!-- 前に戻るボタン -->
+<div layout:fragment="btnPrev(url)">
+    <a class="d-block" href="./" th:href="@{${url}}">
+        <i class="fas fa-chevron-circle-left"></i> 前へ戻る
+    </a>
+</div>
+
+<!-- 新規作成ボタン -->
+<div layout:fragment="btnEdit(url)">
+    <a class="btn btn-primary align-middle" href="./user-master-edit" th:href="@{${url}}">新規作成</a>
+</div>
+
+</body>
+</html>

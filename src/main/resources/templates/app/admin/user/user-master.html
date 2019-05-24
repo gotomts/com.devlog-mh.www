@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{app/admin/common/_base}">
+
+<head>
+  <title>ユーザー管理</title>
+  <meta name="keywords" content="ユーザー管理" />
+  <meta name="description" content="ユーザー管理" />
+</head>
+
+<body>
+
+  <div class="container" layout:fragment="contents">
+    <div layout:include="app/admin/common/_component::btnPrev(url='./index')"></div>
+    <div layout:include="app/admin/common/_component::pageTitle(title='ユーザ管理')"></div>
+    <div layout:include="app/admin/common/_component::btnEdit(url='./user-master-edit')"></div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+          <tr>
+            <th class="text-center text-nowrap" scope="col"></th>
+            <th class="text-center text-nowrap" scope="col">編集</th>
+            <th class="text-center text-nowrap" scope="col">ユーザー名</th>
+            <th class="text-center text-nowrap" scope="col">メールアドレス</th>
+            <th class="text-center text-nowrap" scope="col">更新者</th>
+            <th class="text-center text-nowrap" scope="col">更新日時</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="text-center" scope="row">
+              <input type="checkbox">
+            </th>
+            <td class="text-center"><a class="btn btn-secondary btn-sm" href="./user-master-edit.html">編集</a></td>
+            <td class="text-nowrap">後藤 充晴</td>
+            <td class="text-nowrap">goto@example.com</td>
+            <td class="text-center text-nowrap">後藤 充晴</td>
+            <td class="text-center text-nowrap">2018/11/22 10:00</td>
+          </tr>
+          <tr>
+            <th class="text-center" scope="row">
+              <input type="checkbox">
+            </th>
+            <td class="text-center"><a class="btn btn-secondary btn-sm" href="./user-master-edit.html">編集</a></td>
+            <td class="text-nowrap">後藤 充晴</td>
+            <td class="text-nowrap">goto@example.com</td>
+            <td class="text-center text-nowrap">後藤 充晴</td>
+            <td class="text-center text-nowrap">2018/11/22 10:00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

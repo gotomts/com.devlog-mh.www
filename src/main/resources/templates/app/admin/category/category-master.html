@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{app/admin/common/_base}">
+
+<head>
+  <title>カテゴリーマスタ</title>
+  <meta name="keywords" content="カテゴリーマスタ" />
+  <meta name="description" content="カテゴリーマスタ" />
+</head>
+
+<body>
+
+  <div class="container" layout:fragment="contents">
+    <h1>カテゴリーマスタ</h1>
+    <div><a class="btn btn-primary" href="./category-master-edit.html">新規作成</a></div>
+    <form action="./category-master.html" name="form1" method="post">
+      <p><a href="javascript:form1.submit()">チェックしたカテゴリをゴミ箱に移動</a></p>
+      <div class="table-responsive-xl">
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+            <tr>
+              <th class="text-center text-nowrap" scope="col"></th>
+              <th class="text-center text-nowrap" scope="col">編集</th>
+              <th class="text-center text-nowrap" scope="col">カテゴリー名</th>
+              <th class="text-center text-nowrap" scope="col">更新者</th>
+              <th class="text-center text-nowrap" scope="col">更新日時</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="text-center" scope="row">
+                <input type="checkbox">
+              </th>
+              <td class="text-center"><a class="btn btn-secondary btn-sm" href="./category-master-edit.html">編集</a></td>
+              <td class="text-nowrap">Java</td>
+              <td class="text-center text-nowrap">後藤 充晴</td>
+              <td class="text-center text-nowrap">2018/11/22 10:00</td>
+            </tr>
+            <tr>
+              <th class="text-center" scope="row">
+                <input type="checkbox">
+              </th>
+              <td class="text-center"><a class="btn btn-secondary btn-sm" href="./user-master-edit.html">編集</a></td>
+              <td class="text-nowrap">雑記</td>
+              <td class="text-center text-nowrap">後藤 充晴</td>
+              <td class="text-center text-nowrap">2018/11/22 10:00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

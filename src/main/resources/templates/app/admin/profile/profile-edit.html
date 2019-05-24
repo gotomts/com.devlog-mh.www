@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{app/admin/common/_base}">
+
+<head>
+  <title>プロフィール編集</title>
+  <meta name="keywords" content="プロフィール編集" />
+  <meta name="description" content="プロフィール編集" />
+</head>
+
+<body>
+
+  <div class="container" layout:fragment="contents">
+    <h1>プロフィール編集</h1>
+    <form action="./user-master.html">
+      <div class="form-group">
+        <label for="inputUserName1">ユーザー名</label>
+        <input class="form-control" id="inputUserName1" type="text" aria-describedby="usernameHelp" placeholder="ユーザー名" value="後藤 充晴">
+      </div>
+      <div class="form-group">
+        <label for="inputEmail1">メールアドレス</label>
+        <input class="form-control" id="inputEmail1" type="text" aria-describedby="emailHelp" placeholder="メールアドレス" value="goto@gmail.com">
+      </div>
+      <div class="form-group">
+        <label for="inputStatus">ユーザー権限                </label>
+        <select class="custom-select" id="exampleSelectStatus" name="" disabled>
+          <option value="1" selected>管理者 </option>
+          <option value="2">一般ユーザー</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword1">パスワード</label>
+        <input class="form-control" id="inputPassword1" type="password" aria-describedby="passwordHelp" placeholder="パスワード">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">保存する</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

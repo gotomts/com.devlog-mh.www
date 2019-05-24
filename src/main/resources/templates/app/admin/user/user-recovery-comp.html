@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{app/admin/common/_base}">
+
+<head>
+  <title>パスワードを忘れた方へ</title>
+  <meta name="keywords" content="パスワードを忘れた方へ" />
+  <meta name="description" content="パスワードを忘れた方へ" />
+</head>
+
+<body>
+
+  <div class="flex-body" layout:fragment="contents">
+    <div class="container bg-white border p-5">
+      <h1 class="text-center">パスワードを忘れた方へ</h1>
+      <div class="text-center">
+        <p>パスワード再発行用のメールを入力されたメールアドレス宛にお送りします。<br>メールを確認してください。</p>
+        <p><a href="./login.html">ログイン画面に戻る</a></p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
