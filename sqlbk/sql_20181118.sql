@@ -12,12 +12,12 @@ INSERT INTO role (name) VALUES('一般ユーザー');
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,    -- ユーザーID
   name VARCHAR(255) UNIQUE,   -- ユーザー名
-  mail VARCHAR(255) UNIQUE,    -- メールアドレス
+  email VARCHAR(255) UNIQUE,    -- メールアドレス
   password VARCHAR(255) NOT NULL,    -- パスワード
-  role_id INTEGER NOT NULL REFERENCES role(id),   -- アカウント種類ID
-  -- updater INTEGER NOT NULL DEFAULT ,  -- 更新者
-  created TIMESTAMP NOT NULL DEFAULT current_timestamp,    -- 作成日時
-  updated TIMESTAMP NOT NULL DEFAULT current_timestamp,     -- 更新日時
+  role_id INTEGER REFERENCES role(id),   -- アカウント種類ID
+  updater INTEGER DEFAULT 1,  -- 更新者
+  created TIMESTAMP DEFAULT current_timestamp,    -- 作成日時
+  updated TIMESTAMP DEFAULT current_timestamp,     -- 更新日時
   delflg INTEGER DEFAULT 0    -- 削除フラグ
 );
 
