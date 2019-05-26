@@ -12,6 +12,12 @@
 
 <body>
 
+  <p>
+    こんにちは
+    <span th:text="${userName}"></span>
+    さん
+  </p>
+
   <div class="flex-body" layout:fragment="contents">
     <div class="form-signin">
       <h1 class="text-center">管理画面トップ</h1><a class="btn btn-secondary btn-lg btn-block" href="./post.html">投稿記事管理 &raquo;</a><a class="btn btn-secondary btn-lg btn-block" href="./user-master.html">ユーザー管理 &raquo;</a><a class="btn btn-secondary btn-lg btn-block" href="./category-master.html">カテゴリーマスタ &raquo;</a>

@@ -15,14 +15,14 @@
   <div class="flex-body" layout:fragment="contents">
     <div class="form-signin">
       <h1 class="text-center">ログイン</h1>
-      <form action="./index.html">
-        <div class="form-group">
+      <form th:action="@{/admin/sign_in}" method="post">
+        <div lass="form-group">
           <label for="inputEmail">メールアドレス</label>
-          <input class="form-control" id="inputEmail" type="text" placeholder="メールアドレス">
+          <input class="form-control" id="inputEmail" type="text" name="email" placeholder="メールアドレス">
         </div>
         <div class="form-group">
           <label for="inputPassword">パスワード</label>
-          <input class="form-control" id="inputPassword" type="password" placeholder="パスワード">
+          <input class="form-control" id="inputPassword" type="password" name="password" placeholder="パスワード">
           <p><small class="form-text text-muted"><a href="./user-recovery.html">パスワードを忘れた方はこちら</a></small></p>
         </div>
         <div class="text-center">

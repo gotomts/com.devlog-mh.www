@@ -1,6 +1,6 @@
 package com.devlogmh.www.domain.service.account;
 
-import com.devlogmh.www.domain.model.Users.UsersEntity;
+import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +21,7 @@ public class AccountService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    // ユーザ登録処理
     public UsersEntity create(UsersEntity usersEntity, String rawPassword) {
         String encodedPassword = passwordEncoder.encode(rawPassword);
         usersEntity.setPassword(encodedPassword);

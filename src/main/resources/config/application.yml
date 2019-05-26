@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/postgresql-metric1-60905
+    username: goto
+    password: runedi4149
+    driverClassName: org.postgresql.Driver

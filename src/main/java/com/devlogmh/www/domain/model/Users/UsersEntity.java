@@ -1,10 +1,12 @@
-package com.devlogmh.www.domain.model.Users;
+package com.devlogmh.www.domain.model.users;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
  * Usersテーブルのエンティティ
@@ -12,7 +14,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name="users")
 @Data
-public class UsersEntity implements Serializable {
+public class UsersEntity implements UserDetails {
 
     /**
      * ユーザーID
@@ -62,5 +64,49 @@ public class UsersEntity implements Serializable {
      */
     @Column(nullable = true)
     private Integer delflg;
+
+    /* (非 Javadoc)
+     * @see org.springframework.security.core.userdetails.UserDetails#getAuthorities()
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    /* (非 Javadoc)
+     *  @see org.springframework.security.core.userdetails.UserDetails#getUsername()
+     */
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    /* (非 Javadoc)
+     * @see org.springframework.security.core.userdetails.UserDetails#isAccountNonExpired()
+     */
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    /* (非 Javadoc)
+     * @see org.springframework.security.core.userdetails.UserDetails#isAccountNonLocked()
+     */
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+
 
 }
