@@ -1,4 +1,4 @@
-package com.devlogmh.www.utils.common;
+package com.devlogmh.www.security;
 
 import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.repository.UsersRepository;
@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JpaUserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UsersRepository usersRepository;

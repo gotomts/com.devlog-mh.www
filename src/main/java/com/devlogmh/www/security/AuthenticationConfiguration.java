@@ -1,6 +1,5 @@
-package com.devlogmh.www.utils.config;
+package com.devlogmh.www.security;
 
-import com.devlogmh.www.utils.common.JpaUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class AuthenticationConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
     @Autowired
-    JpaUserDetailsServiceImpl userDetailsService;
+    UserDetailsServiceImpl userDetailsService;
 
     /**
      *

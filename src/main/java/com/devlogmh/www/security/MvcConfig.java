@@ -1,4 +1,4 @@
-package com.devlogmh.www.utils.config;
+package com.devlogmh.www.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
