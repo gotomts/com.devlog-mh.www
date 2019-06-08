@@ -297,3 +297,10 @@ SELECT mo_category_id, mo_category_name FROM mo_categories
 INNER JOIN mo_posts ON mo_posts.mo_category_id = mo_categories.mo_category_id
 WHERE mo_posts.mo_status_id = 2
 GROUP BY mo_category_id, mo_category_name;
+
+
+select
+    *
+from
+    users
+;

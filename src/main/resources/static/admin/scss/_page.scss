@@ -32,5 +32,11 @@
 
 // title
 .page-title {
-  margin: 2rem 0 1rem;
+  margin: 1rem 0;
+  h1 {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 0;
+    margin-right: 0.5rem;
+  }
 }

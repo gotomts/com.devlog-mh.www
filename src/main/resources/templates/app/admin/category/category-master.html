@@ -13,8 +13,9 @@
 <body>
 
   <div class="container" layout:fragment="contents">
-    <h1>カテゴリーマスタ</h1>
-    <div><a class="btn btn-primary" href="./category-master-edit.html">新規作成</a></div>
+    <div layout:include="app/admin/common/_component::btnPrev(url='./index')"></div>
+    <div layout:include="app/admin/common/_component::pageTitle(title='ユーザ管理')"></div>
+    <div layout:include="app/admin/common/_component::btnEdit(url='./category-edit')"></div>
     <form action="./category-master.html" name="form1" method="post">
       <p><a href="javascript:form1.submit()">チェックしたカテゴリをゴミ箱に移動</a></p>
       <div class="table-responsive-xl">

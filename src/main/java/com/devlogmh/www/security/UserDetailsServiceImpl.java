@@ -1,7 +1,7 @@
 package com.devlogmh.www.security;
 
-import com.devlogmh.www.domain.model.users.UsersEntity;
-import com.devlogmh.www.domain.repository.UsersRepository;
+import com.devlogmh.www.domain.model.account.AccountEntity;
+import com.devlogmh.www.domain.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UsersRepository usersRepository;
+    private AccountRepository accountRepository;
 
     /**
      * メールアドレスに一致するユーザ情報を取得
@@ -23,8 +23,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        UsersEntity usersEntity = usersRepository.findByEmail(email);
-        return usersEntity;
+        AccountEntity accountEntity = accountRepository.findByEmail(email);
+        return accountEntity;
 
     }
 }

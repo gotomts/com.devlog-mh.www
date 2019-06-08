@@ -4,3 +4,7 @@ spring:
     username: goto
     password: runedi4149
     driverClassName: org.postgresql.Driver
+  thymeleaf:
+    cache: false
+  session:
+    store-type:jdbc

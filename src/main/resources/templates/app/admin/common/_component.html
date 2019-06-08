@@ -4,20 +4,21 @@
 <body>
 
 <!-- ページタイトル -->
-<div class="page-title" layout:fragment="pageTitle(title)">
+<div class="page-title" layout:fragment="pageTitle(title, url)">
     <h1 th:text="${title}">タイトル</h1>
+    <a class="btn btn-primary align-middle" href="./user-master-edit" th:href="@{${url}}" th:if="${url}">新規作成</a>
 </div>
 
 <!-- 前に戻るボタン -->
-<div layout:fragment="btnPrev(url)">
-    <a class="d-block" href="./" th:href="@{${url}}">
+<div layout:fragment="btnPrev(url)" class="mt-3">
+    <a class="d-inline-block" href="./" th:href="@{${url}}">
         <i class="fas fa-chevron-circle-left"></i> 前へ戻る
     </a>
 </div>
 
 <!-- 新規作成ボタン -->
-<div layout:fragment="btnEdit(url)">
-    <a class="btn btn-primary align-middle" href="./user-master-edit" th:href="@{${url}}">新規作成</a>
+<div layout:fragment="btnEdit(url)" class="mb-3">
+
 </div>
 
 </body>
