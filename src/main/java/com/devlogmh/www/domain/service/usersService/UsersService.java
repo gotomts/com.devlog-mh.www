@@ -1,7 +1,9 @@
 package com.devlogmh.www.domain.service.usersService;
 
+import com.devlogmh.www.domain.model.role.RoleEntity;
 import com.devlogmh.www.domain.model.users.UsersDto;
 import com.devlogmh.www.domain.model.users.UsersEntity;
+import com.devlogmh.www.domain.repository.RoleRepository;
 import com.devlogmh.www.domain.repository.UsersRepository;
 import com.devlogmh.www.security.SessionData;
 import com.devlogmh.www.util.Contains;
@@ -20,6 +22,9 @@ public class UsersService {
 
     @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private SessionData sessionData;
@@ -54,6 +59,7 @@ public class UsersService {
             String updateTime = TimestampUtil.formattedTimestamp(entity.getUpdated(), Contains.TIME_FORMAT);
 
             // DTOに情報を詰める
+            dto.setId(entity.getId());
             dto.setName(entity.getName());
             dto.setEmail(entity.getEmail());
             dto.setUpdaterName(updaterName);
@@ -104,6 +110,13 @@ public class UsersService {
         // 更新時間
         usersEntity.setUpdated(TimestampUtil.currentTime());
         return usersRepository.save(usersEntity);
+    }
+
+    /**
+     * 権限一覧
+     */
+    public List<RoleEntity> roleList() {
+        return roleRepository.findAll();
     }
 
 }

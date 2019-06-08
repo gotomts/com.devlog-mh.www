@@ -14,7 +14,7 @@
 
   <div class="container" layout:fragment="contents">
     <div layout:replace="app/admin/common/_component::btnPrev(url='./index')"></div>
-    <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理', url='./user-master-detail')"></div>
+    <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理', url='./user-master/new')"></div>
     <div class="table-responsive">
       <table class="table table-striped table-hover table-bordered">
         <thead>
@@ -32,7 +32,7 @@
             <th class="text-center" scope="row">
               <input type="checkbox">
             </th>
-            <td class="text-center"><a class="btn btn-secondary btn-sm" href="./user-master-edit.html">編集</a></td>
+            <td class="text-center"><a class="btn btn-secondary btn-sm" th:href="@{./user-master/edit/{id}(id=*{id})}">編集</a></td>
             <td class="text-nowrap" th:text="*{name}"></td>
             <td class="text-nowrap" th:text="*{email}"></td>
             <td class="text-center text-nowrap" th:text="*{updaterName}"></td>
