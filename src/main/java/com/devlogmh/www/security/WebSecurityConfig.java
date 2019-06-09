@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .loginPage("/admin/login")  // ログインフォーム
             .loginProcessingUrl("/admin/sign_in") // 認証処理を起動
             .failureUrl("/admin/login?error")  // ログイン処理失敗時の遷移先
-            .defaultSuccessUrl("/admin/index")  // 認証成功時の遷移先
+            .defaultSuccessUrl("/admin/")  // 認証成功時の遷移先
             .usernameParameter("email").passwordParameter("password")   // ユーザ名とパラメータの設定
             .permitAll()
             .and()

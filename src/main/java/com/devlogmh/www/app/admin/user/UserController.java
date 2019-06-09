@@ -6,9 +6,11 @@ import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.service.usersService.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -42,18 +44,26 @@ public class UserController {
     @GetMapping("new")
     public ModelAndView newUsers(ModelAndView mav) {
         mav.setViewName("app/admin/user/user-master-new");
+
         List<RoleEntity> roleList = usersService.roleList();
         mav.addObject("form", roleList);
+
+        UsersEntity usersEntity = new UsersEntity();
+        mav.addObject("usersEntity", usersEntity);
+
         return mav;
     }
 
     /**
-     * 新規作成 処理
+     * 新規作成 登録処理
      * @param usersEntity
      * @return
      */
     @PostMapping("create")
-    public String create(@ModelAttribute UsersEntity usersEntity) {
+    public String create(@Valid @ModelAttribute UsersEntity usersEntity, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "app/admin/user/user-master-new";
+        }
         usersService.save(usersEntity);
         return "redirect:/admin/user-master";
     }
@@ -69,6 +79,28 @@ public class UserController {
         mav.addObject("form", usersEntity);
         mav.addObject("roleList", roleList);
         return mav;
+    }
+
+    /**
+     * 編集画面 更新処理
+     */
+    @PutMapping("update/{id}")
+    public String update(@PathVariable Long id, @Valid @ModelAttribute UsersEntity usersEntity, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "app/admin/user/user-master-edit";
+        }
+        usersEntity.setId(id);
+        usersService.save(usersEntity);
+        return "redirect:/admin/user-master";
+    }
+
+    /**
+     * 削除処理
+     */
+    @DeleteMapping("destroy/{id}")
+    public String destroy(@PathVariable Long id) {
+        usersService.delete(id);
+        return "redirect:/admin/user-master";
     }
 
 

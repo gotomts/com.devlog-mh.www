@@ -32,7 +32,7 @@ public class IndexController {
      * @param mav
      * @return
      */
-    @GetMapping("index")
+    @GetMapping
     public ModelAndView init(ModelAndView mav, Principal principal) {
         // 参照するHTML
         mav.setViewName("app/admin/index/index");

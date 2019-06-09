@@ -3,6 +3,7 @@ package com.devlogmh.www.app.account;
 import com.devlogmh.www.domain.model.account.AccountEntity;
 import com.devlogmh.www.domain.model.account.AccountForm;
 import com.devlogmh.www.domain.service.account.AccountService;
+import com.devlogmh.www.util.Contains;
 import com.devlogmh.www.util.TimestampUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,13 +57,15 @@ public class AccountController {
         // パスワードをbcrypt方式でハッシュ化して設定
         accountService.create(accountEntity, form.getPassword());
         // 権限を設定
-        accountEntity.setRole_id(1);
+        accountEntity.setRole_id(Contains.RoleId.Admin.getValue());
         // 更新者を設定
         accountEntity.setUpdater_id(1);
         // 作成日時を設定
         accountEntity.setCreated(TimestampUtil.currentTime());
         // 更新日時を設定
         accountEntity.setUpdated(TimestampUtil.currentTime());
+        // 削除フラグを設定
+        accountEntity.setDelflg(Contains.DelFlg.NotDel.getValue());
         return "redirect:/account/complete";
     }
 
