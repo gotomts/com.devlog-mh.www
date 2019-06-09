@@ -7,10 +7,10 @@ import com.devlogmh.www.domain.service.usersService.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -42,13 +42,11 @@ public class UserController {
      * @return
      */
     @GetMapping("new")
-    public ModelAndView newUsers(ModelAndView mav) {
+    public ModelAndView newUsers(@ModelAttribute("usersEntity") UsersEntity usersEntity, ModelAndView mav) {
         mav.setViewName("app/admin/user/user-master-new");
 
         List<RoleEntity> roleList = usersService.roleList();
-        mav.addObject("form", roleList);
-
-        UsersEntity usersEntity = new UsersEntity();
+        mav.addObject("roleList", roleList);
         mav.addObject("usersEntity", usersEntity);
 
         return mav;
@@ -60,12 +58,16 @@ public class UserController {
      * @return
      */
     @PostMapping("create")
-    public String create(@Valid @ModelAttribute UsersEntity usersEntity, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "app/admin/user/user-master-new";
+    public ModelAndView create(@ModelAttribute("usersEntity") @Validated UsersEntity usersEntity, BindingResult result, ModelAndView mav) {
+        if (result.hasErrors()) {
+            List<RoleEntity> roleList = usersService.roleList();
+            mav.addObject("roleList", roleList);
+            mav.setViewName("app/admin/user/user-master-new");
+            return mav;
         }
         usersService.save(usersEntity);
-        return "redirect:/admin/user-master";
+        mav = new ModelAndView("redirect:/admin/user-master");
+        return mav;
     }
 
     /**
@@ -76,7 +78,7 @@ public class UserController {
         mav.setViewName("app/admin/user/user-master-edit");
         List<RoleEntity> roleList = usersService.roleList();
         UsersEntity usersEntity = usersService.findOne(id);
-        mav.addObject("form", usersEntity);
+        mav.addObject("usersEntity", usersEntity);
         mav.addObject("roleList", roleList);
         return mav;
     }
@@ -85,22 +87,27 @@ public class UserController {
      * 編集画面 更新処理
      */
     @PutMapping("update/{id}")
-    public String update(@PathVariable Long id, @Valid @ModelAttribute UsersEntity usersEntity, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "app/admin/user/user-master-edit";
+    public ModelAndView update(@PathVariable Long id, @ModelAttribute("usersEntity") @Validated UsersEntity usersEntity, BindingResult result, ModelAndView mav) {
+        if (result.hasErrors()) {
+            List<RoleEntity> roleList = usersService.roleList();
+            mav.addObject("roleList", roleList);
+            mav.setViewName("app/admin/user/user-master-edit");
+            return mav;
         }
         usersEntity.setId(id);
         usersService.save(usersEntity);
-        return "redirect:/admin/user-master";
+        mav = new ModelAndView("redirect:/admin/user-master");
+        return mav;
     }
 
     /**
      * 削除処理
      */
     @DeleteMapping("destroy/{id}")
-    public String destroy(@PathVariable Long id) {
+    public ModelAndView destroy(@PathVariable Long id, ModelAndView mav) {
         usersService.delete(id);
-        return "redirect:/admin/user-master";
+        mav = new ModelAndView("redirect:/admin/user-master");
+        return mav;
     }
 
 

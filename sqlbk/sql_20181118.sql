@@ -5,6 +5,7 @@ CREATE TABLE role (
 );
 
 -- アカウント種類のデータ挿入
+INSERT INTO role (name) VALUES('選択してください');
 INSERT INTO role (name) VALUES('管理者');
 INSERT INTO role (name) VALUES('一般ユーザー');
 

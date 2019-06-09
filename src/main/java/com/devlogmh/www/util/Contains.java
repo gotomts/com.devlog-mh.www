@@ -12,11 +12,14 @@ public class Contains {
      */
     public static enum RoleId {
 
-        /** 1.管理者 */
-        Admin(1),
+        /** 1.選択してください */
+        UNSELECTED(1),
 
-        /** 2.一般ユーザー */
-        User(2);
+        /** 2.管理者 */
+        ADMIN(2),
+
+        /** 3.一般ユーザー */
+        USER(3);
 
         /** フィールド定義 */
         private int id;

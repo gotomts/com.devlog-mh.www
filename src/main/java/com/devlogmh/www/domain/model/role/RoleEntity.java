@@ -22,4 +22,22 @@ public class RoleEntity {
     @Setter
     private String name;
 
+    /**
+     * デフォルトコンストラクタ
+     */
+    public RoleEntity() {
+        super();
+    }
+
+    /**
+     * コンストラクタ
+     * @param id
+     * @param name
+     */
+    public RoleEntity(Long id, String name) {
+        super();
+        this.id = id;
+        this.name = name;
+    }
+
 }

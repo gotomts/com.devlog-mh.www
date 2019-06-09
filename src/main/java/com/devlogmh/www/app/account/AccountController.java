@@ -57,7 +57,7 @@ public class AccountController {
         // パスワードをbcrypt方式でハッシュ化して設定
         accountService.create(accountEntity, form.getPassword());
         // 権限を設定
-        accountEntity.setRole_id(Contains.RoleId.Admin.getValue());
+        accountEntity.setRole_id(Contains.RoleId.ADMIN.getValue());
         // 更新者を設定
         accountEntity.setUpdater_id(1);
         // 作成日時を設定

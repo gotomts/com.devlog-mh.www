@@ -130,7 +130,9 @@ public class UsersService {
      * 権限一覧
      */
     public List<RoleEntity> roleList() {
-        return roleRepository.findAll();
+        List<RoleEntity> entityList = roleRepository.findAll();
+        entityList.sort((a,b) -> (int) (a.getId() - b.getId()));
+        return entityList;
     }
 
 }
