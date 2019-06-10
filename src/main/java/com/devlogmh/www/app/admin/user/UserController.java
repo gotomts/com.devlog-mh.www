@@ -145,8 +145,13 @@ public class UserController {
             return mav;
         }
 
+        // 更新する対象のIDを設定
         usersEntity.setId(id);
+
+        // 更新処理
         usersFormService.update(usersEntity, inputForm);
+
+        // 更新後のリダイレクト先
         mav = new ModelAndView(USER_MASTER_REDIRECT);
         return mav;
     }

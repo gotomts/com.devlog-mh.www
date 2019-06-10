@@ -30,8 +30,8 @@ public class UsersForm implements Serializable {
      */
     @Getter
     @Setter
-    @NotEmpty
-    @Size(max = 255)
+    @NotEmpty(message = "必須項目です。")
+    @Size(max = 255, message = "255文字以下で入力してください。")
     private String userName;
 
     /**
@@ -39,9 +39,9 @@ public class UsersForm implements Serializable {
      */
     @Getter
     @Setter
-    @NotEmpty
-    @Size(max = 255)
-    @Email
+    @NotEmpty(message = "必須項目です。")
+    @Size(max = 255, message = "255文字以下で入力してください。")
+    @Email(message = "正しいメールアドレス形式ではありません。")
     private String email;
 
     /**
@@ -49,7 +49,7 @@ public class UsersForm implements Serializable {
      */
     @Getter
     @Setter
-    @NotNull
+    @NotNull(message = "必須項目です。")
     private Integer roleId;
 
     /**
@@ -64,7 +64,7 @@ public class UsersForm implements Serializable {
      */
     @Getter
     @Setter
-    @NotEmpty
+    @NotEmpty(message = "必須項目です。")
     private String password;
 
     /**
