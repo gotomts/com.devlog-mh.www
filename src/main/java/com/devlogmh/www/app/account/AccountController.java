@@ -57,7 +57,7 @@ public class AccountController {
         // パスワードをbcrypt方式でハッシュ化して設定
         accountService.create(accountEntity, form.getPassword());
         // 権限を設定
-        accountEntity.setRole_id(Contains.RoleId.ADMIN.getValue());
+        accountEntity.setRole_id(Integer.parseInt(Contains.RoleId.ADMIN.getValue()));
         // 更新者を設定
         accountEntity.setUpdater_id(1);
         // 作成日時を設定
@@ -65,7 +65,7 @@ public class AccountController {
         // 更新日時を設定
         accountEntity.setUpdated(TimestampUtil.currentTime());
         // 削除フラグを設定
-        accountEntity.setDelflg(Contains.DelFlg.NotDel.getValue());
+        accountEntity.setDelflg(Integer.parseInt(Contains.DelFlg.NotDel.getValue()));
         return "redirect:/account/complete";
     }
 

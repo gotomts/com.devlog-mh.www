@@ -1,12 +1,17 @@
 package com.devlogmh.www.domain.model.users;
 
-import com.devlogmh.www.domain.model.role.RoleEntity;
+import com.devlogmh.www.util.Contains;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * ユーザー管理フォームクラス
@@ -14,7 +19,7 @@ import java.util.List;
 public class UsersForm implements Serializable {
 
     /**
-     *  ID
+     *  ユーザーID
      */
     @Getter
     @Setter
@@ -25,6 +30,8 @@ public class UsersForm implements Serializable {
      */
     @Getter
     @Setter
+    @NotEmpty
+    @Size(max = 255)
     private String userName;
 
     /**
@@ -32,6 +39,9 @@ public class UsersForm implements Serializable {
      */
     @Getter
     @Setter
+    @NotEmpty
+    @Size(max = 255)
+    @Email
     private String email;
 
     /**
@@ -39,20 +49,22 @@ public class UsersForm implements Serializable {
      */
     @Getter
     @Setter
+    @NotNull
     private Integer roleId;
 
     /**
      * ユーザー権限／リスト
      */
-    @Getter
     @Setter
-    private List<RoleEntity> roleList;
+    @Getter
+    private Map<String, String> roleList;
 
     /**
      * パスワード
      */
     @Getter
     @Setter
+    @NotEmpty
     private String password;
 
     /**
@@ -96,5 +108,21 @@ public class UsersForm implements Serializable {
     @Getter
     @Setter
     private Integer delflg;
+
+    @Getter
+    @Setter
+    private String selectedItem;
+
+    @Getter
+    @Setter
+    private String[] selectedItems;
+
+    public Map<String, String> getSelectRoleItems() {
+        Map<String, String> selectMap = new LinkedHashMap<String, String>();
+        selectMap.put(Contains.RoleList.UNSELECTED.getId(), Contains.RoleList.UNSELECTED.getName());
+        selectMap.put(Contains.RoleList.ADMIN.getId(), Contains.RoleList.ADMIN.getName());
+        selectMap.put(Contains.RoleList.USER.getId(), Contains.RoleList.USER.getName());
+        return selectMap;
+    }
 
 }

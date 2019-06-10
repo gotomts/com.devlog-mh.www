@@ -35,29 +35,14 @@ public class UsersFormService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UsersForm setupForm() {
-
-        // フォームインスタンスの生成
-        UsersForm inputForm = new UsersForm();
-
-        // アカウント種類リスト
-        inputForm.setRoleList(this.roleList());
-
-        return inputForm;
-
-    }
-
     /**
      * IDをキーに検索し、フォームを初期設定
      * @return
      */
-    public UsersForm setupForm(Long id) {
+    public void setupForm(Long id, UsersForm inputForm) {
 
         // ユーザ情報をIDをキーに1件検索
         UsersEntity entity = this.findOne(id);
-
-        // フォームインスタンスの生成
-        UsersForm inputForm = setupForm();
 
         // ユーザー名
         inputForm.setUserName(entity.getUserName());
@@ -65,75 +50,32 @@ public class UsersFormService {
         inputForm.setEmail(entity.getEmail());
         // アカウント種類
         inputForm.setRoleId(entity.getRoleId());
+        // アカウント種類リスト
+        inputForm.setRoleList(inputForm.getSelectRoleItems());
         // パスワード
         inputForm.setPassword(entity.getPassword());
-
-        return inputForm;
 
     }
 
     /**
      * フォームに入力された値を保持してフォームの初期設定
-     * @param entity
+     * @param inputForm
      * @return
      */
-    public UsersForm setupForm(UsersEntity entity) {
-
-        // フォームインスタンスの生成
-        UsersForm inputForm = setupForm();
+    public void setupForm(UsersForm inputForm) {
 
         // ユーザー名
-        inputForm.setUserName(entity.getUserName());
+        inputForm.setUserName(inputForm.getUserName());
         // メールアドレス
-        inputForm.setEmail(entity.getEmail());
+        inputForm.setEmail(inputForm.getEmail());
         // アカウント種類
-        inputForm.setRoleId(entity.getRoleId());
+        inputForm.setRoleId(inputForm.getRoleId());
+        // アカウント種類リスト
+        inputForm.setRoleList(inputForm.getSelectRoleItems());
         // パスワード
-        inputForm.setPassword(entity.getPassword());
-
-        return inputForm;
-
+        inputForm.setPassword(inputForm.getPassword());
 
     }
-
-    /**
-     * ユーザ情報をすべて検索します。
-     * 更新者はIDからユーザ名に変換します。
-     * @return ユーザ情報DTO
-     */
-//    public List<UsersDto> init() {
-//
-//        // ユーザー情報の一覧を取得
-//        List<UsersEntity> entityList = usersRepository.findAll();
-//
-//        // ユーザー情報DTOリストのインスタンス生成
-//        List<UsersDto> dtoList = new ArrayList<UsersDto>();
-//
-//        // ユーザー情報を1件ずつ取り出してDTOに格納
-//        for (UsersEntity entity : entityList) {
-//
-//            // ユーザー情報DTOのインスタンス生成
-//            UsersDto dto = new UsersDto();
-//
-//            // エンティティからそれぞれの情報を取得
-//            String updaterName = this.findUpdateUser(entity.getUpdaterId().longValue());
-//            String updateTime = TimestampUtil.formattedTimestamp(entity.getUpdated(), Contains.TIME_FORMAT);
-//
-//            // DTOに情報を詰める
-//            dto.setId(entity.getId());
-//            dto.setUserName(entity.getUserName());
-//            dto.setEmail(entity.getEmail());
-//            dto.setUpdaterName(updaterName);
-//            dto.setUpdateTime(updateTime);
-//
-//            // リストに追加
-//            dtoList.add(dto);
-//
-//        }
-//
-//        return dtoList;
-//
-//    }
 
     /**
      * ユーザ情報をIDをキーに1件検索
@@ -161,6 +103,8 @@ public class UsersFormService {
             // パスワードを暗号化してセット
             entity.setPassword(passwordEncoder.encode(inputForm.getPassword()));
         }
+        // ユーザー権限
+        entity.setRoleId(inputForm.getRoleId());
         // 更新者
         entity.setUpdaterId(sessionData.getUserId().longValue());
         // 登録時間
@@ -168,16 +112,9 @@ public class UsersFormService {
         // 更新時間
         entity.setUpdated(TimestampUtil.currentTime());
         // 削除フラグ
-        entity.setDelflg(Contains.DelFlg.NotDel.getValue());
+        entity.setDelflg(Integer.parseInt(Contains.DelFlg.NotDel.getValue()));
 
         return usersRepository.save(entity);
-    }
-
-    /**
-     * 削除処理
-     */
-    public void delete(Long id) {
-        usersRepository.deleteById(id);
     }
 
 

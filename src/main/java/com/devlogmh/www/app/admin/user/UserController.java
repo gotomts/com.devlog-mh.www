@@ -1,8 +1,6 @@
 package com.devlogmh.www.app.admin.user;
 
-import com.devlogmh.www.domain.model.role.RoleEntity;
 import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.model.users.UsersForm;
 import com.devlogmh.www.domain.service.usersService.UsersFormService;
 import com.devlogmh.www.domain.service.usersService.UsersService;
@@ -29,10 +27,6 @@ public class UserController {
 
     @Autowired
     private UsersFormService usersFormService;
-
-    /*------------ フォーム ---------------*/
-
-    private UsersForm inputForm;
 
     /*------------ Viewのパス設定 ---------------*/
 
@@ -79,38 +73,37 @@ public class UserController {
      * @return
      */
     @GetMapping("new")
-    public ModelAndView newUsers(@ModelAttribute("form") UsersEntity usersEntity, ModelAndView mav) {
+    public ModelAndView newUsers(UsersForm inputForm, ModelAndView mav) {
         mav.setViewName(USER_MASTER_NEW);
         // フォームの初期設定
-        this.inputForm = usersFormService.setupForm();
+        usersFormService.setupForm(inputForm);
         // オブジェクトを詰め込み
-        mav.addObject("form", this.inputForm);
+        mav.addObject("form", inputForm);
         return mav;
     }
 
     /**
      * 新規作成 登録処理
-     * @param usersEntity
+     * @param inputForm
      * @return
      */
-    @PostMapping("create")
-    public ModelAndView create(@ModelAttribute("form") @Validated UsersEntity usersEntity, BindingResult result, ModelAndView mav) {
+    @PostMapping("new")
+    public ModelAndView create(@ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) {
 
         // フォームの初期設定
-        this.inputForm = usersFormService.setupForm(usersEntity);
+        usersFormService.setupForm(inputForm);
 
         // エラーだった場合
         if (result.hasErrors()) {
             // ビューの設定
             mav.setViewName(USER_MASTER_NEW);
             // オブジェクトを詰め込み
-            mav.addObject("form", this.inputForm);
-            result.getTarget();
+            mav.addObject("form", inputForm);
             return mav;
         }
 
         // 保存処理
-        usersFormService.save(this.inputForm);
+        usersFormService.save(inputForm);
         // リダイレクト設定
         mav = new ModelAndView(USER_MASTER_REDIRECT);
         return mav;
@@ -120,29 +113,36 @@ public class UserController {
      * 編集画面 表示
      */
     @GetMapping("edit/{id}")
-    public ModelAndView edit(@PathVariable Long id, ModelAndView mav) {
+    public ModelAndView edit(@PathVariable Long id, UsersForm inputForm, ModelAndView mav) {
         // ビューの設定
         mav.setViewName(USER_MASTER_EDIT);
         // フォームの初期設定
-        this.inputForm = usersFormService.setupForm(id);
+        usersFormService.setupForm(id, inputForm);
         // オブジェクトを詰め込み
-        mav.addObject("form", this.inputForm);
+        mav.addObject("form", inputForm);
         return mav;
     }
 
     /**
      * 編集画面 更新処理
      */
-    @PutMapping("update/{id}")
-    public ModelAndView update(@PathVariable Long id, @ModelAttribute("usersEntity") @Validated UsersEntity usersEntity, BindingResult result, ModelAndView mav) {
+    @PutMapping("edit/{id}")
+    public ModelAndView update(@PathVariable Long id, @ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) {
+
+        // フォームの初期設定
+        usersFormService.setupForm(inputForm);
+
+        // エラーだった場合
         if (result.hasErrors()) {
-            List<RoleEntity> roleList = usersService.roleList();
-            mav.addObject("roleList", roleList);
+            // ビューの設定
             mav.setViewName(USER_MASTER_EDIT);
+            // オブジェクトを詰め込み
+            mav.addObject("form", inputForm);
             return mav;
         }
-        usersEntity.setId(id);
-        usersService.save(usersEntity);
+
+        inputForm.setId(id);
+        usersFormService.save(inputForm);
         mav = new ModelAndView(USER_MASTER_REDIRECT);
         return mav;
     }

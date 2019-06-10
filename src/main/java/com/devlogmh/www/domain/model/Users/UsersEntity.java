@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -25,8 +24,6 @@ public class UsersEntity {
      */
     @Getter
     @Setter
-    @NotEmpty
-    @Size(max = 255)
     @Column(name = "name")
     private String userName;
 
@@ -35,9 +32,6 @@ public class UsersEntity {
      */
     @Getter
     @Setter
-    @NotEmpty
-    @Size(max = 255)
-    @Email
     private String email;
 
     /**
@@ -45,7 +39,6 @@ public class UsersEntity {
      */
     @Getter
     @Setter
-    @NotEmpty
     private String password;
 
     /**
@@ -53,8 +46,6 @@ public class UsersEntity {
      */
     @Getter
     @Setter
-    @Min(1)
-    @Max(3)
     @Column(name = "role_id")
     private Integer roleId;
 
