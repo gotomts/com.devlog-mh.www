@@ -8,3 +8,5 @@ spring:
     cache: false
   session:
     store-type:jdbc
+  messages:
+    basename: ValidationMessages

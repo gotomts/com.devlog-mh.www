@@ -4,6 +4,7 @@ import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.model.users.UsersForm;
 import com.devlogmh.www.domain.repository.RoleRepository;
 import com.devlogmh.www.domain.repository.UsersRepository;
+import com.devlogmh.www.exception.DuplicateProductException;
 import com.devlogmh.www.security.SessionData;
 import com.devlogmh.www.util.Contains;
 import com.devlogmh.www.util.TimestampUtil;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -140,6 +143,48 @@ public class UsersFormService {
         entity.setDelflg(Integer.parseInt(Contains.DelFlg.NotDel.getValue()));
 
         return usersRepository.save(entity);
+    }
+
+    /**
+     * 新規登録 バリデーションチェック
+     * @param inputForm
+     * @throws DuplicateProductException
+     */
+    public void validate(UsersForm inputForm) throws DuplicateProductException {
+
+        // ユーザー管理エンティティから検索
+        List<UsersEntity> entityList = usersRepository.findAll();
+
+        for (UsersEntity entity: entityList) {
+            // メールアドレスの重複チェック
+            if (StringUtils.equals(entity.getEmail(), inputForm.getEmail())) {
+                throw new DuplicateProductException();
+            }
+        }
+
+    }
+
+    /**
+     * 更新 バリデーションチェック
+     * @param id, inputForm
+     * @throws DuplicateProductException
+     */
+    public void validate(Long id, UsersForm inputForm) throws DuplicateProductException {
+
+        // 編集中のデータ
+        UsersEntity editData = this.findOne(id);
+
+        // ユーザー管理エンティティから検索
+        List<UsersEntity> entityList = usersRepository.findAll();
+
+        for (UsersEntity entity: entityList) {
+            // メールアドレスの重複チェック
+            if (StringUtils.equals(entity.getEmail(), inputForm.getEmail())
+                    && !StringUtils.equals(editData.getEmail(), inputForm.getEmail())) {
+                throw new DuplicateProductException();
+            }
+        }
+
     }
 
 }

@@ -5,6 +5,7 @@ import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.model.users.UsersForm;
 import com.devlogmh.www.domain.service.usersService.UsersFormService;
 import com.devlogmh.www.domain.service.usersService.UsersService;
+import com.devlogmh.www.exception.DuplicateProductException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -94,6 +95,14 @@ public class UserController {
         // フォームの初期設定
         usersFormService.setupForm(inputForm);
 
+        // 独自バリデーションチェック実装
+        try {
+            usersFormService.validate(inputForm);
+        } catch (DuplicateProductException e) {
+            // フィールドごとにエラーを詰める
+            result.rejectValue("email", "duplicate", new String[]{"メールアドレス"}, "default message.");
+        }
+
         // エラーだった場合
         if (result.hasErrors()) {
             // ビューの設定
@@ -102,6 +111,7 @@ public class UserController {
             mav.addObject("form", inputForm);
             return mav;
         }
+
 
         // 保存処理
         usersFormService.save(inputForm);
@@ -135,6 +145,14 @@ public class UserController {
 
         // エンティティ生成
         UsersEntity usersEntity = new UsersEntity();
+
+        // 独自バリデーションチェック実装
+        try {
+            usersFormService.validate(id, inputForm);
+        } catch (DuplicateProductException e) {
+            // フィールドごとにエラーを詰める
+            result.rejectValue("email", "duplicate", new String[]{"メールアドレス"}, "default message.");
+        }
 
         // エラーだった場合
         if (result.hasErrors()) {
