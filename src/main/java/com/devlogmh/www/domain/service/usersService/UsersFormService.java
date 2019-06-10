@@ -1,6 +1,5 @@
 package com.devlogmh.www.domain.service.usersService;
 
-import com.devlogmh.www.domain.model.role.RoleEntity;
 import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.model.users.UsersForm;
 import com.devlogmh.www.domain.repository.RoleRepository;
@@ -13,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -144,16 +141,5 @@ public class UsersFormService {
 
         return usersRepository.save(entity);
     }
-
-
-    /**
-     * 権限リストを作成
-     */
-    public List<RoleEntity> roleList() {
-        List<RoleEntity> entityList = roleRepository.findAll();
-        entityList.sort((a,b) -> (int) (a.getId() - b.getId()));
-        return entityList;
-    }
-
 
 }
