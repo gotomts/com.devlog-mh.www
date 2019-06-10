@@ -87,12 +87,40 @@ public class UsersFormService {
     }
 
     /**
-     * 新規登録/更新
+     * 新規登録
      */
     public UsersEntity save(UsersForm inputForm) {
 
         // 保存用のエンティティインスタンスを生成
         UsersEntity entity = new UsersEntity();
+
+        // ユーザー名
+        entity.setUserName(inputForm.getUserName());
+        // メールアドレス
+        entity.setEmail(inputForm.getEmail());
+        // パスワードが空の場合は更新しない
+        if (StringUtils.isNotEmpty(inputForm.getPassword())) {
+            // パスワードを暗号化してセット
+            entity.setPassword(passwordEncoder.encode(inputForm.getPassword()));
+        }
+        // ユーザー権限
+        entity.setRoleId(inputForm.getRoleId());
+        // 更新者
+        entity.setUpdaterId(sessionData.getUserId().longValue());
+        // 登録時間
+        entity.setCreated(TimestampUtil.currentTime());
+        // 更新時間
+        entity.setUpdated(TimestampUtil.currentTime());
+        // 削除フラグ
+        entity.setDelflg(Integer.parseInt(Contains.DelFlg.NotDel.getValue()));
+
+        return usersRepository.save(entity);
+    }
+
+    /**
+     * 更新
+     */
+    public UsersEntity update(UsersEntity entity, UsersForm inputForm) {
 
         // ユーザー名
         entity.setUserName(inputForm.getUserName());

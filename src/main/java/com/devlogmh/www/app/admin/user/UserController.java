@@ -1,6 +1,7 @@
 package com.devlogmh.www.app.admin.user;
 
 import com.devlogmh.www.domain.model.users.UsersDto;
+import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.model.users.UsersForm;
 import com.devlogmh.www.domain.service.usersService.UsersFormService;
 import com.devlogmh.www.domain.service.usersService.UsersService;
@@ -132,6 +133,9 @@ public class UserController {
         // フォームの初期設定
         usersFormService.setupForm(inputForm);
 
+        // エンティティ生成
+        UsersEntity usersEntity = new UsersEntity();
+
         // エラーだった場合
         if (result.hasErrors()) {
             // ビューの設定
@@ -141,8 +145,8 @@ public class UserController {
             return mav;
         }
 
-        inputForm.setId(id);
-        usersFormService.save(inputForm);
+        usersEntity.setId(id);
+        usersFormService.update(usersEntity, inputForm);
         mav = new ModelAndView(USER_MASTER_REDIRECT);
         return mav;
     }
