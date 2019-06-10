@@ -27,7 +27,8 @@ public class UsersEntity {
     @Setter
     @NotEmpty
     @Size(max = 255)
-    private String name;
+    @Column(name = "name")
+    private String userName;
 
     /**
      * メールアドレス
@@ -53,15 +54,17 @@ public class UsersEntity {
     @Getter
     @Setter
     @Min(1)
-    @Max(2)
-    private Integer role_id;
+    @Max(3)
+    @Column(name = "role_id")
+    private Integer roleId;
 
     /**
      * 更新者
      */
     @Getter
     @Setter
-    private Long updater_id;
+    @Column(name = "updater_id")
+    private Long updaterId;
 
     /**
      * 作成日時

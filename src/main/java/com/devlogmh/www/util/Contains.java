@@ -36,6 +36,30 @@ public class Contains {
 
     }
 
+    public static enum RoleName {
+        /** 1.選択してください */
+        UNSELECTED("選択してください"),
+
+        /** 2.管理者 */
+        ADMIN("管理者"),
+
+        /** 3.一般ユーザー */
+        USER("一般ユーザー");
+
+        /** フィールド定義 */
+        private String name;
+
+        /** コンストラクタ */
+        private RoleName(String name) {
+            this.name = name;
+        }
+
+        // 値を取得
+        public String getValue() {
+            return this.name;
+        }
+    }
+
     /**
      * 削除フラグ
      */

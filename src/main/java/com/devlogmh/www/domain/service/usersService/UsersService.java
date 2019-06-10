@@ -41,7 +41,7 @@ public class UsersService {
      * 更新者はIDからユーザ名に変換します。
      * @return ユーザ情報DTO
      */
-    public List<UsersDto> findAll() {
+    public List<UsersDto> init() {
 
         // ユーザー情報の一覧を取得
         List<UsersEntity> entityList = usersRepository.findAll();
@@ -56,12 +56,12 @@ public class UsersService {
             UsersDto dto = new UsersDto();
 
             // エンティティからそれぞれの情報を取得
-            String updaterName = this.findUpdateUser(entity.getUpdater_id().longValue());
+            String updaterName = this.findUpdateUser(entity.getUpdaterId().longValue());
             String updateTime = TimestampUtil.formattedTimestamp(entity.getUpdated(), Contains.TIME_FORMAT);
 
             // DTOに情報を詰める
             dto.setId(entity.getId());
-            dto.setName(entity.getName());
+            dto.setUserName(entity.getUserName());
             dto.setEmail(entity.getEmail());
             dto.setUpdaterName(updaterName);
             dto.setUpdateTime(updateTime);
@@ -70,7 +70,6 @@ public class UsersService {
             dtoList.add(dto);
 
         }
-
 
         return dtoList;
 
@@ -92,7 +91,7 @@ public class UsersService {
 
         String updateUserName = null;
 
-        updateUserName = this.findOne(updater).getName();
+        updateUserName = this.findOne(updater).getUserName();
 
         return updateUserName;
 
@@ -108,7 +107,7 @@ public class UsersService {
             usersEntity.setPassword(passwordEncoder.encode(usersEntity.getPassword()));
         }
         // 更新者
-        usersEntity.setUpdater_id(sessionData.getUserId().longValue());
+        usersEntity.setUpdaterId(sessionData.getUserId().longValue());
         // 登録時間
         usersEntity.setCreated(TimestampUtil.currentTime());
         // 更新時間

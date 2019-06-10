@@ -3,6 +3,8 @@ package com.devlogmh.www.app.admin.user;
 import com.devlogmh.www.domain.model.role.RoleEntity;
 import com.devlogmh.www.domain.model.users.UsersDto;
 import com.devlogmh.www.domain.model.users.UsersEntity;
+import com.devlogmh.www.domain.model.users.UsersForm;
+import com.devlogmh.www.domain.service.usersService.UsersFormService;
 import com.devlogmh.www.domain.service.usersService.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,8 +22,40 @@ import java.util.List;
 @RequestMapping("/admin/user-master")
 public class UserController {
 
+    /*------------ DI ---------------*/
+
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private UsersFormService usersFormService;
+
+    /*------------ フォーム ---------------*/
+
+    private UsersForm inputForm;
+
+    /*------------ Viewのパス設定 ---------------*/
+
+    /**
+     * 一覧
+     */
+    private final String USER_MASTER = "app/admin/user/user-master";
+
+    /**
+     * 新規登録画面
+     */
+    private final String USER_MASTER_NEW = "app/admin/user/user-master-new";
+
+    /**
+     * 編集画面
+     */
+    private final String USER_MASTER_EDIT = "app/admin/user/user-master-edit";
+
+    /**
+     * リダイレクト
+     */
+    private final String USER_MASTER_REDIRECT = "redirect:/admin/user-master";
+
 
     /**
      * 一覧表示
@@ -30,9 +64,12 @@ public class UserController {
      */
     @GetMapping
     public ModelAndView index(ModelAndView mav) {
-        List<UsersDto> dto = usersService.findAll();
-        mav.addObject("dto", dto);
-        mav.setViewName("app/admin/user/user-master");
+        // ビューの設定
+        mav.setViewName(USER_MASTER);
+        // サービスの初期処理
+        List<UsersDto> dtoList = usersService.init();
+        // オブジェクトを詰め込み
+        mav.addObject("dto", dtoList);
         return mav;
     }
 
@@ -42,13 +79,12 @@ public class UserController {
      * @return
      */
     @GetMapping("new")
-    public ModelAndView newUsers(@ModelAttribute("usersEntity") UsersEntity usersEntity, ModelAndView mav) {
-        mav.setViewName("app/admin/user/user-master-new");
-
-        List<RoleEntity> roleList = usersService.roleList();
-        mav.addObject("roleList", roleList);
-        mav.addObject("usersEntity", usersEntity);
-
+    public ModelAndView newUsers(@ModelAttribute("form") UsersEntity usersEntity, ModelAndView mav) {
+        mav.setViewName(USER_MASTER_NEW);
+        // フォームの初期設定
+        this.inputForm = usersFormService.setupForm();
+        // オブジェクトを詰め込み
+        mav.addObject("form", this.inputForm);
         return mav;
     }
 
@@ -58,15 +94,25 @@ public class UserController {
      * @return
      */
     @PostMapping("create")
-    public ModelAndView create(@ModelAttribute("usersEntity") @Validated UsersEntity usersEntity, BindingResult result, ModelAndView mav) {
+    public ModelAndView create(@ModelAttribute("form") @Validated UsersEntity usersEntity, BindingResult result, ModelAndView mav) {
+
+        // フォームの初期設定
+        this.inputForm = usersFormService.setupForm(usersEntity);
+
+        // エラーだった場合
         if (result.hasErrors()) {
-            List<RoleEntity> roleList = usersService.roleList();
-            mav.addObject("roleList", roleList);
-            mav.setViewName("app/admin/user/user-master-new");
+            // ビューの設定
+            mav.setViewName(USER_MASTER_NEW);
+            // オブジェクトを詰め込み
+            mav.addObject("form", this.inputForm);
+            result.getTarget();
             return mav;
         }
-        usersService.save(usersEntity);
-        mav = new ModelAndView("redirect:/admin/user-master");
+
+        // 保存処理
+        usersFormService.save(this.inputForm);
+        // リダイレクト設定
+        mav = new ModelAndView(USER_MASTER_REDIRECT);
         return mav;
     }
 
@@ -75,11 +121,12 @@ public class UserController {
      */
     @GetMapping("edit/{id}")
     public ModelAndView edit(@PathVariable Long id, ModelAndView mav) {
-        mav.setViewName("app/admin/user/user-master-edit");
-        List<RoleEntity> roleList = usersService.roleList();
-        UsersEntity usersEntity = usersService.findOne(id);
-        mav.addObject("usersEntity", usersEntity);
-        mav.addObject("roleList", roleList);
+        // ビューの設定
+        mav.setViewName(USER_MASTER_EDIT);
+        // フォームの初期設定
+        this.inputForm = usersFormService.setupForm(id);
+        // オブジェクトを詰め込み
+        mav.addObject("form", this.inputForm);
         return mav;
     }
 
@@ -91,12 +138,12 @@ public class UserController {
         if (result.hasErrors()) {
             List<RoleEntity> roleList = usersService.roleList();
             mav.addObject("roleList", roleList);
-            mav.setViewName("app/admin/user/user-master-edit");
+            mav.setViewName(USER_MASTER_EDIT);
             return mav;
         }
         usersEntity.setId(id);
         usersService.save(usersEntity);
-        mav = new ModelAndView("redirect:/admin/user-master");
+        mav = new ModelAndView(USER_MASTER_REDIRECT);
         return mav;
     }
 
@@ -106,7 +153,7 @@ public class UserController {
     @DeleteMapping("destroy/{id}")
     public ModelAndView destroy(@PathVariable Long id, ModelAndView mav) {
         usersService.delete(id);
-        mav = new ModelAndView("redirect:/admin/user-master");
+        mav = new ModelAndView(USER_MASTER_REDIRECT);
         return mav;
     }
 

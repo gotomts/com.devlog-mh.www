@@ -15,11 +15,11 @@
   <div class="container" layout:fragment="contents">
     <div layout:replace="app/admin/common/_component::btnPrev(url='../user-master')"></div>
     <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理 新規作成')"></div>
-    <form th:action="@{./create}" th:method="post" th:object="${usersEntity}">
+    <form th:action="@{./create}" th:method="post" th:object="${form}">
       <div class="form-group">
-        <p class="text-danger mb-0" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+        <p class="text-danger mb-0" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
         <label for="inputUserName1">ユーザー名</label>
-        <input class="form-control" id="inputUserName1" type="text" aria-describedby="usernameHelp" placeholder="ユーザー名" name="name" th:field="*{name}" th:classappend="${#fields.hasErrors('name')}? is-invalid">
+        <input class="form-control" id="inputUserName1" type="text" aria-describedby="usernameHelp" placeholder="ユーザー名" name="userName" th:field="*{userName}" th:classappend="${#fields.hasErrors('userName')}? is-invalid">
       </div>
       <div class="form-group">
         <p class="text-danger mb-0" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
@@ -27,10 +27,10 @@
         <input class="form-control" id="inputEmail1" type="email" aria-describedby="emailHelp" placeholder="メールアドレス" name="email" th:field="*{email}" th:classappend="${#fields.hasErrors('email')}? is-invalid">
       </div>
       <div class="form-group">
-        <p class="text-danger mb-0" th:if="${#fields.hasErrors('role_id')}" th:errors="*{role_id}"></p>
+        <p class="text-danger mb-0" th:if="${#fields.hasErrors('roleId')}" th:errors="*{roleId}"></p>
         <label for="inputStatus">ユーザー権限</label>
-        <select class="custom-select" id="inputStatus" name="role_id" th:classappend="${#fields.hasErrors('role_id')}? is-invalid">
-          <option th:each="role : ${roleList}" th:value="${role.id}" th:selected="${role.id == usersEntity.role_id}" th:inline="text">[[${role.name}]]</option>
+        <select class="custom-select" id="inputStatus" name="roleId" th:classappend="${#fields.hasErrors('roleId')}? is-invalid">
+          <option th:each="role : ${form.roleList}" th:value="${role.id}" th:selected="${role.id == roleId}" th:inline="text">[[${role.name}]]</option>
         </select>
       </div>
       <div class="form-group">
