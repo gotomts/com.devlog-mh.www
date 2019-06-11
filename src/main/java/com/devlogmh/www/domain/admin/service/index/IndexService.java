@@ -1,4 +1,4 @@
-package com.devlogmh.www.domain.service.index;
+package com.devlogmh.www.domain.admin.service.index;
 
 import com.devlogmh.www.domain.model.account.AccountEntity;
 import com.devlogmh.www.domain.repository.AccountRepository;

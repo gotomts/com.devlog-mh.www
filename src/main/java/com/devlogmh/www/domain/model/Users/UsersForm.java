@@ -1,6 +1,6 @@
 package com.devlogmh.www.domain.model.users;
 
-import com.devlogmh.www.util.Contains;
+import com.devlogmh.www.domain.admin.util.Contains;
 import lombok.Getter;
 import lombok.Setter;
 

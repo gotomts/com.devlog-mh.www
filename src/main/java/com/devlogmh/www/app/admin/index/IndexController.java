@@ -1,8 +1,8 @@
 package com.devlogmh.www.app.admin.index;
 
 import com.devlogmh.www.domain.model.account.AccountEntity;
-import com.devlogmh.www.domain.service.index.IndexService;
-import com.devlogmh.www.security.SessionData;
+import com.devlogmh.www.domain.admin.service.index.IndexService;
+import com.devlogmh.www.domain.admin.security.SessionData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

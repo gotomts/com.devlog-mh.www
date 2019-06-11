@@ -1,10 +1,10 @@
-package com.devlogmh.www.domain.service.usersService;
+package com.devlogmh.www.domain.admin.service.users;
 
 import com.devlogmh.www.domain.model.users.UsersDto;
 import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.repository.UsersRepository;
-import com.devlogmh.www.util.Contains;
-import com.devlogmh.www.util.TimestampUtil;
+import com.devlogmh.www.domain.admin.util.Contains;
+import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,13 +1,13 @@
-package com.devlogmh.www.domain.service.usersService;
+package com.devlogmh.www.domain.admin.service.users;
 
 import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.model.users.UsersForm;
 import com.devlogmh.www.domain.repository.RoleRepository;
 import com.devlogmh.www.domain.repository.UsersRepository;
 import com.devlogmh.www.exception.DuplicateProductException;
-import com.devlogmh.www.security.SessionData;
-import com.devlogmh.www.util.Contains;
-import com.devlogmh.www.util.TimestampUtil;
+import com.devlogmh.www.domain.admin.security.SessionData;
+import com.devlogmh.www.domain.admin.util.Contains;
+import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

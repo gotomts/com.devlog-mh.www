@@ -1,4 +1,4 @@
-package com.devlogmh.www.security;
+package com.devlogmh.www.domain.admin.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;

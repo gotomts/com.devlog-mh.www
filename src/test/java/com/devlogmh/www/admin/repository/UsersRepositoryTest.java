@@ -1,4 +1,4 @@
-package com.devlogmh.www.repository;
+package com.devlogmh.www.admin.repository;
 
 import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.repository.UsersRepository;
@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.devlogmh.www.util.TimestampUtil.currentTime;
+import static com.devlogmh.www.domain.admin.util.TimestampUtil.currentTime;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)

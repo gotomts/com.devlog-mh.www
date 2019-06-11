@@ -1,4 +1,4 @@
-package com.devlogmh.www.security;
+package com.devlogmh.www.domain.admin.security;
 
 import com.devlogmh.www.domain.model.account.AccountEntity;
 import com.devlogmh.www.domain.repository.AccountRepository;

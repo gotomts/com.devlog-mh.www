@@ -1,4 +1,4 @@
-package com.devlogmh.www.util;
+package com.devlogmh.www.domain.admin.util;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

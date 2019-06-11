@@ -1,4 +1,4 @@
-package com.devlogmh.www.util;
+package com.devlogmh.www.domain.admin.util;
 
 public class Contains {
 
