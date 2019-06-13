@@ -48,4 +48,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'org.apache.commons:commons-lang3:3.4'
 
+	// テスト用DB
+	testImplementation group: 'com.h2database', name: 'h2', version: '1.4.197'
+
 }

@@ -1,6 +1,7 @@
 package com.devlogmh.www.domain.model.users;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
 public class UsersEntity {
 
     /**
@@ -78,4 +80,18 @@ public class UsersEntity {
     @Setter
     private Integer delflg;
 
+    /**
+     * デフォルトコンストラクタ
+     */
+    public UsersEntity(String userName, String email, String password, Integer roleId,
+                       Long updaterId, Timestamp created, Timestamp updated, int delflg) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.roleId = roleId;
+        this.updaterId = updaterId;
+        this.created = created;
+        this.updated = updated;
+        this.delflg = delflg;
+    }
 }
