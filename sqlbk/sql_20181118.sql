@@ -16,7 +16,7 @@ CREATE TABLE users (
   email VARCHAR(255) UNIQUE,    -- メールアドレス
   password VARCHAR(255) NOT NULL,    -- パスワード
   role_id INTEGER REFERENCES role(id),   -- アカウント種類ID
-  updater INTEGER DEFAULT 1,  -- 更新者
+  updater_id INTEGER DEFAULT 1,  -- 更新者
   created TIMESTAMP DEFAULT current_timestamp,    -- 作成日時
   updated TIMESTAMP DEFAULT current_timestamp,     -- 更新日時
   delflg INTEGER DEFAULT 0    -- 削除フラグ

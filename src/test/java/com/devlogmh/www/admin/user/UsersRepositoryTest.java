@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,13 +23,15 @@ public class UsersRepositoryTest {
     @Autowired
     private UsersRepository usersRepository;
 
+    @Autowired
+    private TestEntityManager testEntityManager;
+
     /**
      * 事前処理
      */
     @Before
     public void 事前処理() throws Exception {
         UsersEntity usersEntity1 = new UsersEntity();
-        usersEntity1.setId(Long.parseLong("99999998"));
         usersEntity1.setUserName("ユーザー名");
         usersEntity1.setEmail("example@unittest1.com");
         usersEntity1.setPassword("password");
@@ -40,7 +43,6 @@ public class UsersRepositoryTest {
         usersRepository.save(usersEntity1);
 
         UsersEntity usersEntity2 = new UsersEntity();
-        usersEntity2.setId(Long.parseLong("99999999"));
         usersEntity2.setUserName("山田 太郎");
         usersEntity2.setEmail("yamda@unittest.com");
         usersEntity2.setPassword("arunb98saf&");
@@ -55,8 +57,11 @@ public class UsersRepositoryTest {
     @Test
     @Transactional
     public void getOneメソッドのテスト() {
-        UsersEntity usersEntity = usersRepository.getOne(Long.parseLong("1"));
-        assertEquals(usersEntity.getUserName(), "ユニットテスト用");
+        UsersEntity usersEntity1 = usersRepository.getOne(Long.parseLong("1"));
+        assertEquals(usersEntity1.getUserName(), "ユーザー名");
+
+        UsersEntity usersEntity2 = usersRepository.getOne(Long.parseLong("2"));
+        assertEquals(usersEntity2.getUserName(), "山田 太郎");
     }
 
     /**
