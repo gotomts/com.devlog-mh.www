@@ -72,6 +72,7 @@
         FROM users
         INNER JOIN users AS updater
         ON users.updater_id = updater.id
+        ORDER BY updated DESC
     </select>
 
 </mapper>
