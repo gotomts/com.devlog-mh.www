@@ -4,71 +4,60 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 
 /**
  * Usersテーブルのエンティティ
  */
-@Entity
-@Table(name="users")
 @Data
 public class AccountEntity implements UserDetails {
+
+    private static final long serialVersionUID = 2L;
 
     /**
      * ユーザーID
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
      * ユーザー名
      */
-    @Column(nullable = false, unique = true)
     private String name;
 
     /**
      * メールアドレス
      */
-    @Column(nullable = false, unique = true)
     private String email;
 
     /**
      * パスワード
      */
-    @Column(nullable = false, length = 20)
     private String password;
 
     /**
      * アカウント種類ID
      */
-    @Column(nullable = true)
-    private Integer role_id;
+    private Integer roleId;
 
     /**
      * 更新者
      */
-    @Column(nullable = true)
-    private Integer updater_id;
+    private Integer updaterId;
 
     /**
      * 作成日時
      */
-    @Column(nullable = true)
     private Timestamp created;
 
     /**
      * 更新日時
      */
-    @Column(nullable = true)
     private Timestamp updated;
 
     /**
      * 削除フラグ
      */
-    @Column(nullable = true)
     private Integer delflg;
 
     /* (非 Javadoc)

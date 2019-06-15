@@ -177,12 +177,12 @@ public class UserController {
     /**
      * 削除処理
      */
-    @DeleteMapping("destroy/{id}")
-    public ModelAndView destroy(@PathVariable Long id, ModelAndView mav) {
-        usersService.delete(id);
-        mav = new ModelAndView(USER_MASTER_REDIRECT);
-        return mav;
-    }
+//    @DeleteMapping("destroy/{id}")
+//    public ModelAndView destroy(@PathVariable Long id, ModelAndView mav) {
+//        usersService.delete(id);
+//        mav = new ModelAndView(USER_MASTER_REDIRECT);
+//        return mav;
+//    }
 
 
 }

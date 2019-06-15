@@ -1,11 +1,10 @@
 package com.devlogmh.www.domain.admin.service.users;
 
-import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.domain.model.users.UsersEntity;
-import com.devlogmh.www.domain.repository.UsersRepository;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.devlogmh.www.domain.model.users.UsersDto;
+import com.devlogmh.www.domain.model.users.UsersEntity;
+import com.devlogmh.www.mapper.UsersMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +15,15 @@ import java.util.List;
 @Transactional
 public class UsersService {
 
-    @Autowired
-    private UsersRepository usersRepository;
+    private final UsersMapper usersMapper;
+
+    /**
+     * デフォルトコンストラクタ
+     * @param usersMapper
+     */
+    public UsersService(UsersMapper usersMapper) {
+        this.usersMapper = usersMapper;
+    }
 
     /**
      * ユーザ情報をすべて検索します。
@@ -27,7 +33,7 @@ public class UsersService {
     public List<UsersDto> init() {
 
         // ユーザー情報の一覧を取得
-        List<UsersEntity> entityList = usersRepository.findAll();
+        List<UsersEntity> entityList = usersMapper.selectAll();
 
         // ユーザー情報DTOリストのインスタンス生成
         List<UsersDto> dtoList = new ArrayList<UsersDto>();
@@ -64,7 +70,7 @@ public class UsersService {
      * @return
      */
     public UsersEntity findOne(Long id) {
-        return usersRepository.getOne(id);
+        return usersMapper.select(id);
     }
 
     /**
@@ -85,8 +91,8 @@ public class UsersService {
     /**
      * 削除処理
      */
-    public void delete(Long id) {
-        usersRepository.deleteById(id);
-    }
+//    public void delete(Long id) {
+//        usersRepository.deleteById(id);
+//    }
 
 }

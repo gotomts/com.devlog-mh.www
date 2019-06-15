@@ -4,19 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity
-@Table(name = "users")
 @NoArgsConstructor
 public class UsersEntity {
 
     /**
      * ユーザーID
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
     private Long id;
@@ -26,7 +21,6 @@ public class UsersEntity {
      */
     @Getter
     @Setter
-    @Column(name = "name")
     private String userName;
 
     /**
@@ -48,7 +42,6 @@ public class UsersEntity {
      */
     @Getter
     @Setter
-    @Column(name = "role_id")
     private Integer roleId;
 
     /**
@@ -56,7 +49,6 @@ public class UsersEntity {
      */
     @Getter
     @Setter
-    @Column(name = "updater_id")
     private Long updaterId;
 
     /**

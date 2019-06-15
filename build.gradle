@@ -40,7 +40,7 @@ dependencies {
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0'
 
 	// データベース関連
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.1'
 	runtime 'org.postgresql:postgresql'
 
 	// よく使うライブラリ

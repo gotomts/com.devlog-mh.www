@@ -2,7 +2,7 @@ package com.devlogmh.www.admin.user;
 
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.users.UsersEntity;
-import com.devlogmh.www.domain.repository.UsersRepository;
+import com.devlogmh.www.mapper.UsersMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,8 +22,11 @@ public class UsersRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
 
-    @Autowired
-    private UsersRepository usersRepository;
+    private final UsersMapper usersMapper;
+
+    public UsersRepositoryTest(UsersMapper usersMapper) {
+        this.usersMapper = usersMapper;
+    }
 
     /**
      * 事前処理
@@ -48,7 +51,7 @@ public class UsersRepositoryTest {
         entityManager.persist(testUser2);
         entityManager.flush();
 
-        UsersEntity usersEntity1 = usersRepository.getOne(Long.parseLong("1"));
+        UsersEntity usersEntity1 = usersMapper.select(Long.parseLong("1"));
         assertEquals(usersEntity1.getUserName(), "ユーザー名");
 
 //        UsersEntity usersEntity2 = usersRepository.getOne(Long.parseLong("2"));

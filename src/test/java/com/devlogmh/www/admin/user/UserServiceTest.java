@@ -3,7 +3,6 @@ package com.devlogmh.www.admin.user;
 import com.devlogmh.www.domain.admin.service.users.UsersService;
 import com.devlogmh.www.domain.model.users.UsersDto;
 import com.devlogmh.www.domain.model.users.UsersEntity;
-import com.devlogmh.www.domain.repository.UsersRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,9 +23,6 @@ public class UserServiceTest {
 
     @Autowired
     private UsersService usersService;
-
-    @Autowired
-    private UsersRepository usersRepository;
 
     /**
      * 事前処理

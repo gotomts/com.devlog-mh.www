@@ -1,13 +1,12 @@
 package com.devlogmh.www.domain.admin.service.users;
 
-import com.devlogmh.www.domain.model.users.UsersEntity;
-import com.devlogmh.www.domain.model.users.UsersForm;
-import com.devlogmh.www.domain.repository.RoleRepository;
-import com.devlogmh.www.domain.repository.UsersRepository;
-import com.devlogmh.www.exception.DuplicateProductException;
 import com.devlogmh.www.domain.admin.security.SessionData;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
+import com.devlogmh.www.domain.model.users.UsersEntity;
+import com.devlogmh.www.domain.model.users.UsersForm;
+import com.devlogmh.www.exception.DuplicateProductException;
+import com.devlogmh.www.mapper.UsersMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,12 +20,6 @@ import java.util.List;
 public class UsersFormService {
 
     @Autowired
-    private UsersRepository usersRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     private SessionData sessionData;
 
     /**
@@ -34,6 +27,17 @@ public class UsersFormService {
      */
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private final UsersMapper usersMapper;
+
+    /**
+     * デフォルトコンストラクタ
+     * @param usersMapper
+     */
+    public UsersFormService(UsersMapper usersMapper) {
+        this.usersMapper = usersMapper;
+    }
+
 
     /**
      * IDをキーに検索し、フォームを初期設定
@@ -83,13 +87,13 @@ public class UsersFormService {
      * @return
      */
     public UsersEntity findOne(Long id) {
-        return usersRepository.getOne(id);
+        return usersMapper.select(id);
     }
 
     /**
      * 新規登録
      */
-    public UsersEntity save(UsersForm inputForm) {
+    public void save(UsersForm inputForm) {
 
         // 保存用のエンティティインスタンスを生成
         UsersEntity entity = new UsersEntity();
@@ -114,13 +118,13 @@ public class UsersFormService {
         // 削除フラグ
         entity.setDelflg(Integer.parseInt(Contains.DelFlg.NotDel.getValue()));
 
-        return usersRepository.save(entity);
+        usersMapper.insert(entity);
     }
 
     /**
      * 更新
      */
-    public UsersEntity update(UsersEntity entity, UsersForm inputForm) {
+    public void update(UsersEntity entity, UsersForm inputForm) {
 
         // ユーザー名
         entity.setUserName(inputForm.getUserName());
@@ -142,7 +146,7 @@ public class UsersFormService {
         // 削除フラグ
         entity.setDelflg(Integer.parseInt(Contains.DelFlg.NotDel.getValue()));
 
-        return usersRepository.save(entity);
+        usersMapper.update(entity);
     }
 
     /**
@@ -153,7 +157,7 @@ public class UsersFormService {
     public void validate(UsersForm inputForm) throws DuplicateProductException {
 
         // ユーザー管理エンティティから検索
-        List<UsersEntity> entityList = usersRepository.findAll();
+        List<UsersEntity> entityList = usersMapper.selectAll();
 
         for (UsersEntity entity: entityList) {
             // メールアドレスの重複チェック
@@ -175,7 +179,7 @@ public class UsersFormService {
         UsersEntity editData = this.findOne(id);
 
         // ユーザー管理エンティティから検索
-        List<UsersEntity> entityList = usersRepository.findAll();
+        List<UsersEntity> entityList = usersMapper.selectAll();
 
         for (UsersEntity entity: entityList) {
             // メールアドレスの重複チェック
