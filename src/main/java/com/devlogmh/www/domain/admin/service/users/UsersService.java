@@ -5,6 +5,7 @@ import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.users.UsersDto;
 import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.mapper.UsersMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,15 +16,8 @@ import java.util.List;
 @Transactional
 public class UsersService {
 
-    private final UsersMapper usersMapper;
-
-    /**
-     * デフォルトコンストラクタ
-     * @param usersMapper
-     */
-    public UsersService(UsersMapper usersMapper) {
-        this.usersMapper = usersMapper;
-    }
+    @Autowired
+    private UsersMapper usersMapper;
 
     /**
      * ユーザ情報をすべて検索します。
@@ -33,34 +27,30 @@ public class UsersService {
     public List<UsersDto> init() {
 
         // ユーザー情報の一覧を取得
-        List<UsersEntity> entityList = usersMapper.selectAll();
+        List<UsersDto> dtoList = usersMapper.selectAll();
 
         // ユーザー情報DTOリストのインスタンス生成
-        List<UsersDto> dtoList = new ArrayList<UsersDto>();
+        List<UsersDto> resultList = new ArrayList<UsersDto>();
 
         // ユーザー情報を1件ずつ取り出してDTOに格納
-        for (UsersEntity entity : entityList) {
-
-            // ユーザー情報DTOのインスタンス生成
-            UsersDto dto = new UsersDto();
+        for (UsersDto dto : dtoList) {
 
             // エンティティからそれぞれの情報を取得
-            String updaterName = this.findUpdateUser(entity.getUpdaterId().longValue());
-            String updateTime = TimestampUtil.formattedTimestamp(entity.getUpdated(), Contains.TIME_FORMAT);
+            String updateTime = TimestampUtil.formattedTimestamp(dto.getUpdated(), Contains.TIME_FORMAT);
 
             // DTOに情報を詰める
-            dto.setId(entity.getId());
-            dto.setUserName(entity.getUserName());
-            dto.setEmail(entity.getEmail());
-            dto.setUpdaterName(updaterName);
+            dto.setId(dto.getId());
+            dto.setUserName(dto.getUserName());
+            dto.setEmail(dto.getEmail());
+            dto.setUpdaterName(dto.getUpdaterName());
             dto.setUpdateTime(updateTime);
 
             // リストに追加
-            dtoList.add(dto);
+            resultList.add(dto);
 
         }
 
-        return dtoList;
+        return resultList;
 
     }
 

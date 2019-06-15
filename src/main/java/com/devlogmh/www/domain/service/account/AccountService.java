@@ -15,16 +15,8 @@ public class AccountService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    private final AccountMapper accountMapper;
-
-    /**
-     * コンストラクタ
-     * @param accountMapper
-     */
-    public AccountService(AccountMapper accountMapper) {
-        this.accountMapper = accountMapper;
-    }
-
+    @Autowired
+    private AccountMapper accountMapper;
 
     // ユーザ登録処理
     public void create(AccountEntity accountEntity, String rawPassword) {
