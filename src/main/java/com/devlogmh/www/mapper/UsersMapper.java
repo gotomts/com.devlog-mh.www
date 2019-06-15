@@ -1,5 +1,6 @@
 package com.devlogmh.www.mapper;
 
+import com.devlogmh.www.domain.model.users.UsersDto;
 import com.devlogmh.www.domain.model.users.UsersEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,5 +15,5 @@ public interface UsersMapper {
 
     UsersEntity select(Long id);
 
-    List<UsersEntity> selectAll();
+    List<UsersDto> selectAll();
 }

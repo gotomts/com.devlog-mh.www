@@ -3,7 +3,6 @@ package com.devlogmh.www.domain.admin.service.users;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.mapper.UsersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,30 +50,6 @@ public class UsersService {
         }
 
         return resultList;
-
-    }
-
-    /**
-     * ユーザ情報をIDをキーに1件検索
-     * @param id
-     * @return
-     */
-    public UsersEntity findOne(Long id) {
-        return usersMapper.select(id);
-    }
-
-    /**
-     * 更新者の名称を取得します。
-     */
-    public String findUpdateUser(Long updater) {
-
-        // 変数を初期化
-        String updateUserName = null;
-
-        // 更新者名を設定
-        updateUserName = this.findOne(updater).getUserName();
-
-        return updateUserName;
 
     }
 
