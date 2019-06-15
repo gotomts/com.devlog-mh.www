@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -147,16 +149,27 @@ public class UsersFormService {
      * @param inputForm
      * @throws DuplicateProductException
      */
-    public void validate(UsersForm inputForm) throws DuplicateProductException {
+    public void validate(UsersForm inputForm, BindingResult result) {
 
         // ユーザー管理エンティティから検索
         List<UsersDto> dtoList = usersMapper.selectAll();
 
         for (UsersDto dto: dtoList) {
+
+            // ユーザー名の重複チェック
+            if (StringUtils.equals(dto.getUserName(), inputForm.getUserName())) {
+                result.rejectValue("userName", "duplicate", new String[]{"ユーザー名"}, "default message.");
+            }
+
             // メールアドレスの重複チェック
             if (StringUtils.equals(dto.getEmail(), inputForm.getEmail())) {
-                throw new DuplicateProductException();
+                result.rejectValue("email", "duplicate", new String[]{"メールアドレス"}, "default message.");
             }
+
+        }
+
+        if (Objects.nonNull(result.getErrorCount())) {
+            new DuplicateProductException();
         }
 
     }
@@ -166,7 +179,7 @@ public class UsersFormService {
      * @param id, inputForm
      * @throws DuplicateProductException
      */
-    public void validate(Long id, UsersForm inputForm) throws DuplicateProductException {
+    public void validate(Long id, UsersForm inputForm, BindingResult result) {
 
         // 編集中のデータ
         UsersEntity editData = this.findOne(id);
@@ -175,11 +188,23 @@ public class UsersFormService {
         List<UsersDto> dtoList = usersMapper.selectAll();
 
         for (UsersDto dto: dtoList) {
+
+            // ユーザー名の重複チェック
+            if (StringUtils.equals(dto.getUserName(), inputForm.getUserName())
+                    && !StringUtils.equals(editData.getUserName(), inputForm.getUserName())) {
+                result.rejectValue("userName", "duplicate", new String[]{"ユーザー名"}, "default message.");
+            }
+
             // メールアドレスの重複チェック
             if (StringUtils.equals(dto.getEmail(), inputForm.getEmail())
                     && !StringUtils.equals(editData.getEmail(), inputForm.getEmail())) {
-                throw new DuplicateProductException();
+                result.rejectValue("email", "duplicate", new String[]{"メールアドレス"}, "default message.");
             }
+
+        }
+
+        if (Objects.nonNull(result.getErrorCount())) {
+            new DuplicateProductException();
         }
 
     }

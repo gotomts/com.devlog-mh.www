@@ -90,18 +90,13 @@ public class UserController {
      * @return
      */
     @PostMapping("new")
-    public ModelAndView create(@ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) {
+    public ModelAndView create(@ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) throws DuplicateProductException {
 
         // フォームの初期設定
         usersFormService.setupForm(inputForm);
 
         // 独自バリデーションチェック実装
-        try {
-            usersFormService.validate(inputForm);
-        } catch (DuplicateProductException e) {
-            // フィールドごとにエラーを詰める
-            result.rejectValue("email", "duplicate", new String[]{"メールアドレス"}, "default message.");
-        }
+        usersFormService.validate(inputForm, result);
 
         // エラーだった場合
         if (result.hasErrors()) {
@@ -111,7 +106,6 @@ public class UserController {
             mav.addObject("form", inputForm);
             return mav;
         }
-
 
         // 保存処理
         usersFormService.save(inputForm);
@@ -138,7 +132,7 @@ public class UserController {
      * 編集画面 更新処理
      */
     @PutMapping("edit/{id}")
-    public ModelAndView update(@PathVariable Long id, @ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) {
+    public ModelAndView update(@PathVariable Long id, @ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) throws DuplicateProductException {
 
         // フォームの初期設定
         usersFormService.setupForm(inputForm);
@@ -146,13 +140,7 @@ public class UserController {
         // エンティティ生成
         UsersEntity usersEntity = new UsersEntity();
 
-        // 独自バリデーションチェック実装
-        try {
-            usersFormService.validate(id, inputForm);
-        } catch (DuplicateProductException e) {
-            // フィールドごとにエラーを詰める
-            result.rejectValue("email", "duplicate", new String[]{"メールアドレス"}, "default message.");
-        }
+        usersFormService.validate(id, inputForm, result);
 
         // エラーだった場合
         if (result.hasErrors()) {
