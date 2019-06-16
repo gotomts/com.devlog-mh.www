@@ -2,6 +2,9 @@ package com.devlogmh.www.domain.admin.util;
 
 public class Contains {
 
+    // 1ページに表示するページ数を設定
+    public static final int PAGE_VIEW_SIZE = 2;
+
     /**
      * 時間のフォーマット
      */

@@ -1,7 +1,6 @@
 package com.devlogmh.www.admin.user;
 
 import com.devlogmh.www.domain.admin.service.users.UsersService;
-import com.devlogmh.www.domain.model.users.UsersDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,7 +29,7 @@ public class UserServiceTest {
     @Test
     @Transactional
     public void ユーザー情報一覧を取得できるかテスト() {
-        List<UsersDto> list = usersService.init();
+//        List<UsersDto> list = usersService.init();
     }
 
     /**

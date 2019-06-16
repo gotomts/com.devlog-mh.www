@@ -5,11 +5,14 @@ import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.users.UsersDto;
 import com.devlogmh.www.mapper.UsersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.devlogmh.www.domain.admin.util.Contains.PAGE_VIEW_SIZE;
 
 @Service
 @Transactional
@@ -23,7 +26,7 @@ public class UsersService {
      * 更新者はIDからユーザ名に変換します。
      * @return ユーザ情報DTO
      */
-    public List<UsersDto> init() {
+    public PagedListHolder<UsersDto> init(int id) {
 
         // ユーザー情報の一覧を取得
         List<UsersDto> dtoList = usersMapper.selectAll();
@@ -49,7 +52,30 @@ public class UsersService {
 
         }
 
-        return resultList;
+        // DTOをページャー用に変換
+        PagedListHolder<UsersDto> pagenation = new PagedListHolder<>(dtoList);
+        // 現在のページ位置を渡す
+        pagenation.setPage(id);
+        // 1ページに表示するデータ数を設定
+        pagenation.setPageSize(PAGE_VIEW_SIZE);
+
+        return pagenation;
+
+    }
+
+    /**
+     * ページネーション処理
+     * @param dtoList
+     * @param p
+     * @return
+     */
+    public PagedListHolder<UsersDto> pagedListHolder(List<UsersDto> dtoList, String p) {
+
+        PagedListHolder<UsersDto> pagenation = new PagedListHolder<>(dtoList);
+        pagenation.setPage(Integer.parseInt(p));
+        pagenation.setPageSize(2);
+
+        return pagenation;
 
     }
 

@@ -1,19 +1,18 @@
 package com.devlogmh.www.app.admin.user;
 
+import com.devlogmh.www.domain.admin.service.users.UsersFormService;
+import com.devlogmh.www.domain.admin.service.users.UsersService;
 import com.devlogmh.www.domain.model.users.UsersDto;
 import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.model.users.UsersForm;
-import com.devlogmh.www.domain.admin.service.users.UsersFormService;
-import com.devlogmh.www.domain.admin.service.users.UsersService;
 import com.devlogmh.www.exception.DuplicateProductException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 /**
  * ユーザ管理コントローラー
@@ -58,15 +57,18 @@ public class UserController {
      * @param mav
      * @return
      */
-    @GetMapping
-    public ModelAndView index(ModelAndView mav) {
+    @GetMapping("{id}")
+    public ModelAndView index(@PathVariable int id, ModelAndView mav) {
+
         // ビューの設定
         mav.setViewName(USER_MASTER);
+
         // サービスの初期処理
-        List<UsersDto> dtoList = usersService.init();
-        // オブジェクトを詰め込み
-        mav.addObject("dto", dtoList);
+        PagedListHolder<UsersDto> pagedListHolder = usersService.init(id);
+        mav.addObject("pagedListHolder", pagedListHolder);
+
         return mav;
+
     }
 
     /**

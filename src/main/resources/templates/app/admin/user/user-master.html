@@ -39,9 +39,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr th:each="dto : ${dto}" th:object="${dto}">
+            <tr th:each="i : ${pagedListHolder.pageList}" th:object="${i}">
               <th class="text-center" scope="row">
-                <input type="checkbox" name="id" value="${dto.id}" class="check-delete">
+                <input type="checkbox" name="id" value="${id}" class="check-delete">
               </th>
               <td class="text-center"><a class="btn btn-secondary btn-sm" th:href="@{./user-master/edit/{id}(id=*{id})}">編集</a></td>
               <td class="text-nowrap" th:text="*{userName}"></td>
@@ -51,10 +51,25 @@
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
+      </div><!-- END .table-responsive -->
 
-  </form>
+      <nav class="mb-5">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${pagedListHolder.firstPage}? disabled">
+            <a th:href="@{./{id}(id=*{pagedListHolder.getPage()-1})}" class="page-link">&laquo; 前へ</a>
+          </li>
+          <li th:each="i : ${#numbers.sequence(pagedListHolder.firstLinkedPage, pagedListHolder.LastLinkedPage - 1)}" class="page-item" th:classappend="${pagedListHolder.page == i+1}? disabled">
+            <a th:href="@{${i+1}}" th:text="${i+1}" class="page-link"></a>
+          </li>
+          <li class="page-item" th:classappend="${pagedListHolder.lastPage}? disabled">
+            <a th:href="@{./{id}(id=*{pagedListHolder.getPage()+1})}" class="page-link">次へ &raquo;</a>
+          </li>
+        </ul>
+      </nav>
+
+    </form>
+
+  </div>
 
 </body>
 </html>
