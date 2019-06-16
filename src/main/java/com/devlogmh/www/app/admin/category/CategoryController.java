@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class CategoryController {
 
-    @GetMapping("/admin/category")
+    @GetMapping("/admin/category-master")
     public ModelAndView init(ModelAndView mav) {
         mav.setViewName("app/admin/category/category-master");
         return mav;
