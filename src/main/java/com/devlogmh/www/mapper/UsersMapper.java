@@ -1,8 +1,6 @@
 package com.devlogmh.www.mapper;
 
 import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.domain.model.users.UsersEntity;
-import com.devlogmh.www.domain.model.users.UsersListForm;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,16 +8,16 @@ import java.util.List;
 @Mapper
 public interface UsersMapper {
 
-    void insert(UsersEntity usersEntity);
+    void insert(UsersDto usersDto);
 
-    void update(UsersEntity usersEntity);
+    void update(UsersDto usersDto);
 
-    UsersEntity select(Long id);
+    UsersDto select(Long id);
 
     List<UsersDto> selectAll(int loginId, int delflg);
 
-    void trashMove(UsersListForm usersListForm);
+    void trashMove(UsersDto usersDto);
 
-    void destroy(UsersListForm usersListForm);
+    void destroy(UsersDto usersDto);
 
 }

@@ -1,75 +1,57 @@
 package com.devlogmh.www.domain.model.users;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.sql.Timestamp;
 
 @NoArgsConstructor
+@Data
 public class UsersEntity {
 
     /**
      * ユーザーID
      */
-    @Getter
-    @Setter
     private Long id;
 
     /**
      * ユーザー名
      */
-    @Getter
-    @Setter
     private String userName;
 
     /**
      * メールアドレス
      */
-    @Getter
-    @Setter
     private String email;
 
     /**
      * パスワード
      */
-    @Getter
-    @Setter
     private String password;
 
     /**
      * アカウント種類ID
      */
-    @Getter
-    @Setter
     private Integer roleId;
 
     /**
      * 更新者
      */
-    @Getter
-    @Setter
     private Long updaterId;
 
     /**
      * 作成日時
      */
-    @Getter
-    @Setter
     private Timestamp created;
 
     /**
      * 更新日時
      */
-    @Getter
-    @Setter
     private Timestamp updated;
 
     /**
      * 削除フラグ
      */
-    @Getter
-    @Setter
     private Integer delflg;
 
     /**

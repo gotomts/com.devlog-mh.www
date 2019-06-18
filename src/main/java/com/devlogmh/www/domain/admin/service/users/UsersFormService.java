@@ -4,7 +4,6 @@ import com.devlogmh.www.domain.admin.security.SessionData;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.model.users.UsersForm;
 import com.devlogmh.www.exception.DuplicateProductException;
 import com.devlogmh.www.mapper.UsersMapper;
@@ -41,18 +40,18 @@ public class UsersFormService {
     public void setupForm(Long id, UsersForm inputForm) {
 
         // ユーザ情報をIDをキーに1件検索
-        UsersEntity entity = this.findOne(id);
+        UsersDto usersDto = this.findOne(id);
 
         // ユーザー名
-        inputForm.setUserName(entity.getUserName());
+        inputForm.setUserName(usersDto.getUserName());
         // メールアドレス
-        inputForm.setEmail(entity.getEmail());
+        inputForm.setEmail(usersDto.getEmail());
         // アカウント種類
-        inputForm.setRoleId(entity.getRoleId());
+        inputForm.setRoleId(usersDto.getRoleId());
         // アカウント種類リスト
         inputForm.setRoleList(inputForm.getSelectRoleItems());
         // パスワード
-        inputForm.setPassword(entity.getPassword());
+        inputForm.setPassword(usersDto.getPassword());
 
     }
 
@@ -81,7 +80,7 @@ public class UsersFormService {
      * @param id
      * @return
      */
-    public UsersEntity findOne(Long id) {
+    public UsersDto findOne(Long id) {
         return usersMapper.select(id);
     }
 
@@ -91,57 +90,57 @@ public class UsersFormService {
     public void save(UsersForm inputForm) {
 
         // 保存用のエンティティインスタンスを生成
-        UsersEntity entity = new UsersEntity();
+        UsersDto usersDto = new UsersDto();
 
         // ユーザー名
-        entity.setUserName(inputForm.getUserName());
+        usersDto.setUserName(inputForm.getUserName());
         // メールアドレス
-        entity.setEmail(inputForm.getEmail());
+        usersDto.setEmail(inputForm.getEmail());
         // パスワードが空の場合は更新しない
         if (StringUtils.isNotEmpty(inputForm.getPassword())) {
             // パスワードを暗号化してセット
-            entity.setPassword(passwordEncoder.encode(inputForm.getPassword()));
+            usersDto.setPassword(passwordEncoder.encode(inputForm.getPassword()));
         }
         // ユーザー権限
-        entity.setRoleId(inputForm.getRoleId());
+        usersDto.setRoleId(inputForm.getRoleId());
         // 更新者
-        entity.setUpdaterId(sessionData.getUserId().longValue());
+        usersDto.setUpdaterId(sessionData.getUserId().longValue());
         // 登録時間
-        entity.setCreated(TimestampUtil.currentTime());
+        usersDto.setCreated(TimestampUtil.currentTime());
         // 更新時間
-        entity.setUpdated(TimestampUtil.currentTime());
+        usersDto.setUpdated(TimestampUtil.currentTime());
         // 削除フラグ
-        entity.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
+        usersDto.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
 
-        usersMapper.insert(entity);
+        usersMapper.insert(usersDto);
     }
 
     /**
      * 更新
      */
-    public void update(UsersEntity entity, UsersForm inputForm) {
+    public void update(UsersDto usersDto, UsersForm inputForm) {
 
         // ユーザー名
-        entity.setUserName(inputForm.getUserName());
+        usersDto.setUserName(inputForm.getUserName());
         // メールアドレス
-        entity.setEmail(inputForm.getEmail());
+        usersDto.setEmail(inputForm.getEmail());
         // パスワードが空の場合は更新しない
         if (StringUtils.isNotEmpty(inputForm.getPassword())) {
             // パスワードを暗号化してセット
-            entity.setPassword(passwordEncoder.encode(inputForm.getPassword()));
+            usersDto.setPassword(passwordEncoder.encode(inputForm.getPassword()));
         }
         // ユーザー権限
-        entity.setRoleId(inputForm.getRoleId());
+        usersDto.setRoleId(inputForm.getRoleId());
         // 更新者
-        entity.setUpdaterId(sessionData.getUserId().longValue());
+        usersDto.setUpdaterId(sessionData.getUserId().longValue());
         // 登録時間
-        entity.setCreated(TimestampUtil.currentTime());
+        usersDto.setCreated(TimestampUtil.currentTime());
         // 更新時間
-        entity.setUpdated(TimestampUtil.currentTime());
+        usersDto.setUpdated(TimestampUtil.currentTime());
         // 削除フラグ
-        entity.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
+        usersDto.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
 
-        usersMapper.update(entity);
+        usersMapper.update(usersDto);
     }
 
     /**
@@ -182,7 +181,7 @@ public class UsersFormService {
     public void validate(Long id, UsersForm inputForm, BindingResult result) {
 
         // 編集中のデータ
-        UsersEntity editData = this.findOne(id);
+        UsersDto editData = this.findOne(id);
 
         // ユーザー管理エンティティから検索
         List<UsersDto> dtoList = usersMapper.selectAll(sessionData.getUserId(), Contains.DelFlg.DELETE.getValue());

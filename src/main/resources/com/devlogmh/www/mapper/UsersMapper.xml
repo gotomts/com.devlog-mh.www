@@ -43,7 +43,7 @@
     </update>
 
     <!-- 編集画面表示 -->
-    <select id="select" resultType="com.devlogmh.www.domain.model.users.UsersEntity">
+    <select id="select" resultType="com.devlogmh.www.domain.model.users.UsersDto">
         SELECT
             id,
             name AS "userName",
@@ -86,7 +86,7 @@
     </select>
 
     <!-- ゴミ箱へ移動させる -->
-    <update id="trashMove" parameterType="com.devlogmh.www.domain.model.users.UsersListForm">
+    <update id="trashMove" parameterType="com.devlogmh.www.domain.model.users.UsersDto">
         UPDATE users SET
             delflg = #{delflg}
         WHERE
@@ -97,7 +97,7 @@
     </update>
 
     <!-- 削除処理 -->
-    <delete id="destroy" parameterType="com.devlogmh.www.domain.model.users.UsersListForm">
+    <delete id="destroy" parameterType="com.devlogmh.www.domain.model.users.UsersDto">
         DELETE FROM users
         WHERE
             id in

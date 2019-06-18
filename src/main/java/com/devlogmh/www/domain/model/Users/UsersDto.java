@@ -9,12 +9,17 @@ import lombok.Data;
 public class UsersDto extends UsersEntity {
 
     /**
+     * チェックボックス
+     */
+    private Long[] checkId;
+
+    /**
      * ログインユーザー
      */
     private Integer userId;
 
     /**
-     * ユーザ情報名称.
+     * 更新者.
      */
     private String updaterName;
 

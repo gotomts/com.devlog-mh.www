@@ -4,7 +4,6 @@ import com.devlogmh.www.domain.admin.security.SessionData;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.domain.model.users.UsersListForm;
 import com.devlogmh.www.mapper.UsersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -85,25 +84,25 @@ public class UsersService {
 
     /**
      * ゴミ箱へ追加
-     * @param usersListForm
+     * @param usersDto
      */
-    public void trashAdd(UsersListForm usersListForm) {
+    public void trashAdd(UsersDto usersDto) {
 
         // Deleteフラグ
-        usersListForm.setDelflg(Contains.DelFlg.DELETE.getValue());
-        usersMapper.trashMove(usersListForm);
+        usersDto.setDelflg(Contains.DelFlg.DELETE.getValue());
+        usersMapper.trashMove(usersDto);
 
     }
 
     /**
      * ゴミ箱から戻す
-     * @param usersListForm
+     * @param usersDto
      */
-    public void trashRemove(UsersListForm usersListForm) {
+    public void trashRemove(UsersDto usersDto) {
 
         // Deleteフラグ
-        usersListForm.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
-        usersMapper.trashMove(usersListForm);
+        usersDto.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
+        usersMapper.trashMove(usersDto);
 
     }
 
@@ -111,9 +110,9 @@ public class UsersService {
     /**
      * 削除処理
      */
-    public void destroy(UsersListForm usersListForm) {
+    public void destroy(UsersDto usersDto) {
         // 削除処理
-        usersMapper.destroy(usersListForm);
+        usersMapper.destroy(usersDto);
     }
 
 }

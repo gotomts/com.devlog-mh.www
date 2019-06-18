@@ -3,7 +3,6 @@ package com.devlogmh.www.app.admin.user;
 import com.devlogmh.www.domain.admin.service.users.UsersFormService;
 import com.devlogmh.www.domain.admin.service.users.UsersService;
 import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.model.users.UsersForm;
 import com.devlogmh.www.domain.model.users.UsersListForm;
 import com.devlogmh.www.exception.DuplicateProductException;
@@ -103,10 +102,22 @@ public class UserController {
      * ゴミ箱へ移動
      */
     @PostMapping("trash-add")
-    public ModelAndView trashAdd(UsersListForm usersListForm, ModelAndView mav) {
+    public ModelAndView trashAdd(@Validated UsersListForm inputForm, BindingResult result, ModelAndView mav) {
+
+        // エラーだった場合
+        if (result.hasErrors()) {
+            // ビューの設定
+            mav.setViewName(USER_MASTER);
+            return mav;
+        }
+
+        // formからdtoへ詰め替え
+        UsersDto usersDto = new UsersDto();
+        usersDto.setDelflg(inputForm.getDelflg());
+        usersDto.setCheckId(inputForm.getCheckId());
 
         // ゴミ箱へ移動する
-        usersService.trashAdd(usersListForm);
+        usersService.trashAdd(usersDto);
 
         // リダイレクト先
         mav = new ModelAndView(USER_MASTER_REDIRECT);
@@ -118,10 +129,10 @@ public class UserController {
      * ゴミ箱から戻す
      */
     @PostMapping("trash-remove")
-    public ModelAndView trashRemove(UsersListForm usersListForm, ModelAndView mav) {
+    public ModelAndView trashRemove(UsersDto usersDto, ModelAndView mav) {
 
         // ゴミ箱から戻す
-        usersService.trashRemove(usersListForm);
+        usersService.trashRemove(usersDto);
 
         // リダイレクト先
         mav = new ModelAndView(USER_MASTER_REDIRECT);
@@ -224,7 +235,7 @@ public class UserController {
         usersFormService.setupForm(inputForm);
 
         // エンティティ生成
-        UsersEntity usersEntity = new UsersEntity();
+        UsersDto usersDto = new UsersDto();
 
         usersFormService.validate(id, inputForm, result);
 
@@ -238,10 +249,10 @@ public class UserController {
         }
 
         // 更新する対象のIDを設定
-        usersEntity.setId(id);
+        usersDto.setId(id);
 
         // 更新処理
-        usersFormService.update(usersEntity, inputForm);
+        usersFormService.update(usersDto, inputForm);
 
         // 更新後のリダイレクト先
         mav = new ModelAndView(USER_MASTER_REDIRECT);
@@ -253,10 +264,15 @@ public class UserController {
      * 削除処理
      */
     @PostMapping("destroy")
-    public ModelAndView destroy(UsersListForm usersListForm, ModelAndView mav) {
+    public ModelAndView destroy(UsersListForm inputForm, ModelAndView mav) {
+
+        // formオブジェクトからDTOへ詰め替え
+        UsersDto usersDto = new UsersDto();
+        usersDto.setDelflg(inputForm.getDelflg());
+        usersDto.setCheckId(inputForm.getCheckId());
 
         // 削除処理
-        usersService.destroy(usersListForm);
+        usersService.destroy(usersDto);
 
         mav = new ModelAndView(USER_MASTER_DELETE_REDIRECT);
         return mav;
