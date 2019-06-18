@@ -92,3 +92,13 @@ function propCheck(className){
 
   });
 }
+
+// Formのアクション属性のURLを書き換えてPOSTする
+function postForm(url) {
+    // ダイアログを出力
+    var dialog = window.confirm("一度削除すると元に戻すことができません。\n本当に削除してよろしいですか？");
+    // はいを選択したら実行
+    if (dialog) {
+        $('.custom-post-form').attr('action', url).submit();
+    }
+}

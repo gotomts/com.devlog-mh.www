@@ -4,9 +4,10 @@
 <body>
 
 <!-- ページタイトル -->
-<div class="page-title" layout:fragment="pageTitle(title, url)">
+<div class="page-title" layout:fragment="pageTitle(title, url, deleteFlg)">
     <h1 th:text="${title}">タイトル</h1>
-    <a class="btn btn-primary align-middle" href="./user-master-edit" th:href="@{${url}}" th:if="${url}">新規作成</a>
+    <a class="btn btn-primary align-middle" th:href="@{${url}}" th:if="${url}">新規作成</a>
+    <button class="btn btn-danger float-right" type="button" onclick="postForm('../destroy');" th:if="${deleteFlg}">削除する</button>
 </div>
 
 <!-- 前に戻るボタン -->
@@ -16,9 +17,21 @@
     </a>
 </div>
 
-<!-- 新規作成ボタン -->
-<div layout:fragment="btnEdit(url)" class="mb-3">
-
+<!-- ページャー -->
+<div layout:fragment="pager" th:if="${pagedListHolder.pageCount != 1}">
+    <nav class="mb-5">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${pagedListHolder.firstPage}? disabled">
+                <a th:href="@{./{id}(id=*{pagedListHolder.getPage()-1})}" class="page-link">&laquo; 前へ</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(pagedListHolder.firstLinkedPage, pagedListHolder.lastLinkedPage)}" class="page-item" th:classappend="${pagedListHolder.page == i}? disabled">
+                <a th:href="@{${i}}" th:text="${i+1}" class="page-link"></a>
+            </li>
+            <li class="page-item" th:classappend="${pagedListHolder.lastPage}? disabled">
+                <a th:href="@{./{id}(id=*{pagedListHolder.getPage()+1})}" class="page-link">次へ &raquo;</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 </body>

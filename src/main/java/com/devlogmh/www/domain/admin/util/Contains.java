@@ -1,14 +1,34 @@
 package com.devlogmh.www.domain.admin.util;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 public class Contains {
 
     // 1ページに表示するページ数を設定
-    public static final int PAGE_VIEW_SIZE = 2;
+    public static final int PAGE_VIEW_SIZE = 10;
 
     /**
      * 時間のフォーマット
      */
     public static final String TIME_FORMAT = "yyyy/MM/dd HH:mm";
+
+    /**
+     * DelFlg
+     */
+    @AllArgsConstructor
+    public static enum DelFlg {
+
+        /** 未削除 */
+        NOT_DEL(0),
+
+        /** 削除 */
+        DELETE(1);
+
+        @Getter
+        private final int id;
+
+    }
 
     public static enum RoleList {
 
@@ -91,36 +111,6 @@ public class Contains {
         public String getValue() {
             return this.name;
         }
-    }
-
-    /**
-     * 削除フラグ
-     */
-    public static enum DelFlg {
-
-        /**
-         * 0.未削除
-         */
-        NotDel("0"),
-
-        /**
-         * 1.削除
-         */
-        Delete("1");
-
-        /** フィールド定義 */
-        private String id;
-
-        /** コンストラクタ */
-        private DelFlg(String id) {
-            this.id = id;
-        }
-
-        // 値を取得
-        public String getValue() {
-            return this.id;
-        }
-
     }
 
 }

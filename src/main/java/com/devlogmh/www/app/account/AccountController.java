@@ -65,7 +65,7 @@ public class AccountController {
         // 更新日時を設定
         accountEntity.setUpdated(TimestampUtil.currentTime());
         // 削除フラグを設定
-        accountEntity.setDelflg(Integer.parseInt(Contains.DelFlg.NotDel.getValue()));
+        accountEntity.setDelflg(Contains.DelFlg.NOT_DEL.getId());
         return "redirect:/account/complete";
     }
 

@@ -3,13 +3,13 @@ package com.devlogmh.www.domain.admin.service.users;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.users.UsersDto;
+import com.devlogmh.www.domain.model.users.UsersListForm;
 import com.devlogmh.www.mapper.UsersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.devlogmh.www.domain.admin.util.Contains.PAGE_VIEW_SIZE;
@@ -29,10 +29,29 @@ public class UsersService {
     public PagedListHolder<UsersDto> init(int id) {
 
         // ユーザー情報の一覧を取得
-        List<UsersDto> dtoList = usersMapper.selectAll();
+        List<UsersDto> dtoList = usersMapper.selectAll(0);
 
-        // ユーザー情報DTOリストのインスタンス生成
-        List<UsersDto> resultList = new ArrayList<UsersDto>();
+        return this.createPageList(dtoList, id);
+
+    }
+
+    public PagedListHolder<UsersDto> delList(int id) {
+
+        // ユーザー情報の一覧を取得
+        List<UsersDto> dtoList = usersMapper.selectAll(1);
+
+        return this.createPageList(dtoList, id);
+
+    }
+
+
+    /**
+     *
+     * @param dtoList
+     * @param id
+     * @return
+     */
+    public PagedListHolder<UsersDto> createPageList(List<UsersDto> dtoList, int id) {
 
         // ユーザー情報を1件ずつ取り出してDTOに格納
         for (UsersDto dto : dtoList) {
@@ -46,9 +65,6 @@ public class UsersService {
             dto.setEmail(dto.getEmail());
             dto.setUpdaterName(dto.getUpdaterName());
             dto.setUpdateTime(updateTime);
-
-            // リストに追加
-            resultList.add(dto);
 
         }
 
@@ -64,26 +80,36 @@ public class UsersService {
     }
 
     /**
-     * ページネーション処理
-     * @param dtoList
-     * @param p
-     * @return
+     * ゴミ箱へ追加
+     * @param usersListForm
      */
-    public PagedListHolder<UsersDto> pagedListHolder(List<UsersDto> dtoList, String p) {
+    public void trashAdd(UsersListForm usersListForm) {
 
-        PagedListHolder<UsersDto> pagenation = new PagedListHolder<>(dtoList);
-        pagenation.setPage(Integer.parseInt(p));
-        pagenation.setPageSize(2);
-
-        return pagenation;
+        // Deleteフラグ
+        usersListForm.setDelflg(Contains.DelFlg.DELETE.getId());
+        usersMapper.trashMove(usersListForm);
 
     }
 
     /**
+     * ゴミ箱から戻す
+     * @param usersListForm
+     */
+    public void trashRemove(UsersListForm usersListForm) {
+
+        // Deleteフラグ
+        usersListForm.setDelflg(Contains.DelFlg.NOT_DEL.getId());
+        usersMapper.trashMove(usersListForm);
+
+    }
+
+
+    /**
      * 削除処理
      */
-//    public void delete(Long id) {
-//        usersRepository.deleteById(id);
-//    }
+    public void destroy(UsersListForm usersListForm) {
+        // 削除処理
+        usersMapper.destroy(usersListForm);
+    }
 
 }

@@ -5,6 +5,7 @@ import com.devlogmh.www.domain.admin.service.users.UsersService;
 import com.devlogmh.www.domain.model.users.UsersDto;
 import com.devlogmh.www.domain.model.users.UsersEntity;
 import com.devlogmh.www.domain.model.users.UsersForm;
+import com.devlogmh.www.domain.model.users.UsersListForm;
 import com.devlogmh.www.exception.DuplicateProductException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -47,10 +48,37 @@ public class UserController {
     private final String USER_MASTER_EDIT = "app/admin/user/user-master-edit";
 
     /**
-     * リダイレクト
+     * ゴミ箱 一覧
      */
-    private final String USER_MASTER_REDIRECT = "redirect:/admin/user-master";
+    private final String USER_MASTER_TRASH = "app/admin/user/user-master-trash-list";
 
+    /**
+     * リダイレクト
+     * ユーザー管理
+     */
+    private final String USER_MASTER_REDIRECT = "redirect:/admin/user-master/0";
+
+    /**
+     * リダイレクト
+     * ユーザー管理 ゴミ箱
+     */
+    private final String USER_MASTER_DELETE_REDIRECT = "redirect:/admin/user-master/delete-list/0";
+
+
+    /**
+     * 一覧表示
+     * @param mav
+     * @return
+     */
+    @GetMapping
+    public ModelAndView index(ModelAndView mav) {
+
+        // ビューの設定
+        mav.setViewName(USER_MASTER_REDIRECT);
+
+        return mav;
+
+    }
 
     /**
      * 一覧表示
@@ -67,6 +95,62 @@ public class UserController {
         PagedListHolder<UsersDto> pagedListHolder = usersService.init(id);
         mav.addObject("pagedListHolder", pagedListHolder);
 
+        return mav;
+
+    }
+
+    /**
+     * ゴミ箱へ移動
+     */
+    @PostMapping("trash-add")
+    public ModelAndView trashAdd(UsersListForm usersListForm, ModelAndView mav) {
+
+        // ゴミ箱へ移動する
+        usersService.trashAdd(usersListForm);
+
+        // リダイレクト先
+        mav = new ModelAndView(USER_MASTER_REDIRECT);
+        return mav;
+
+    }
+
+    /**
+     * ゴミ箱から戻す
+     */
+    @PostMapping("trash-remove")
+    public ModelAndView trashRemove(UsersListForm usersListForm, ModelAndView mav) {
+
+        // ゴミ箱から戻す
+        usersService.trashRemove(usersListForm);
+
+        // リダイレクト先
+        mav = new ModelAndView(USER_MASTER_REDIRECT);
+        return mav;
+    }
+
+
+    /**
+     * ゴミ箱を見る リダイレクト
+     */
+    @GetMapping("delete-list")
+    public ModelAndView deleteList(ModelAndView mav) {
+        // リダイレクト先
+        mav = new ModelAndView(USER_MASTER_DELETE_REDIRECT);
+        return mav;
+    }
+
+    /**
+     * ゴミ箱 一覧
+     */
+    @GetMapping("delete-list/{id}")
+    public ModelAndView deleteList(@PathVariable int id, ModelAndView mav) {
+
+        // サービスの初期処理
+        PagedListHolder<UsersDto> pagedListHolder = usersService.delList(id);
+        mav.addObject("pagedListHolder", pagedListHolder);
+
+        // ビューの設定
+        mav.setViewName(USER_MASTER_TRASH);
         return mav;
 
     }
@@ -164,15 +248,19 @@ public class UserController {
         return mav;
     }
 
+
     /**
      * 削除処理
      */
-//    @DeleteMapping("destroy/{id}")
-//    public ModelAndView destroy(@PathVariable Long id, ModelAndView mav) {
-//        usersService.delete(id);
-//        mav = new ModelAndView(USER_MASTER_REDIRECT);
-//        return mav;
-//    }
+    @PostMapping("destroy")
+    public ModelAndView destroy(UsersListForm usersListForm, ModelAndView mav) {
+
+        // 削除処理
+        usersService.destroy(usersListForm);
+
+        mav = new ModelAndView(USER_MASTER_DELETE_REDIRECT);
+        return mav;
+    }
 
 
 }
