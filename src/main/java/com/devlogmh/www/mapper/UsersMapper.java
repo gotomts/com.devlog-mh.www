@@ -16,7 +16,7 @@ public interface UsersMapper {
 
     UsersEntity select(Long id);
 
-    List<UsersDto> selectAll(int delflg);
+    List<UsersDto> selectAll(int loginId, int delflg);
 
     void trashMove(UsersListForm usersListForm);
 

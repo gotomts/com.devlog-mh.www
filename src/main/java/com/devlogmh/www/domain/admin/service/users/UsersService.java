@@ -1,5 +1,6 @@
 package com.devlogmh.www.domain.admin.service.users;
 
+import com.devlogmh.www.domain.admin.security.SessionData;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.users.UsersDto;
@@ -21,6 +22,9 @@ public class UsersService {
     @Autowired
     private UsersMapper usersMapper;
 
+    @Autowired
+    SessionData sessionData;
+
     /**
      * ユーザ情報をすべて検索します。
      * 更新者はIDからユーザ名に変換します。
@@ -29,7 +33,7 @@ public class UsersService {
     public PagedListHolder<UsersDto> init(int id) {
 
         // ユーザー情報の一覧を取得
-        List<UsersDto> dtoList = usersMapper.selectAll(0);
+        List<UsersDto> dtoList = usersMapper.selectAll(sessionData.getUserId(), Contains.DelFlg.NOT_DEL.getValue());
 
         return this.createPageList(dtoList, id);
 
@@ -38,7 +42,7 @@ public class UsersService {
     public PagedListHolder<UsersDto> delList(int id) {
 
         // ユーザー情報の一覧を取得
-        List<UsersDto> dtoList = usersMapper.selectAll(1);
+        List<UsersDto> dtoList = usersMapper.selectAll(sessionData.getUserId(), Contains.DelFlg.DELETE.getValue());
 
         return this.createPageList(dtoList, id);
 
@@ -86,7 +90,7 @@ public class UsersService {
     public void trashAdd(UsersListForm usersListForm) {
 
         // Deleteフラグ
-        usersListForm.setDelflg(Contains.DelFlg.DELETE.getId());
+        usersListForm.setDelflg(Contains.DelFlg.DELETE.getValue());
         usersMapper.trashMove(usersListForm);
 
     }
@@ -98,7 +102,7 @@ public class UsersService {
     public void trashRemove(UsersListForm usersListForm) {
 
         // Deleteフラグ
-        usersListForm.setDelflg(Contains.DelFlg.NOT_DEL.getId());
+        usersListForm.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
         usersMapper.trashMove(usersListForm);
 
     }

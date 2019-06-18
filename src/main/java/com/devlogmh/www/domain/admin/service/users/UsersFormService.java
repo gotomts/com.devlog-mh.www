@@ -111,7 +111,7 @@ public class UsersFormService {
         // 更新時間
         entity.setUpdated(TimestampUtil.currentTime());
         // 削除フラグ
-        entity.setDelflg(Contains.DelFlg.NOT_DEL.getId());
+        entity.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
 
         usersMapper.insert(entity);
     }
@@ -139,7 +139,7 @@ public class UsersFormService {
         // 更新時間
         entity.setUpdated(TimestampUtil.currentTime());
         // 削除フラグ
-        entity.setDelflg(Contains.DelFlg.NOT_DEL.getId());
+        entity.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
 
         usersMapper.update(entity);
     }
@@ -152,7 +152,7 @@ public class UsersFormService {
     public void validate(UsersForm inputForm, BindingResult result) {
 
         // ユーザー管理エンティティから検索
-        List<UsersDto> dtoList = usersMapper.selectAll(0);
+        List<UsersDto> dtoList = usersMapper.selectAll(sessionData.getUserId(), Contains.DelFlg.NOT_DEL.getValue());
 
         for (UsersDto dto: dtoList) {
 
@@ -185,7 +185,7 @@ public class UsersFormService {
         UsersEntity editData = this.findOne(id);
 
         // ユーザー管理エンティティから検索
-        List<UsersDto> dtoList = usersMapper.selectAll(0);
+        List<UsersDto> dtoList = usersMapper.selectAll(sessionData.getUserId(), Contains.DelFlg.DELETE.getValue());
 
         for (UsersDto dto: dtoList) {
 

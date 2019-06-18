@@ -26,7 +26,7 @@ public class Contains {
         DELETE(1);
 
         @Getter
-        private final int id;
+        private final int value;
 
     }
 

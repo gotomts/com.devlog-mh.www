@@ -14,7 +14,7 @@
 
   <div class="container" layout:fragment="contents">
     <div layout:replace="app/admin/common/_component::btnPrev(url='../')"></div>
-    <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理', url='./user-master/new')"></div>
+    <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理', url='./new')"></div>
 
     <form th:action="@{./trash-add}" th:method="post">
 
@@ -38,7 +38,15 @@
               <th class="text-center text-nowrap" scope="col">更新日時</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody th:if="${#lists.isEmpty(pagedListHolder.pageList)}">
+            <tr>
+              <td colspan="6" class="text-center">
+                ログインユーザー以外にユーザーが存在しません。<br>
+                追加する場合は<a href="./new">ユーザーを追加</a>してください。
+              </td>
+            </tr>
+          </tbody>
+          <tbody th:unless="${#lists.isEmpty(pagedListHolder.pageList)}">
             <tr th:each="i : ${pagedListHolder.pageList}" th:object="${i}">
               <th class="text-center" scope="row">
                 <input type="checkbox" name="checkId" th:value="*{id}" class="check-delete">

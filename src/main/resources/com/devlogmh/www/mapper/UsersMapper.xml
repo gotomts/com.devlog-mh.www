@@ -62,6 +62,7 @@
 
     <!-- 一覧表示 -->
     <select id="selectAll" resultType="com.devlogmh.www.domain.model.users.UsersDto">
+        <![CDATA[
         SELECT
             users.id,
             users.name AS "userName",
@@ -78,8 +79,10 @@
         INNER JOIN users AS updater
         ON users.updater_id = updater.id
         WHERE
-            users.delflg = #{delflg}
+            users.id <> #{loginId}
+            AND users.delflg = #{delflg}
         ORDER BY updated DESC
+        ]]>
     </select>
 
     <!-- ゴミ箱へ移動させる -->
