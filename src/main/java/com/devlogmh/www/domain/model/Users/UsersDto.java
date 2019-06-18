@@ -2,6 +2,8 @@ package com.devlogmh.www.domain.model.users;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * ユーザー情報DTO
  */
@@ -27,5 +29,10 @@ public class UsersDto extends UsersEntity {
      * フォーマット後の更新時間
      */
     private String updateTime;
+
+    /**
+     * エラーメッセージ
+     */
+    private String errorMsg;
 
 }
