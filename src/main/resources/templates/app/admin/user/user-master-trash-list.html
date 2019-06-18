@@ -18,6 +18,8 @@
 
     <form th:action="@{../trash-remove}" th:method="post" class="custom-post-form">
 
+      <p th:if="${!#strings.isEmpty(errorMsg)}" th:text="${errorMsg}" class="alert alert-danger text-center"></p>
+
       <div class="mb-2">
         <a href="#" class="text-submit"><i class="fas fa-undo-alt"></i> ゴミ箱から戻す</a>
       </div>
