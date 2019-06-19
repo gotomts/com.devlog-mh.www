@@ -198,6 +198,38 @@ public class UserController {
     }
 
     /**
+     * ゴミ箱のチェックしたデータを削除
+     */
+    @PostMapping("destroy")
+    public ModelAndView destroy(@ModelAttribute("pagedListHolder") @Validated UsersListForm inputForm, BindingResult result, ModelAndView mav, RedirectAttributes redirectAttributes) {
+
+        // エラーだった場合
+        if (result.hasErrors()) {
+
+            // リダイレクト時のエラーメッセージを詰める
+            String errorMsg = "削除するユーザーを選択してください。";
+            redirectAttributes.addFlashAttribute("errorMsg", errorMsg);
+
+            // ビューの設定
+            mav.setViewName(USER_MASTER_DELETE_REDIRECT);
+            return mav;
+
+        }
+
+        // formオブジェクトからDTOへ詰め替え
+        UsersDto usersDto = new UsersDto();
+        usersDto.setDelflg(inputForm.getDelflg());
+        usersDto.setCheckId(inputForm.getCheckId());
+
+        // 削除処理
+        usersService.destroy(usersDto);
+
+        mav = new ModelAndView(USER_MASTER_DELETE_REDIRECT);
+        return mav;
+    }
+
+
+    /**
      * 新規作成画面 表示
      * @param mav
      * @return
@@ -287,25 +319,6 @@ public class UserController {
 
         // 更新後のリダイレクト先
         mav = new ModelAndView(USER_MASTER_REDIRECT);
-        return mav;
-    }
-
-
-    /**
-     * 削除処理
-     */
-    @PostMapping("destroy")
-    public ModelAndView destroy(UsersListForm inputForm, ModelAndView mav) {
-
-        // formオブジェクトからDTOへ詰め替え
-        UsersDto usersDto = new UsersDto();
-        usersDto.setDelflg(inputForm.getDelflg());
-        usersDto.setCheckId(inputForm.getCheckId());
-
-        // 削除処理
-        usersService.destroy(usersDto);
-
-        mav = new ModelAndView(USER_MASTER_DELETE_REDIRECT);
         return mav;
     }
 

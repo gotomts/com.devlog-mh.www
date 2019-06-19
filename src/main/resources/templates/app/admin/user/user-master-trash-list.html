@@ -5,7 +5,7 @@
       layout:decorator="~{app/admin/common/_base}">
 
 <head>
-  <title>ユーザー管理</title>
+  <title>ユーザー管理 ゴミ箱</title>
   <meta name="keywords" content="ユーザー管理" />
   <meta name="description" content="ユーザー管理" />
 </head>
@@ -14,7 +14,7 @@
 
   <div class="container" layout:fragment="contents">
     <div layout:replace="app/admin/common/_component::btnPrev(url='../')"></div>
-    <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理', deleteFlg=true)"></div>
+    <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理 ゴミ箱', deleteFlg=true)"></div>
 
     <form th:action="@{../trash-remove}" th:method="post" class="custom-post-form">
 
