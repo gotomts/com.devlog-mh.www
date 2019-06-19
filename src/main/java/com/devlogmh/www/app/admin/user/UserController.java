@@ -1,11 +1,8 @@
 package com.devlogmh.www.app.admin.user;
 
-import com.devlogmh.www.domain.admin.service.users.UsersFormService;
 import com.devlogmh.www.domain.admin.service.users.UsersService;
 import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.domain.model.users.UsersForm;
 import com.devlogmh.www.domain.model.users.UsersListForm;
-import com.devlogmh.www.exception.DuplicateProductException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -28,25 +25,12 @@ public class UserController {
     @Autowired
     private UsersService usersService;
 
-    @Autowired
-    private UsersFormService usersFormService;
-
     /*------------ Viewのパス設定 ---------------*/
 
     /**
      * 一覧
      */
     private final String USER_MASTER = "app/admin/user/user-master";
-
-    /**
-     * 新規登録画面
-     */
-    private final String USER_MASTER_NEW = "app/admin/user/user-master-new";
-
-    /**
-     * 編集画面
-     */
-    private final String USER_MASTER_EDIT = "app/admin/user/user-master-edit";
 
     /**
      * ゴミ箱 一覧
@@ -57,13 +41,13 @@ public class UserController {
      * リダイレクト
      * ユーザー管理
      */
-    private final String USER_MASTER_REDIRECT = "redirect:/admin/user-master/0";
+    private final String REDIRECT_USER_MASTER = "redirect:/admin/user-master/0";
 
     /**
      * リダイレクト
      * ユーザー管理 ゴミ箱
      */
-    private final String USER_MASTER_DELETE_REDIRECT = "redirect:/admin/user-master/delete-list/0";
+    private final String REDIRECT_USER_MASTER_DELETE = "redirect:/admin/user-master/delete-list/0";
 
 
     /**
@@ -75,7 +59,7 @@ public class UserController {
     public ModelAndView index(ModelAndView mav) {
 
         // ビューの設定
-        mav.setViewName(USER_MASTER_REDIRECT);
+        mav.setViewName(REDIRECT_USER_MASTER);
 
         return mav;
 
@@ -89,9 +73,6 @@ public class UserController {
     @GetMapping("{id}")
     public ModelAndView index(@ModelAttribute("errorMsg") String errorMsg, @PathVariable int id, ModelAndView mav) {
 
-        // ビューの設定
-        mav.setViewName(USER_MASTER);
-
         // エラーがあったら表示
         if (StringUtils.isNotEmpty(errorMsg)) {
             mav.addObject("errorMsg", errorMsg);
@@ -101,6 +82,8 @@ public class UserController {
         PagedListHolder<UsersDto> pagedListHolder = usersService.init(id);
         mav.addObject("pagedListHolder", pagedListHolder);
 
+        // ビューの設定
+        mav.setViewName(USER_MASTER);
         return mav;
 
     }
@@ -119,7 +102,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("errorMsg", errorMsg);
 
             // ビューの設定
-            mav.setViewName(USER_MASTER_REDIRECT);
+            mav.setViewName(REDIRECT_USER_MASTER);
             return mav;
 
         }
@@ -133,7 +116,7 @@ public class UserController {
         usersService.trashAdd(usersDto);
 
         // リダイレクト先
-        mav = new ModelAndView(USER_MASTER_REDIRECT);
+        mav = new ModelAndView(REDIRECT_USER_MASTER);
         return mav;
 
     }
@@ -152,7 +135,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("errorMsg", errorMsg);
 
             // ビューの設定
-            mav.setViewName(USER_MASTER_DELETE_REDIRECT);
+            mav.setViewName(REDIRECT_USER_MASTER_DELETE);
             return mav;
 
         }
@@ -166,7 +149,7 @@ public class UserController {
         usersService.trashRemove(usersDto);
 
         // リダイレクト先
-        mav = new ModelAndView(USER_MASTER_REDIRECT);
+        mav = new ModelAndView(REDIRECT_USER_MASTER);
         return mav;
     }
 
@@ -177,7 +160,7 @@ public class UserController {
     @GetMapping("delete-list")
     public ModelAndView deleteList(ModelAndView mav) {
         // リダイレクト先
-        mav = new ModelAndView(USER_MASTER_DELETE_REDIRECT);
+        mav = new ModelAndView(REDIRECT_USER_MASTER_DELETE);
         return mav;
     }
 
@@ -211,7 +194,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("errorMsg", errorMsg);
 
             // ビューの設定
-            mav.setViewName(USER_MASTER_DELETE_REDIRECT);
+            mav.setViewName(REDIRECT_USER_MASTER_DELETE);
             return mav;
 
         }
@@ -224,103 +207,8 @@ public class UserController {
         // 削除処理
         usersService.destroy(usersDto);
 
-        mav = new ModelAndView(USER_MASTER_DELETE_REDIRECT);
+        mav = new ModelAndView(REDIRECT_USER_MASTER_DELETE);
         return mav;
     }
-
-
-    /**
-     * 新規作成画面 表示
-     * @param mav
-     * @return
-     */
-    @GetMapping("new")
-    public ModelAndView newUsers(UsersForm inputForm, ModelAndView mav) {
-        mav.setViewName(USER_MASTER_NEW);
-        // フォームの初期設定
-        usersFormService.setupForm(inputForm);
-        // オブジェクトを詰め込み
-        mav.addObject("form", inputForm);
-        return mav;
-    }
-
-    /**
-     * 新規作成 登録処理
-     * @param inputForm
-     * @return
-     */
-    @PostMapping("new")
-    public ModelAndView create(@ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) throws DuplicateProductException {
-
-        // フォームの初期設定
-        usersFormService.setupForm(inputForm);
-
-        // 独自バリデーションチェック実装
-        usersFormService.validate(inputForm, result);
-
-        // エラーだった場合
-        if (result.hasErrors()) {
-            // ビューの設定
-            mav.setViewName(USER_MASTER_NEW);
-            // オブジェクトを詰め込み
-            mav.addObject("form", inputForm);
-            return mav;
-        }
-
-        // 保存処理
-        usersFormService.save(inputForm);
-        // リダイレクト設定
-        mav = new ModelAndView(USER_MASTER_REDIRECT);
-        return mav;
-    }
-
-    /**
-     * 編集画面 表示
-     */
-    @GetMapping("edit/{id}")
-    public ModelAndView edit(@PathVariable Long id, UsersForm inputForm, ModelAndView mav) {
-        // ビューの設定
-        mav.setViewName(USER_MASTER_EDIT);
-        // フォームの初期設定
-        usersFormService.setupForm(id, inputForm);
-        // オブジェクトを詰め込み
-        mav.addObject("form", inputForm);
-        return mav;
-    }
-
-    /**
-     * 編集画面 更新処理
-     */
-    @PutMapping("edit/{id}")
-    public ModelAndView update(@PathVariable Long id, @ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) throws DuplicateProductException {
-
-        // フォームの初期設定
-        usersFormService.setupForm(inputForm);
-
-        // エンティティ生成
-        UsersDto usersDto = new UsersDto();
-
-        usersFormService.validate(id, inputForm, result);
-
-        // エラーだった場合
-        if (result.hasErrors()) {
-            // ビューの設定
-            mav.setViewName(USER_MASTER_EDIT);
-            // オブジェクトを詰め込み
-            mav.addObject("form", inputForm);
-            return mav;
-        }
-
-        // 更新する対象のIDを設定
-        usersDto.setId(id);
-
-        // 更新処理
-        usersFormService.update(usersDto, inputForm);
-
-        // 更新後のリダイレクト先
-        mav = new ModelAndView(USER_MASTER_REDIRECT);
-        return mav;
-    }
-
 
 }
