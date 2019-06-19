@@ -1,11 +1,9 @@
 package com.devlogmh.www.app.admin.user;
 
-import com.devlogmh.www.domain.admin.service.users.UsersService;
-import com.devlogmh.www.domain.model.users.UsersDto;
+import com.devlogmh.www.domain.admin.service.users.*;
+import com.devlogmh.www.domain.model.users.UsersControlDto;
 import com.devlogmh.www.domain.model.users.UsersListForm;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -22,8 +20,29 @@ public class UserController {
 
     /*------------ DI ---------------*/
 
+    /** ユーザー管理 一覧 */
     @Autowired
     private UsersService usersService;
+
+    /** ユーザー管理 ゴミ箱へ追加 */
+    @Autowired
+    private UsersTrashAddService usersTrashAddService;
+
+    /** ユーザー管理 ゴミ箱から戻す */
+    @Autowired
+    private UsersTrashRemoveService usersTrashRemoveService;
+
+    /** ユーザー管理 ゴミ箱一覧 */
+    @Autowired
+    private UsersDeleteListService usersDeleteListService;
+
+    /** ユーザー管理 ゴミ箱削除 */
+    @Autowired
+    private UsersTrashDestroyService usersTrashDestroyService;
+
+    /** ユーザー管理 コントローラーからサービスへの橋渡し */
+    @Autowired
+    private UsersControlDto usersControlDto;
 
     /*------------ Viewのパス設定 ---------------*/
 
@@ -47,7 +66,7 @@ public class UserController {
      * リダイレクト
      * ユーザー管理 ゴミ箱
      */
-    private final String REDIRECT_USER_MASTER_DELETE = "redirect:/admin/user-master/delete-list/0";
+    private final String REDIRECT_USER_MASTER_TRASH = "redirect:/admin/user-master/trash-list/0";
 
 
     /**
@@ -58,9 +77,8 @@ public class UserController {
     @GetMapping
     public ModelAndView index(ModelAndView mav) {
 
-        // ビューの設定
+        // パスパラメータ付きの一覧URLへリダイレクト
         mav.setViewName(REDIRECT_USER_MASTER);
-
         return mav;
 
     }
@@ -73,14 +91,15 @@ public class UserController {
     @GetMapping("{id}")
     public ModelAndView index(@ModelAttribute("errorMsg") String errorMsg, @PathVariable int id, ModelAndView mav) {
 
-        // エラーがあったら表示
-        if (StringUtils.isNotEmpty(errorMsg)) {
-            mav.addObject("errorMsg", errorMsg);
-        }
+        // エラーメッセージ
+        usersControlDto.setErrorMsg(errorMsg);
+        // パスパラメータ
+        usersControlDto.setPathNum(id);
+        // ModelAndView
+        usersControlDto.setMav(mav);
 
-        // サービスの初期処理
-        PagedListHolder<UsersDto> pagedListHolder = usersService.init(id);
-        mav.addObject("pagedListHolder", pagedListHolder);
+        // 一覧表示処理
+        usersService.delegate(usersControlDto);
 
         // ビューの設定
         mav.setViewName(USER_MASTER);
@@ -94,26 +113,24 @@ public class UserController {
     @PostMapping("trash-add")
     public ModelAndView trashAdd(@ModelAttribute("pagedListHolder") @Validated UsersListForm inputForm, BindingResult result, ModelAndView mav, RedirectAttributes redirectAttributes) {
 
-        // エラーだった場合
+        // ユーザー管理一覧フォーム
+        usersControlDto.setUsersListForm(inputForm);
+        // バリデーションエラー結果
+        usersControlDto.setBindingResult(result);
+        // ModelAndView
+        usersControlDto.setMav(mav);
+        // リダイレクト時に値を渡す
+        usersControlDto.setRedirectAttributes(redirectAttributes);
+
+        // ゴミ箱へ移動する
+        usersTrashAddService.delegate(usersControlDto);
+
+        // エラーがあった場合
         if (result.hasErrors()) {
-
-            // リダイレクト時のエラーメッセージを詰める
-            String errorMsg = "ゴミ箱へ移動するユーザーを選択してください。";
-            redirectAttributes.addFlashAttribute("errorMsg", errorMsg);
-
             // ビューの設定
             mav.setViewName(REDIRECT_USER_MASTER);
             return mav;
-
         }
-
-        // formからdtoへ詰め替え
-        UsersDto usersDto = new UsersDto();
-        usersDto.setDelflg(inputForm.getDelflg());
-        usersDto.setCheckId(inputForm.getCheckId());
-
-        // ゴミ箱へ移動する
-        usersService.trashAdd(usersDto);
 
         // リダイレクト先
         mav = new ModelAndView(REDIRECT_USER_MASTER);
@@ -127,26 +144,24 @@ public class UserController {
     @PostMapping("trash-remove")
     public ModelAndView trashRemove(@ModelAttribute("pagedListHolder") @Validated UsersListForm inputForm, BindingResult result, ModelAndView mav, RedirectAttributes redirectAttributes) {
 
-        // エラーだった場合
+        // ユーザー管理一覧フォーム
+        usersControlDto.setUsersListForm(inputForm);
+        // バリデーションエラー結果
+        usersControlDto.setBindingResult(result);
+        // ModelAndView
+        usersControlDto.setMav(mav);
+        // リダイレクト時に値を渡す
+        usersControlDto.setRedirectAttributes(redirectAttributes);
+
+        // ゴミ箱へ移動する
+        usersTrashRemoveService.delegate(usersControlDto);
+
+        // エラーがあった場合
         if (result.hasErrors()) {
-
-            // リダイレクト時のエラーメッセージを詰める
-            String errorMsg = "ゴミ箱から戻すユーザーを選択してください。";
-            redirectAttributes.addFlashAttribute("errorMsg", errorMsg);
-
             // ビューの設定
-            mav.setViewName(REDIRECT_USER_MASTER_DELETE);
+            mav.setViewName(REDIRECT_USER_MASTER_TRASH);
             return mav;
-
         }
-
-        // formからdtoへ詰め替え
-        UsersDto usersDto = new UsersDto();
-        usersDto.setDelflg(inputForm.getDelflg());
-        usersDto.setCheckId(inputForm.getCheckId());
-
-        // ゴミ箱から戻す
-        usersService.trashRemove(usersDto);
 
         // リダイレクト先
         mav = new ModelAndView(REDIRECT_USER_MASTER);
@@ -157,22 +172,28 @@ public class UserController {
     /**
      * ゴミ箱を見る リダイレクト
      */
-    @GetMapping("delete-list")
+    @GetMapping("trash-list")
     public ModelAndView deleteList(ModelAndView mav) {
         // リダイレクト先
-        mav = new ModelAndView(REDIRECT_USER_MASTER_DELETE);
+        mav = new ModelAndView(REDIRECT_USER_MASTER_TRASH);
         return mav;
     }
 
     /**
      * ゴミ箱 一覧
      */
-    @GetMapping("delete-list/{id}")
-    public ModelAndView deleteList(@PathVariable int id, ModelAndView mav) {
+    @GetMapping("trash-list/{id}")
+    public ModelAndView deleteList(@ModelAttribute("errorMsg") String errorMsg, @PathVariable int id, ModelAndView mav) {
 
-        // サービスの初期処理
-        PagedListHolder<UsersDto> pagedListHolder = usersService.delList(id);
-        mav.addObject("pagedListHolder", pagedListHolder);
+        // エラーメッセージ
+        usersControlDto.setErrorMsg(errorMsg);
+        // パスパラメータ
+        usersControlDto.setPathNum(id);
+        // ModelAndView
+        usersControlDto.setMav(mav);
+
+        // 一覧表示処理
+        usersDeleteListService.delegate(usersControlDto);
 
         // ビューの設定
         mav.setViewName(USER_MASTER_TRASH);
@@ -183,31 +204,30 @@ public class UserController {
     /**
      * ゴミ箱のチェックしたデータを削除
      */
-    @PostMapping("destroy")
-    public ModelAndView destroy(@ModelAttribute("pagedListHolder") @Validated UsersListForm inputForm, BindingResult result, ModelAndView mav, RedirectAttributes redirectAttributes) {
+    @PostMapping("trash-destroy")
+    public ModelAndView trashDestroy(@ModelAttribute("pagedListHolder") @Validated UsersListForm inputForm, BindingResult result, ModelAndView mav, RedirectAttributes redirectAttributes) {
 
-        // エラーだった場合
+        // ユーザー管理一覧フォーム
+        usersControlDto.setUsersListForm(inputForm);
+        // バリデーションエラー結果
+        usersControlDto.setBindingResult(result);
+        // ModelAndView
+        usersControlDto.setMav(mav);
+        // リダイレクト時に値を渡す
+        usersControlDto.setRedirectAttributes(redirectAttributes);
+
+        // ゴミ箱へ移動する
+        usersTrashDestroyService.delegate(usersControlDto);
+
+        // エラーがあった場合
         if (result.hasErrors()) {
-
-            // リダイレクト時のエラーメッセージを詰める
-            String errorMsg = "削除するユーザーを選択してください。";
-            redirectAttributes.addFlashAttribute("errorMsg", errorMsg);
-
             // ビューの設定
-            mav.setViewName(REDIRECT_USER_MASTER_DELETE);
+            mav.setViewName(REDIRECT_USER_MASTER_TRASH);
             return mav;
-
         }
 
-        // formオブジェクトからDTOへ詰め替え
-        UsersDto usersDto = new UsersDto();
-        usersDto.setDelflg(inputForm.getDelflg());
-        usersDto.setCheckId(inputForm.getCheckId());
-
-        // 削除処理
-        usersService.destroy(usersDto);
-
-        mav = new ModelAndView(REDIRECT_USER_MASTER_DELETE);
+        // リダイレクト先
+        mav = new ModelAndView(REDIRECT_USER_MASTER_TRASH);
         return mav;
     }
 

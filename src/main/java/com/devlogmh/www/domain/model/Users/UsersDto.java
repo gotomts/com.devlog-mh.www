@@ -2,8 +2,6 @@ package com.devlogmh.www.domain.model.users;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * ユーザー情報DTO
  */

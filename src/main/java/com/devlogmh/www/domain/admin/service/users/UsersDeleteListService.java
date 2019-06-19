@@ -19,7 +19,7 @@ import static com.devlogmh.www.domain.admin.util.Contains.PAGE_VIEW_SIZE;
 
 @Service
 @Transactional
-public class UsersService extends AbsUtilService {
+public class UsersDeleteListService extends AbsUtilService {
 
     @Autowired
     private UsersMapper usersMapper;
@@ -38,24 +38,25 @@ public class UsersService extends AbsUtilService {
         }
 
         // サービスの初期処理
-        PagedListHolder<UsersDto> pagedListHolder = this.init(dto.getPathNum());
+        PagedListHolder<UsersDto> pagedListHolder = this.delList(dto.getPathNum());
         dto.getMav().addObject("pagedListHolder", pagedListHolder);
 
     }
 
     /**
-     * ユーザ情報を削除フラグの付いていないユーザーを取得します。
+     * ユーザ情報を削除フラグの付いているユーザーを取得します。
      * 更新者はIDからユーザ名に変換します。
      * @return ユーザ情報DTO
      */
-    public PagedListHolder<UsersDto> init(int id) {
+    public PagedListHolder<UsersDto> delList(int id) {
 
         // ユーザー情報の一覧を取得
-        List<UsersDto> dtoList = usersMapper.selectAll(sessionData.getUserId(), Contains.DelFlg.NOT_DEL.getValue());
+        List<UsersDto> dtoList = usersMapper.selectAll(sessionData.getUserId(), Contains.DelFlg.DELETE.getValue());
 
         return this.createPageList(dtoList, id);
 
     }
+
 
     /**
      *
