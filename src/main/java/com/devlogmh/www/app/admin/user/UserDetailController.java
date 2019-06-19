@@ -1,6 +1,6 @@
 package com.devlogmh.www.app.admin.user;
 
-import com.devlogmh.www.domain.admin.service.users.UsersFormService;
+import com.devlogmh.www.domain.admin.service.usersDetail.UsersDetailService;
 import com.devlogmh.www.domain.model.users.UsersDto;
 import com.devlogmh.www.domain.model.users.UsersForm;
 import com.devlogmh.www.exception.DuplicateProductException;
@@ -16,12 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/admin/user-master")
-public class UserFormController {
+public class UserDetailController {
 
     /*------------ DI ---------------*/
 
     @Autowired
-    private UsersFormService usersFormService;
+    private UsersDetailService usersDetailService;
 
     /*------------ Viewのパス設定 ---------------*/
 
@@ -49,7 +49,7 @@ public class UserFormController {
     @GetMapping("new")
     public ModelAndView newUsers(UsersForm inputForm, ModelAndView mav) {
         // フォームの初期設定
-        usersFormService.setupForm(inputForm);
+        usersDetailService.setupForm(inputForm);
         // オブジェクトを詰め込み
         mav.addObject("form", inputForm);
         // ビューの設定
@@ -66,10 +66,10 @@ public class UserFormController {
     public ModelAndView create(@ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) throws DuplicateProductException {
 
         // フォームの初期設定
-        usersFormService.setupForm(inputForm);
+        usersDetailService.setupForm(inputForm);
 
         // 独自バリデーションチェック実装
-        usersFormService.validate(inputForm, result);
+        usersDetailService.validate(inputForm, result);
 
         // エラーだった場合
         if (result.hasErrors()) {
@@ -81,7 +81,7 @@ public class UserFormController {
         }
 
         // 保存処理
-        usersFormService.save(inputForm);
+        usersDetailService.save(inputForm);
         // リダイレクト設定
         mav = new ModelAndView(REDIRECT_USER_MASTER);
         return mav;
@@ -95,7 +95,7 @@ public class UserFormController {
         // ビューの設定
         mav.setViewName(USER_MASTER_EDIT);
         // フォームの初期設定
-        usersFormService.setupForm(id, inputForm);
+        usersDetailService.setupForm(id, inputForm);
         // オブジェクトを詰め込み
         mav.addObject("form", inputForm);
         return mav;
@@ -108,12 +108,12 @@ public class UserFormController {
     public ModelAndView update(@PathVariable Long id, @ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) throws DuplicateProductException {
 
         // フォームの初期設定
-        usersFormService.setupForm(inputForm);
+        usersDetailService.setupForm(inputForm);
 
         // エンティティ生成
         UsersDto usersDto = new UsersDto();
 
-        usersFormService.validate(id, inputForm, result);
+        usersDetailService.validate(id, inputForm, result);
 
         // エラーだった場合
         if (result.hasErrors()) {
@@ -128,7 +128,7 @@ public class UserFormController {
         usersDto.setId(id);
 
         // 更新処理
-        usersFormService.update(usersDto, inputForm);
+        usersDetailService.update(usersDto, inputForm);
 
         // 更新後のリダイレクト先
         mav = new ModelAndView(REDIRECT_USER_MASTER);

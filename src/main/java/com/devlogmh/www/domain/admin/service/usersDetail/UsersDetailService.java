@@ -1,4 +1,4 @@
-package com.devlogmh.www.domain.admin.service.users;
+package com.devlogmh.www.domain.admin.service.usersDetail;
 
 import com.devlogmh.www.domain.admin.security.SessionData;
 import com.devlogmh.www.domain.admin.util.Contains;
@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @Service
 @Transactional
-public class UsersFormService {
+public class UsersDetailService {
 
     @Autowired
     private SessionData sessionData;
