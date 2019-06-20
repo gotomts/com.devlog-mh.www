@@ -30,15 +30,19 @@ public class UserDetailController {
     @Autowired
     private UsersControlDto usersControlDto;
 
+    /** 新規作成 初期表示 */
     @Autowired
     private UsersDetailService usersDetailService;
 
+    /** 新規作成 登録処理 */
     @Autowired
     private UsersDetailCreateService usersDetailCreateService;
 
+    /** 編集画面 初期表示 */
     @Autowired
     private UsersDetailEditService usersDetailEditService;
 
+    /** 編集画面 更新処理 */
     @Autowired
     private UsersDetailUpdateService usersDetailUpdateService;
 

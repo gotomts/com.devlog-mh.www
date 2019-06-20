@@ -25,6 +25,10 @@ public class UserController {
 
     /*------------ DI ---------------*/
 
+    /** ユーザー管理 コントローラーからサービスへの橋渡し */
+    @Autowired
+    private UsersControlDto usersControlDto;
+
     /** ユーザー管理 一覧 */
     @Autowired
     private UsersService usersService;
@@ -44,10 +48,6 @@ public class UserController {
     /** ユーザー管理 ゴミ箱削除 */
     @Autowired
     private UsersTrashDestroyService usersTrashDestroyService;
-
-    /** ユーザー管理 コントローラーからサービスへの橋渡し */
-    @Autowired
-    private UsersControlDto usersControlDto;
 
     /**
      * 一覧表示
