@@ -14,7 +14,9 @@ public interface UsersMapper {
 
     UsersDto select(Long id);
 
-    List<UsersDto> selectAll(int loginId, int delflg);
+    List<UsersDto> selectAll();
+
+    List<UsersDto> selectUserList(int loginId, int delflg);
 
     void trashMove(UsersDto usersDto);
 

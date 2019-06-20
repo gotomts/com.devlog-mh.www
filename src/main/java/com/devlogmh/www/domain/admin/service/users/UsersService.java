@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -30,20 +31,35 @@ public class UsersService extends AbsUtilService {
     @Autowired
     SessionData sessionData;
 
+    private ModelAndView mav;
+
+    /**
+     * 初期処理
+     */
+    @Override
+    public void customInit() {
+        // コントローラーから渡された値を取得
+        this.mav = usersControlDto.getMav();
+    }
     /**
      * 主処理
      */
     @Override
     public void mainProcess() {
 
+        // エラーメッセージを取得
+        String errorMsg = usersControlDto.getErrorMsg();
+        // パスパラメータを取得
+        int pathNum = usersControlDto.getPathNum();
+
         // エラーがあったら表示
-        if (StringUtils.isNotEmpty(usersControlDto.getErrorMsg())) {
-            usersControlDto.getMav().addObject("errorMsg", usersControlDto.getErrorMsg());
+        if (StringUtils.isNotEmpty(errorMsg)) {
+            usersControlDto.getMav().addObject("errorMsg", errorMsg);
         }
 
         // サービスの初期処理
-        PagedListHolder<UsersDto> pagedListHolder = this.init(usersControlDto.getPathNum());
-        usersControlDto.getMav().addObject("pagedListHolder", pagedListHolder);
+        PagedListHolder<UsersDto> pagedListHolder = this.init(pathNum);
+        this.mav.addObject("pagedListHolder", pagedListHolder);
 
     }
 
@@ -55,7 +71,7 @@ public class UsersService extends AbsUtilService {
     public PagedListHolder<UsersDto> init(int id) {
 
         // ユーザー情報の一覧を取得
-        List<UsersDto> dtoList = usersMapper.selectAll(sessionData.getUserId(), Contains.DelFlg.NOT_DEL.getValue());
+        List<UsersDto> dtoList = usersMapper.selectUserList(sessionData.getUserId(), Contains.DelFlg.NOT_DEL.getValue());
 
         return this.createPageList(dtoList, id);
 

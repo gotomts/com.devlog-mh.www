@@ -1,15 +1,21 @@
 package com.devlogmh.www.app.admin.user;
 
+import com.devlogmh.www.domain.admin.service.usersDetail.UsersDetailCreateService;
+import com.devlogmh.www.domain.admin.service.usersDetail.UsersDetailEditService;
 import com.devlogmh.www.domain.admin.service.usersDetail.UsersDetailService;
-import com.devlogmh.www.domain.model.users.UsersDto;
+import com.devlogmh.www.domain.admin.service.usersDetail.UsersDetailUpdateService;
+import com.devlogmh.www.domain.model.users.UsersControlDto;
 import com.devlogmh.www.domain.model.users.UsersForm;
-import com.devlogmh.www.exception.DuplicateProductException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import static com.devlogmh.www.domain.admin.util.RedirectContains.REDIRECT_USER_MASTER;
+import static com.devlogmh.www.domain.admin.util.RoutesContains.USER_MASTER_EDIT;
+import static com.devlogmh.www.domain.admin.util.RoutesContains.USER_MASTER_NEW;
 
 /**
  * ユーザ管理フォームコントローラー
@@ -20,26 +26,21 @@ public class UserDetailController {
 
     /*------------ DI ---------------*/
 
+    /** ユーザー管理 コントローラーからサービスへの橋渡し */
+    @Autowired
+    private UsersControlDto usersControlDto;
+
     @Autowired
     private UsersDetailService usersDetailService;
 
-    /*------------ Viewのパス設定 ---------------*/
+    @Autowired
+    private UsersDetailCreateService usersDetailCreateService;
 
-    /**
-     * 新規登録画面
-     */
-    private final String USER_MASTER_NEW = "app/admin/user/user-master-new";
+    @Autowired
+    private UsersDetailEditService usersDetailEditService;
 
-    /**
-     * 編集画面
-     */
-    private final String USER_MASTER_EDIT = "app/admin/user/user-master-edit";
-
-    /**
-     * リダイレクト
-     * ユーザー管理
-     */
-    private final String REDIRECT_USER_MASTER = "redirect:/admin/user-master/0";
+    @Autowired
+    private UsersDetailUpdateService usersDetailUpdateService;
 
     /**
      * 新規作成画面 表示
@@ -47,14 +48,20 @@ public class UserDetailController {
      * @return
      */
     @GetMapping("new")
-    public ModelAndView newUsers(UsersForm inputForm, ModelAndView mav) {
-        // フォームの初期設定
-        usersDetailService.setupForm(inputForm);
-        // オブジェクトを詰め込み
-        mav.addObject("form", inputForm);
+    public ModelAndView index(UsersForm inputForm, ModelAndView mav) {
+
+        // ユーザー管理詳細フォーム
+        usersControlDto.setUsersForm(inputForm);
+        // ModelAndView
+        usersControlDto.setMav(mav);
+
+        // 初期表示
+        usersDetailService.delegate(usersControlDto);
+
         // ビューの設定
         mav.setViewName(USER_MASTER_NEW);
         return mav;
+
     }
 
     /**
@@ -63,25 +70,25 @@ public class UserDetailController {
      * @return
      */
     @PostMapping("new")
-    public ModelAndView create(@ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) throws DuplicateProductException {
+    public ModelAndView create(@ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) {
 
-        // フォームの初期設定
-        usersDetailService.setupForm(inputForm);
+        // ユーザー管理詳細フォーム
+        usersControlDto.setUsersForm(inputForm);
+        // ModelAndView
+        usersControlDto.setMav(mav);
+        // バリデーションエラー結果
+        usersControlDto.setBindingResult(result);
 
-        // 独自バリデーションチェック実装
-        usersDetailService.validate(inputForm, result);
+        // 新規作成 登録処理
+        usersDetailCreateService.delegate(usersControlDto);
 
-        // エラーだった場合
+        // エラーがあった場合
         if (result.hasErrors()) {
             // ビューの設定
             mav.setViewName(USER_MASTER_NEW);
-            // オブジェクトを詰め込み
-            mav.addObject("form", inputForm);
             return mav;
         }
 
-        // 保存処理
-        usersDetailService.save(inputForm);
         // リダイレクト設定
         mav = new ModelAndView(REDIRECT_USER_MASTER);
         return mav;
@@ -92,12 +99,19 @@ public class UserDetailController {
      */
     @GetMapping("edit/{id}")
     public ModelAndView edit(@PathVariable Long id, UsersForm inputForm, ModelAndView mav) {
+
+        // ユーザーID
+        usersControlDto.setUserId(id);
+        // ユーザー管理詳細フォーム
+        usersControlDto.setUsersForm(inputForm);
+        // ModelAndView
+        usersControlDto.setMav(mav);
+
+        // フォームの初期設定
+        usersDetailEditService.delegate(usersControlDto);
+
         // ビューの設定
         mav.setViewName(USER_MASTER_EDIT);
-        // フォームの初期設定
-        usersDetailService.setupForm(id, inputForm);
-        // オブジェクトを詰め込み
-        mav.addObject("form", inputForm);
         return mav;
     }
 
@@ -105,30 +119,26 @@ public class UserDetailController {
      * 編集画面 更新処理
      */
     @PutMapping("edit/{id}")
-    public ModelAndView update(@PathVariable Long id, @ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) throws DuplicateProductException {
+    public ModelAndView update(@PathVariable Long id, @ModelAttribute("form") @Validated UsersForm inputForm, BindingResult result, ModelAndView mav) {
 
-        // フォームの初期設定
-        usersDetailService.setupForm(inputForm);
+        // ユーザーID
+        usersControlDto.setUserId(id);
+        // ユーザー管理詳細フォーム
+        usersControlDto.setUsersForm(inputForm);
+        // ModelAndView
+        usersControlDto.setMav(mav);
+        // バリデーションエラー結果
+        usersControlDto.setBindingResult(result);
 
-        // エンティティ生成
-        UsersDto usersDto = new UsersDto();
+        // 新規作成 登録処理
+        usersDetailUpdateService.delegate(usersControlDto);
 
-        usersDetailService.validate(id, inputForm, result);
-
-        // エラーだった場合
+        // エラーがあった場合
         if (result.hasErrors()) {
             // ビューの設定
             mav.setViewName(USER_MASTER_EDIT);
-            // オブジェクトを詰め込み
-            mav.addObject("form", inputForm);
             return mav;
         }
-
-        // 更新する対象のIDを設定
-        usersDto.setId(id);
-
-        // 更新処理
-        usersDetailService.update(usersDto, inputForm);
 
         // 更新後のリダイレクト先
         mav = new ModelAndView(REDIRECT_USER_MASTER);

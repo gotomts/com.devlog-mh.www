@@ -12,8 +12,18 @@ import org.springframework.stereotype.Component;
 public class UsersControlDto extends BaseControlDto {
 
     /**
+     * ユーザーID
+     */
+    private Long userId;
+
+    /**
      * ユーザー管理一覧フォーム
      */
     private UsersListForm usersListForm;
+
+    /**
+     * ユーザー管理フォーム
+     */
+    private UsersForm usersForm;
 
 }

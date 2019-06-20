@@ -22,7 +22,7 @@ import java.util.Objects;
 
 @Service
 @Transactional
-public class UsersDetailService extends AbsUtilService {
+public class UsersDetailUpdateService extends AbsUtilService {
 
     @Autowired
     private SessionData sessionData;
@@ -41,6 +41,8 @@ public class UsersDetailService extends AbsUtilService {
 
     private UsersForm usersForm;
 
+    private BindingResult bindingResult;
+
     private ModelAndView mav;
 
     /**
@@ -50,6 +52,7 @@ public class UsersDetailService extends AbsUtilService {
     public void customInit() {
         // コントローラーから渡された値を取得
         this.usersForm = usersControlDto.getUsersForm();
+        this.bindingResult = usersControlDto.getBindingResult();
         this.mav = usersControlDto.getMav();
     }
 
@@ -59,10 +62,29 @@ public class UsersDetailService extends AbsUtilService {
     @Override
     public void mainProcess() {
 
+        // ユーザーIDを取得
+        Long userId = usersControlDto.getUserId();
+
         // フォームの初期設定
         this.setupForm(this.usersForm);
-        // オブジェクトを詰め込み
-        this.mav.addObject("form", this.usersForm);
+
+        // エンティティ生成
+        UsersDto usersDto = new UsersDto();
+
+        this.validate(userId, this.usersForm, this.bindingResult);
+
+        // エラーだった場合
+        if (this.bindingResult.hasErrors()) {
+            // オブジェクトを詰め込み
+            this.mav.addObject("form", this.usersForm);
+            return;
+        }
+
+        // 更新する対象のIDを設定
+        usersDto.setId(userId);
+
+        // 更新処理
+        this.update(usersDto, this.usersForm);
 
     }
 
@@ -84,59 +106,6 @@ public class UsersDetailService extends AbsUtilService {
         // パスワード
         inputForm.setPassword(inputForm.getPassword());
 
-    }
-
-    /**
-     * IDをキーに検索し、フォームを初期設定
-     * @return
-     */
-    public void setupForm(Long id, UsersForm inputForm) {
-
-        // ユーザ情報をIDをキーに1件検索
-        UsersDto usersDto = usersMapper.select(id);
-
-        // ユーザー名
-        inputForm.setUserName(usersDto.getUserName());
-        // メールアドレス
-        inputForm.setEmail(usersDto.getEmail());
-        // アカウント種類
-        inputForm.setRoleId(usersDto.getRoleId());
-        // アカウント種類リスト
-        inputForm.setRoleList(inputForm.getSelectRoleItems());
-        // パスワード
-        inputForm.setPassword(usersDto.getPassword());
-
-    }
-
-    /**
-     * 新規登録
-     */
-    public void save(UsersForm inputForm) {
-
-        // 保存用のエンティティインスタンスを生成
-        UsersDto usersDto = new UsersDto();
-
-        // ユーザー名
-        usersDto.setUserName(inputForm.getUserName());
-        // メールアドレス
-        usersDto.setEmail(inputForm.getEmail());
-        // パスワードが空の場合は更新しない
-        if (StringUtils.isNotEmpty(inputForm.getPassword())) {
-            // パスワードを暗号化してセット
-            usersDto.setPassword(passwordEncoder.encode(inputForm.getPassword()));
-        }
-        // ユーザー権限
-        usersDto.setRoleId(inputForm.getRoleId());
-        // 更新者
-        usersDto.setUpdaterId(sessionData.getUserId().longValue());
-        // 登録時間
-        usersDto.setCreated(TimestampUtil.currentTime());
-        // 更新時間
-        usersDto.setUpdated(TimestampUtil.currentTime());
-        // 削除フラグ
-        usersDto.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
-
-        usersMapper.insert(usersDto);
     }
 
     /**
@@ -168,36 +137,6 @@ public class UsersDetailService extends AbsUtilService {
     }
 
     /**
-     * 新規登録 バリデーションチェック
-     * @param inputForm
-     * @throws DuplicateProductException
-     */
-    public void validate(UsersForm inputForm, BindingResult result) {
-
-        // ユーザー管理エンティティから検索
-        List<UsersDto> dtoList = usersMapper.selectUserList(sessionData.getUserId(), Contains.DelFlg.NOT_DEL.getValue());
-
-        for (UsersDto dto: dtoList) {
-
-            // ユーザー名の重複チェック
-            if (StringUtils.equals(dto.getUserName(), inputForm.getUserName())) {
-                result.rejectValue("userName", "duplicate", new String[]{"ユーザー名"}, "default message.");
-            }
-
-            // メールアドレスの重複チェック
-            if (StringUtils.equals(dto.getEmail(), inputForm.getEmail())) {
-                result.rejectValue("email", "duplicate", new String[]{"メールアドレス"}, "default message.");
-            }
-
-        }
-
-        if (Objects.nonNull(result.getErrorCount())) {
-            new DuplicateProductException();
-        }
-
-    }
-
-    /**
      * 更新 バリデーションチェック
      * @param id, inputForm
      * @throws DuplicateProductException
@@ -208,7 +147,7 @@ public class UsersDetailService extends AbsUtilService {
         UsersDto editData = usersMapper.select(id);
 
         // ユーザー管理エンティティから検索
-        List<UsersDto> dtoList = usersMapper.selectUserList(sessionData.getUserId(), Contains.DelFlg.DELETE.getValue());
+        List<UsersDto> dtoList = usersMapper.selectAll();
 
         for (UsersDto dto: dtoList) {
 

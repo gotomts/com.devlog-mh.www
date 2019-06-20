@@ -78,6 +78,28 @@
             users
         INNER JOIN users AS updater
         ON users.updater_id = updater.id
+        ORDER BY updated DESC
+        ]]>
+    </select>
+
+    <!-- 条件付き一覧表示 -->
+    <select id="selectUserList" resultType="com.devlogmh.www.domain.model.users.UsersDto">
+        <![CDATA[
+        SELECT
+            users.id,
+            users.name AS "userName",
+            users.email,
+            users.password,
+            users.role_id AS "roleId",
+            users.updater_id AS "updaterId",
+            users.created,
+            users.updated,
+            users.delflg,
+            updater.name AS "updaterName"
+        FROM
+            users
+        INNER JOIN users AS updater
+        ON users.updater_id = updater.id
         WHERE
             users.id <> #{loginId}
             AND users.delflg = #{delflg}

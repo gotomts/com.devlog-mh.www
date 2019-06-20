@@ -10,8 +10,13 @@ public abstract class AbsUtilService implements BaseService {
      * @param dto
      */
     public void delegate(Object dto) {
+
+        this.customInit();
         this.mainProcess();
+
     }
+
+    public abstract void customInit();
 
     /**
      * 主処理
