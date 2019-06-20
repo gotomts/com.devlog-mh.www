@@ -25,21 +25,25 @@ public class UsersService extends AbsUtilService {
     private UsersMapper usersMapper;
 
     @Autowired
-    private UsersControlDto dto;
+    private UsersControlDto usersControlDto;
 
     @Autowired
     SessionData sessionData;
 
+    /**
+     * 主処理
+     */
+    @Override
     public void mainProcess() {
 
         // エラーがあったら表示
-        if (StringUtils.isNotEmpty(dto.getErrorMsg())) {
-            dto.getMav().addObject("errorMsg", dto.getErrorMsg());
+        if (StringUtils.isNotEmpty(usersControlDto.getErrorMsg())) {
+            usersControlDto.getMav().addObject("errorMsg", usersControlDto.getErrorMsg());
         }
 
         // サービスの初期処理
-        PagedListHolder<UsersDto> pagedListHolder = this.init(dto.getPathNum());
-        dto.getMav().addObject("pagedListHolder", pagedListHolder);
+        PagedListHolder<UsersDto> pagedListHolder = this.init(usersControlDto.getPathNum());
+        usersControlDto.getMav().addObject("pagedListHolder", pagedListHolder);
 
     }
 

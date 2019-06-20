@@ -21,8 +21,8 @@ public class UsersTrashRemoveService extends AbsUtilService {
 
     /**
      * 主処理
-     * @return
      */
+    @Override
     public void mainProcess() {
 
         // エラーだった場合
