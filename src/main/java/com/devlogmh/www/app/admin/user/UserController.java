@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static com.devlogmh.www.domain.admin.util.RedirectContains.REDIRECT_USER_MASTER;
+import static com.devlogmh.www.domain.admin.util.RedirectContains.REDIRECT_USER_MASTER_TRASH;
+import static com.devlogmh.www.domain.admin.util.RoutesContains.USER_MASTER;
+import static com.devlogmh.www.domain.admin.util.RoutesContains.USER_MASTER_TRASH;
+
 /**
  * ユーザ管理コントローラー
  */
@@ -43,31 +48,6 @@ public class UserController {
     /** ユーザー管理 コントローラーからサービスへの橋渡し */
     @Autowired
     private UsersControlDto usersControlDto;
-
-    /*------------ Viewのパス設定 ---------------*/
-
-    /**
-     * 一覧
-     */
-    private final String USER_MASTER = "app/admin/user/user-master";
-
-    /**
-     * ゴミ箱 一覧
-     */
-    private final String USER_MASTER_TRASH = "app/admin/user/user-master-trash-list";
-
-    /**
-     * リダイレクト
-     * ユーザー管理
-     */
-    private final String REDIRECT_USER_MASTER = "redirect:/admin/user-master/0";
-
-    /**
-     * リダイレクト
-     * ユーザー管理 ゴミ箱
-     */
-    private final String REDIRECT_USER_MASTER_TRASH = "redirect:/admin/user-master/trash-list/0";
-
 
     /**
      * 一覧表示
