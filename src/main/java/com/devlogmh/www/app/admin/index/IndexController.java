@@ -51,6 +51,8 @@ public class IndexController {
 
         mav.addObject("entity", accountEntity);
 
+        mav.addObject("isLogin", this.sessionData.isLogin());
+
         return mav;
     }
 

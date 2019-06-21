@@ -18,7 +18,7 @@
 
 <header th:fragment="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark"><a class="navbar-brand" href="./login">Mocha</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" th:if="${isLogin}">
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="./profile-edit.html">プロフィール編集</a></li>

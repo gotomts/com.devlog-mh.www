@@ -16,4 +16,6 @@ public class SessionData implements Serializable {
 
     private Integer userId;
 
+    private boolean isLogin;
+
 }
