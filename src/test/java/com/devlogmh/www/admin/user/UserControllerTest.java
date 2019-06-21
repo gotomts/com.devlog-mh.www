@@ -1,6 +1,6 @@
 package com.devlogmh.www.admin.user;
 
-import com.devlogmh.www.domain.admin.security.SessionData;
+import com.devlogmh.www.domain.model.session.SessionData;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

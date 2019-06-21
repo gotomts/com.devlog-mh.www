@@ -1,4 +1,4 @@
-package com.devlogmh.www.domain.admin.security;
+package com.devlogmh.www.domain.admin.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

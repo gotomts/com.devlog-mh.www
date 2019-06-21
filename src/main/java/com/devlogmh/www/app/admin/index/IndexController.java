@@ -1,8 +1,8 @@
 package com.devlogmh.www.app.admin.index;
 
-import com.devlogmh.www.domain.admin.security.SessionData;
 import com.devlogmh.www.domain.admin.service.index.IndexService;
 import com.devlogmh.www.domain.model.account.AccountEntity;
+import com.devlogmh.www.domain.model.session.SessionData;
 import com.devlogmh.www.domain.model.users.UsersForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -36,7 +36,7 @@ public class IndexController {
      * @return
      */
     @GetMapping
-    public ModelAndView init(ModelAndView mav, Principal principal) {
+    public ModelAndView index(ModelAndView mav, Principal principal) {
         // 参照するHTML
         mav.setViewName("app/admin/index/index");
 
@@ -47,7 +47,7 @@ public class IndexController {
         // ユーザ情報の取得
         AccountEntity accountEntity = indexService.findByEmail(email);
 
-        this.sessionData.setUserId(accountEntity.getId().intValue());
+        accountEntity.setId(sessionData.getUserId());
 
         mav.addObject("entity", accountEntity);
 

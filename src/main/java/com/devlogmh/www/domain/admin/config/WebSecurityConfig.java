@@ -1,5 +1,6 @@
-package com.devlogmh.www.domain.admin.security;
+package com.devlogmh.www.domain.admin.config;
 
+import com.devlogmh.www.domain.admin.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

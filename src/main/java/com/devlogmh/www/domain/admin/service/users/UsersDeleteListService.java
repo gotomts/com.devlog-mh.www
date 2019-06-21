@@ -1,6 +1,6 @@
 package com.devlogmh.www.domain.admin.service.users;
 
-import com.devlogmh.www.domain.admin.security.SessionData;
+import com.devlogmh.www.domain.model.session.SessionData;
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;

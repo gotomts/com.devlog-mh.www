@@ -1,4 +1,4 @@
-package com.devlogmh.www.domain.admin.security;
+package com.devlogmh.www.domain.model.session;
 
 import lombok.Data;
 import org.springframework.context.annotation.Scope;

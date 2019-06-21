@@ -1,6 +1,6 @@
 package com.devlogmh.www.domain.admin.service.usersDetail;
 
-import com.devlogmh.www.domain.admin.security.SessionData;
+import com.devlogmh.www.domain.model.session.SessionData;
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.model.users.UsersControlDto;
 import com.devlogmh.www.domain.model.users.UsersDto;
