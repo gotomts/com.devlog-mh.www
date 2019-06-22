@@ -5,6 +5,11 @@ package com.devlogmh.www.domain.admin.util;
  */
 public class RoutesContains {
 
+    // ----------- ログイン ----------------
+
+    /** ログイン */
+    public static final String LOGIN = "app/admin/login/login";
+
     //----------- ユーザー管理 一覧 ----------------
 
     /**

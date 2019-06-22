@@ -14,9 +14,16 @@
 
   <div class="flex-body" layout:fragment="contents">
     <div class="form-signin">
+      <p th:if="${param.error}" class="text-center text-danger">
+        メールアドレス<br>
+        またはパスワードが間違っています。
+      </p>
+      <p th:if="${param.logout}" class="text-center">
+        ログアウトしました。
+      </p>
       <h1 class="text-center">ログイン</h1>
-      <form th:action="@{/admin/sign_in}" method="post">
-        <div lass="form-group">
+      <form th:action="@{/admin/login/sign_in}" method="post">
+        <div class="form-group">
           <label for="inputEmail">メールアドレス</label>
           <input class="form-control" id="inputEmail" type="text" name="email" placeholder="メールアドレス">
         </div>
