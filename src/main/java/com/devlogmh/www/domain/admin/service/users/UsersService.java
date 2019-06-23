@@ -30,7 +30,7 @@ public class UsersService extends AbsUtilService {
     private UsersControlDto usersControlDto;
 
     @Autowired
-    SessionData sessionData;
+    private SessionData sessionData;
 
     private ModelAndView mav;
 
@@ -41,7 +41,7 @@ public class UsersService extends AbsUtilService {
     public void customInit() {
 
         // コントローラーから渡された値を取得
-        this.mav = usersControlDto.getMav();
+        this.mav = this.usersControlDto.getMav();
 
         // ログイン情報を格納
         this.mav.addObject("isLogin", this.sessionData.isLogin());
@@ -55,16 +55,16 @@ public class UsersService extends AbsUtilService {
     public void mainProcess() {
 
         // エラーメッセージを取得
-        String errorMsg = usersControlDto.getErrorMsg();
+        String errorMsg = this.usersControlDto.getErrorMsg();
         // パスパラメータを取得
-        String pathNum = usersControlDto.getPathNum();
+        String pathNum = this.usersControlDto.getPathNum();
         if (Objects.isNull(pathNum)) {
             pathNum = "0";
         }
 
         // エラーがあったら表示
         if (StringUtils.isNotEmpty(errorMsg)) {
-            usersControlDto.getMav().addObject("errorMsg", errorMsg);
+            this.usersControlDto.getMav().addObject("errorMsg", errorMsg);
         }
 
         // サービスの初期処理
@@ -81,7 +81,7 @@ public class UsersService extends AbsUtilService {
     public PagedListHolder<UsersDto> init(String id) {
 
         // ユーザー情報の一覧を取得
-        List<UsersDto> dtoList = usersMapper.selectUserList(sessionData.getUserId(), Contains.DelFlg.NOT_DEL.getValue());
+        List<UsersDto> dtoList = this.usersMapper.selectUserList(this.sessionData.getUserId(), Contains.DelFlg.NOT_DEL.getValue());
 
         return this.createPageList(dtoList, id);
 
