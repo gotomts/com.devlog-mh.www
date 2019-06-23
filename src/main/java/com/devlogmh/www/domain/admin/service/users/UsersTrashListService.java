@@ -21,7 +21,7 @@ import static com.devlogmh.www.domain.admin.util.Contains.PAGE_VIEW_SIZE;
 
 @Service
 @Transactional
-public class UsersDeleteListService extends AbsUtilService {
+public class UsersTrashListService extends AbsUtilService {
 
     @Autowired
     private UsersMapper usersMapper;
@@ -39,8 +39,13 @@ public class UsersDeleteListService extends AbsUtilService {
      */
     @Override
     public void customInit() {
+
         // コントローラーから渡された値を取得
         this.mav = usersControlDto.getMav();
+
+        // ログイン情報を格納
+        this.mav.addObject("isLogin", this.sessionData.isLogin());
+
     }
     /**
      * 主処理

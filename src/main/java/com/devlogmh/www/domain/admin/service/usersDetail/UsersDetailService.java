@@ -51,6 +51,10 @@ public class UsersDetailService extends AbsUtilService {
         // コントローラーから渡された値を取得
         this.usersForm = usersControlDto.getUsersForm();
         this.mav = usersControlDto.getMav();
+
+        // ログイン情報を格納
+        this.mav.addObject("isLogin", this.sessionData.isLogin());
+
     }
 
     /**

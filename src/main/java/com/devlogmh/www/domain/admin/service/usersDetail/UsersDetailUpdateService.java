@@ -54,6 +54,7 @@ public class UsersDetailUpdateService extends AbsUtilService {
         this.usersForm = usersControlDto.getUsersForm();
         this.bindingResult = usersControlDto.getBindingResult();
         this.mav = usersControlDto.getMav();
+
     }
 
     /**

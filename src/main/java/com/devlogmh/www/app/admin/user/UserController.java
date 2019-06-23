@@ -43,7 +43,7 @@ public class UserController {
 
     /** ユーザー管理 ゴミ箱一覧 */
     @Autowired
-    private UsersDeleteListService usersDeleteListService;
+    private UsersTrashListService usersTrashListService;
 
     /** ユーザー管理 ゴミ箱削除 */
     @Autowired
@@ -149,7 +149,7 @@ public class UserController {
         usersControlDto.setMav(mav);
 
         // 一覧表示処理
-        usersDeleteListService.delegate(usersControlDto);
+        usersTrashListService.delegate(usersControlDto);
 
         // ビューの設定
         mav.setViewName(USER_MASTER_TRASH);
