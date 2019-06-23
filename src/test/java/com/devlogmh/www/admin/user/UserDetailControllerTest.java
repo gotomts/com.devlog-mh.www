@@ -68,7 +68,7 @@ public class UserDetailControllerTest {
      * ユーザー管理新規作成の初期表示のテスト
      */
     @Test
-    public void ユーザー管理新規作成の初期表示のテスト() throws Exception {
+    public void ユーザー管理新規作成の初期表示テスト() throws Exception {
         // GETメソッドで新規作成画面へアクセスする
         this.mockMvc.perform(get("/admin/user-master/new"))
                 .andExpect(status().isOk())
@@ -76,10 +76,10 @@ public class UserDetailControllerTest {
     }
 
     /**
-     * ユーザー管理新規作成の初期表示のテスト
+     * ユーザー管理新規作成の登録処理テスト
      */
     @Test
-    public void ユーザー管理新規作成の登録処理のテスト() throws Exception {
+    public void ユーザー管理新規作成の登録処理テスト() throws Exception {
 
         // sessionDataにユーザーをセット
         sessionData.setUserId(1);
@@ -87,8 +87,8 @@ public class UserDetailControllerTest {
         // POSTメソッドでアクセスし、入力画面で入力した値として各種パラメータを付加する
         ResultActions resultActions = this.mockMvc.perform(post("/admin/user-master/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("userName", "ユーザーテスト")
-                .param("email", "test1@example.com")
+                .param("userName", "ユーザーテスト1")
+                .param("email", "test1@example1.com")
                 .param("password", "password")
                 .param("roleId", "1")
         );
