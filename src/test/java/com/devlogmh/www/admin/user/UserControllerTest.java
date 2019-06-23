@@ -69,8 +69,9 @@ public class UserControllerTest {
     @Test
     public void ユーザー管理一覧の初期表示のテスト() throws Exception {
         // GETメソッドで新規作成画面へアクセスする
-        this.mockMvc.perform(get("/admin/user-master"))
-                .andExpect(status().isOk())
+        ResultActions resultActions = this.mockMvc.perform(get("/admin/user-master/"));
+
+        resultActions.andExpect(status().is3xxRedirection())
                 .andExpect(model().hasNoErrors());
     }
 
