@@ -11,6 +11,7 @@ import org.springframework.beans.factory.config.Scope;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.context.support.SimpleThreadScope;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -28,7 +30,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 @SpringBootTest
 @ActiveProfiles("unit")
-public class UserControllerTest {
+public class UserDetailControllerTest {
 
     /**
      * アプリケーションの設定などを管理するコンテキスト
@@ -63,41 +65,38 @@ public class UserControllerTest {
     }
 
     /**
-     * ユーザー管理一覧 パスパラメータなし表示テスト
+     * ユーザー管理新規作成の初期表示のテスト
      */
     @Test
-    public void ユーザー管理一覧パスパラメータなしでアクセスできるかテスト() throws Exception {
-
-        // ログインユーザーを偽装するためにセッションにユーザーIDを格納
-        sessionData.setUserId(1);
-
+    public void ユーザー管理新規作成の初期表示のテスト() throws Exception {
         // GETメソッドで新規作成画面へアクセスする
-        ResultActions resultActions = this.mockMvc.perform(get("/admin/user-master"));
-
-        // リダイレクトできているか確認
-        resultActions.andExpect(status().is2xxSuccessful())
+        this.mockMvc.perform(get("/admin/user-master/new"))
+                .andExpect(status().isOk())
                 .andExpect(model().hasNoErrors());
-
     }
 
     /**
-     * ユーザー管理一覧 パスパラメータあり表示テスト
+     * ユーザー管理新規作成の初期表示のテスト
      */
     @Test
-    public void ユーザー管理一覧パスパラメータ付きでアクセスできるかテスト() throws Exception {
+    public void ユーザー管理新規作成の登録処理のテスト() throws Exception {
 
-        // ログインユーザーを偽装するためにセッションにユーザーIDを格納
+        // sessionDataにユーザーをセット
         sessionData.setUserId(1);
 
-        // パスパラメータを設定
-        String id = "0";
+        // POSTメソッドでアクセスし、入力画面で入力した値として各種パラメータを付加する
+        ResultActions resultActions = this.mockMvc.perform(post("/admin/user-master/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("userName", "ユーザーテスト")
+                .param("email", "test1@example.com")
+                .param("password", "password")
+                .param("roleId", "1")
+        );
 
-        // GETメソッドで新規作成画面へアクセスする
-        ResultActions resultActions = this.mockMvc.perform(get("/admin/user-master/{id}", id));
-
-        // リダイレクトできているか確認
-        resultActions.andExpect(status().is2xxSuccessful())
-                .andExpect(model().hasNoErrors());
+        // レスポンスの検証
+        // 登録が成功し、リダイレクトしたかを確認
+        resultActions.andExpect(status().is3xxRedirection())
+            .andExpect(model().hasNoErrors());
 
     }
 
