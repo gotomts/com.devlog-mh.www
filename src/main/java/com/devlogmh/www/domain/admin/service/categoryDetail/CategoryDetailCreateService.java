@@ -3,15 +3,14 @@ package com.devlogmh.www.domain.admin.service.categoryDetail;
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
+import com.devlogmh.www.domain.model.category.CategoryControlDto;
+import com.devlogmh.www.domain.model.category.CategoryDto;
+import com.devlogmh.www.domain.model.category.CategoryForm;
 import com.devlogmh.www.domain.model.session.SessionData;
-import com.devlogmh.www.domain.model.users.UsersControlDto;
-import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.domain.model.users.UsersForm;
 import com.devlogmh.www.exception.DuplicateProductException;
-import com.devlogmh.www.mapper.UsersMapper;
+import com.devlogmh.www.mapper.CategoryMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -27,19 +26,13 @@ public class CategoryDetailCreateService extends AbsUtilService {
     @Autowired
     private SessionData sessionData;
 
-    /**
-     * パスワード暗号化処理
-     */
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private CategoryMapper categoryMapper;
 
     @Autowired
-    private UsersMapper usersMapper;
+    private CategoryControlDto categoryControlDto;
 
-    @Autowired
-    private UsersControlDto usersControlDto;
-
-    private UsersForm usersForm;
+    private CategoryForm categoryForm;
 
     private BindingResult bindingResult;
 
@@ -51,9 +44,9 @@ public class CategoryDetailCreateService extends AbsUtilService {
     @Override
     public void customInit() {
         // コントローラーから渡された値を取得
-        this.usersForm = usersControlDto.getUsersForm();
-        this.bindingResult = usersControlDto.getBindingResult();
-        this.mav = usersControlDto.getMav();
+        this.categoryForm = categoryControlDto.getCategoryForm();
+        this.bindingResult = categoryControlDto.getBindingResult();
+        this.mav = categoryControlDto.getMav();
     }
 
     /**
@@ -63,20 +56,20 @@ public class CategoryDetailCreateService extends AbsUtilService {
     public void mainProcess() {
 
         // フォームの初期設定
-        this.setupForm(this.usersForm);
+        this.setupForm(this.categoryForm);
 
         // 独自バリデーションチェック実装
-        this.validate(this.usersForm, this.bindingResult);
+        this.validate(this.categoryForm, this.bindingResult);
 
         // エラーだった場合
         if (this.bindingResult.hasErrors()) {
             // オブジェクトを詰め込み
-            this.mav.addObject("form", this.usersForm);
+            this.mav.addObject("form", this.categoryForm);
             return;
         }
 
         // 保存処理
-        this.save(this.usersForm);
+        this.save(this.categoryForm);
 
     }
 
@@ -85,50 +78,33 @@ public class CategoryDetailCreateService extends AbsUtilService {
      * @param inputForm
      * @return
      */
-    public void setupForm(UsersForm inputForm) {
+    public void setupForm(CategoryForm inputForm) {
 
-        // ユーザー名
-        inputForm.setUserName(inputForm.getUserName());
-        // メールアドレス
-        inputForm.setEmail(inputForm.getEmail());
-        // アカウント種類
-        inputForm.setRoleId(inputForm.getRoleId());
-        // アカウント種類リスト
-        inputForm.setRoleList(inputForm.getSelectRoleItems());
-        // パスワード
-        inputForm.setPassword(inputForm.getPassword());
+        // カテゴリー名
+        inputForm.setCategoryName(inputForm.getCategoryName());
 
     }
 
     /**
      * 新規登録
      */
-    public void save(UsersForm inputForm) {
+    public void save(CategoryForm inputForm) {
 
         // 保存用のエンティティインスタンスを生成
-        UsersDto usersDto = new UsersDto();
+        CategoryDto categoryDto = new CategoryDto();
 
-        // ユーザー名
-        usersDto.setUserName(inputForm.getUserName());
-        // メールアドレス
-        usersDto.setEmail(inputForm.getEmail());
-        // パスワードが空の場合は更新しない
-        if (StringUtils.isNotEmpty(inputForm.getPassword())) {
-            // パスワードを暗号化してセット
-            usersDto.setPassword(passwordEncoder.encode(inputForm.getPassword()));
-        }
-        // ユーザー権限
-        usersDto.setRoleId(inputForm.getRoleId());
+        // カテゴリー名
+        categoryDto.setCategoryName(inputForm.getCategoryName());
         // 更新者
-        usersDto.setUpdaterId(sessionData.getUserId().longValue());
+        categoryDto.setUpdaterId(sessionData.getUserId().longValue());
         // 登録時間
-        usersDto.setCreated(TimestampUtil.currentTime());
+        categoryDto.setCreated(TimestampUtil.currentTime());
         // 更新時間
-        usersDto.setUpdated(TimestampUtil.currentTime());
+        categoryDto.setUpdated(TimestampUtil.currentTime());
         // 削除フラグ
-        usersDto.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
+        categoryDto.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
 
-        usersMapper.insert(usersDto);
+        categoryMapper.insert(categoryDto);
     }
 
     /**
@@ -136,21 +112,16 @@ public class CategoryDetailCreateService extends AbsUtilService {
      * @param inputForm
      * @throws DuplicateProductException
      */
-    public void validate(UsersForm inputForm, BindingResult result) {
+    public void validate(CategoryForm inputForm, BindingResult result) {
 
         // ユーザー管理エンティティから検索
-        List<UsersDto> dtoList = usersMapper.selectAll();
+        List<CategoryDto> dtoList = categoryMapper.selectAll();
 
-        for (UsersDto dto: dtoList) {
+        for (CategoryDto dto: dtoList) {
 
-            // ユーザー名の重複チェック
-            if (StringUtils.equals(dto.getUserName(), inputForm.getUserName())) {
-                result.rejectValue("userName", "duplicate", new String[]{"ユーザー名"}, "default message.");
-            }
-
-            // メールアドレスの重複チェック
-            if (StringUtils.equals(dto.getEmail(), inputForm.getEmail())) {
-                result.rejectValue("email", "duplicate", new String[]{"メールアドレス"}, "default message.");
+            // カテゴリー名の重複チェック
+            if (StringUtils.equals(dto.getCategoryName(), inputForm.getCategoryName())) {
+                result.rejectValue("categoryName", "duplicate", new String[]{"カテゴリー名"}, "default message.");
             }
 
         }

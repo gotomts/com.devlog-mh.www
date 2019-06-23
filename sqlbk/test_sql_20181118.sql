@@ -304,3 +304,7 @@ select
 from
     users
 ;
+
+
+-- カラム名の変更
+ALTER TABLE categories RENAME updater TO updater_id;

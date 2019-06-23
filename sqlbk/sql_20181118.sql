@@ -22,10 +22,6 @@ CREATE TABLE users (
   delflg INTEGER DEFAULT 0    -- 削除フラグ
 );
 
--- ユーザーデータの挿入
--- INSERT INTO users (name, mail, password, role_id, created) VALUES('後藤 充晴','mh.goto.web@gmail.com','ca2ee2bce1ae1f4176ea22a57ef126b60b9a152f7d815f98d1b724db21f7619f', '1', current_timestamp);
-
-
 -- 画像テーブルの作成
 CREATE TABLE images (
   id SERIAL PRIMARY KEY,    -- 画像ID
@@ -43,7 +39,7 @@ CREATE TABLE images (
 CREATE TABLE categories (
   id SERIAL PRIMARY KEY,    -- カテゴリーID
   name VARCHAR(63) NOT NULL,    -- カテゴリー名
-  updater INTEGER NOT NULL,  -- 更新者
+  updater_id INTEGER DEFAULT 1,  -- 更新者
   created TIMESTAMP NOT NULL DEFAULT current_timestamp,    -- 作成日時
   updated TIMESTAMP NOT NULL DEFAULT current_timestamp,     -- 更新日時  
   delflg INTEGER DEFAULT 0 -- 削除フラグ
@@ -79,7 +75,7 @@ CREATE TABLE posts (
   image_id INTEGER NOT NULL REFERENCES post_images(id),    -- カテゴリーID
   category_id INTEGER NOT NULL REFERENCES categories(id),    -- カテゴリーID
   status_id INTEGER NOT NULL REFERENCES statuses(id),    -- ステータスID
-  updater INTEGER NOT NULL,  -- 更新者
+  updater_id INTEGER DEFAULT 1,  -- 更新者
   created TIMESTAMP NOT NULL DEFAULT current_timestamp,    -- 作成日時
   updated TIMESTAMP NOT NULL DEFAULT current_timestamp,    -- 更新日時
   delflg INTEGER DEFAULT 0    -- 削除フラグ

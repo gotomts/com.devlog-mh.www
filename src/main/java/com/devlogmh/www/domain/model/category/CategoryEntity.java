@@ -10,29 +10,14 @@ import java.sql.Timestamp;
 public class CategoryEntity {
 
     /**
-     * ユーザーID
+     * カテゴリーID
      */
     private Long id;
 
     /**
-     * ユーザー名
+     * カテゴリー名
      */
-    private String userName;
-
-    /**
-     * メールアドレス
-     */
-    private String email;
-
-    /**
-     * パスワード
-     */
-    private String password;
-
-    /**
-     * アカウント種類ID
-     */
-    private Integer roleId;
+    private String categoryName;
 
     /**
      * 更新者
@@ -57,15 +42,13 @@ public class CategoryEntity {
     /**
      * デフォルトコンストラクタ
      */
-    public CategoryEntity(String userName, String email, String password, Integer roleId,
-                          Long updaterId, Timestamp created, Timestamp updated, int delflg) {
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.roleId = roleId;
+    public CategoryEntity(String categoryName, Long updaterId,
+                          Timestamp created, Timestamp updated, int delflg) {
+        this.categoryName = categoryName;
         this.updaterId = updaterId;
         this.created = created;
         this.updated = updated;
         this.delflg = delflg;
     }
+
 }

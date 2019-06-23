@@ -2,11 +2,10 @@ package com.devlogmh.www.domain.admin.service.category;
 
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.Contains;
-import com.devlogmh.www.domain.admin.util.TimestampUtil;
+import com.devlogmh.www.domain.model.category.CategoryControlDto;
+import com.devlogmh.www.domain.model.category.CategoryDto;
 import com.devlogmh.www.domain.model.session.SessionData;
-import com.devlogmh.www.domain.model.users.UsersControlDto;
-import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.mapper.UsersMapper;
+import com.devlogmh.www.mapper.CategoryMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -24,13 +23,13 @@ import static com.devlogmh.www.domain.admin.util.Contains.PAGE_VIEW_SIZE;
 public class CategoryService extends AbsUtilService {
 
     @Autowired
-    private UsersMapper usersMapper;
+    private CategoryMapper categoryMapper;
 
     @Autowired
-    private UsersControlDto usersControlDto;
+    private CategoryControlDto categoryControlDto;
 
     @Autowired
-    SessionData sessionData;
+    private SessionData sessionData;
 
     private ModelAndView mav;
 
@@ -41,7 +40,7 @@ public class CategoryService extends AbsUtilService {
     public void customInit() {
 
         // コントローラーから渡された値を取得
-        this.mav = usersControlDto.getMav();
+        this.mav = this.categoryControlDto.getMav();
 
         // ログイン情報を格納
         this.mav.addObject("isLogin", this.sessionData.isLogin());
@@ -55,20 +54,20 @@ public class CategoryService extends AbsUtilService {
     public void mainProcess() {
 
         // エラーメッセージを取得
-        String errorMsg = usersControlDto.getErrorMsg();
+        String errorMsg = categoryControlDto.getErrorMsg();
         // パスパラメータを取得
-        String pathNum = usersControlDto.getPathNum();
+        String pathNum = categoryControlDto.getPathNum();
         if (Objects.isNull(pathNum)) {
             pathNum = "0";
         }
 
         // エラーがあったら表示
         if (StringUtils.isNotEmpty(errorMsg)) {
-            usersControlDto.getMav().addObject("errorMsg", errorMsg);
+            categoryControlDto.getMav().addObject("errorMsg", errorMsg);
         }
 
         // サービスの初期処理
-        PagedListHolder<UsersDto> pagedListHolder = this.init(pathNum);
+        PagedListHolder<CategoryDto> pagedListHolder = this.init(pathNum);
         this.mav.addObject("pagedListHolder", pagedListHolder);
 
     }
@@ -78,10 +77,10 @@ public class CategoryService extends AbsUtilService {
      * 更新者はIDからユーザ名に変換します。
      * @return ユーザ情報DTO
      */
-    public PagedListHolder<UsersDto> init(String id) {
+    public PagedListHolder<CategoryDto> init(String id) {
 
         // ユーザー情報の一覧を取得
-        List<UsersDto> dtoList = usersMapper.selectUserList(sessionData.getUserId(), Contains.DelFlg.NOT_DEL.getValue());
+        List<CategoryDto> dtoList = categoryMapper.selectCategoryList(Contains.DelFlg.NOT_DEL.getValue());
 
         return this.createPageList(dtoList, id);
 
@@ -93,25 +92,21 @@ public class CategoryService extends AbsUtilService {
      * @param id
      * @return
      */
-    public PagedListHolder<UsersDto> createPageList(List<UsersDto> dtoList, String id) {
+    public PagedListHolder<CategoryDto> createPageList(List<CategoryDto> dtoList, String id) {
 
         // ユーザー情報を1件ずつ取り出してDTOに格納
-        for (UsersDto dto : dtoList) {
-
-            // エンティティからそれぞれの情報を取得
-            String updateTime = TimestampUtil.formattedTimestamp(dto.getUpdated(), Contains.TIME_FORMAT);
+        for (CategoryDto dto : dtoList) {
 
             // DTOに情報を詰める
             dto.setId(dto.getId());
-            dto.setUserName(dto.getUserName());
-            dto.setEmail(dto.getEmail());
+            dto.setCategoryName(dto.getCategoryName());
             dto.setUpdaterName(dto.getUpdaterName());
-            dto.setUpdateTime(updateTime);
+            dto.setUpdateTime(dto.getUpdateTime(dto.getUpdated()));
 
         }
 
         // DTOをページャー用に変換
-        PagedListHolder<UsersDto> pagenation = new PagedListHolder<>(dtoList);
+        PagedListHolder<CategoryDto> pagenation = new PagedListHolder<>(dtoList);
         // 現在のページ位置を渡す
         pagenation.setPage(new Integer(id));
         // 1ページに表示するデータ数を設定

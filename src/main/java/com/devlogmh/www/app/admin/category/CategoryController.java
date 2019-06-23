@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import static com.devlogmh.www.domain.admin.util.RedirectContains.REDIRECT_CATEGORY_MASTER;
-import static com.devlogmh.www.domain.admin.util.RedirectContains.REDIRECT_CATEGORY_MASTER_TRASH;
-import static com.devlogmh.www.domain.admin.util.RoutesContains.CATEGORY_MASTER;
-import static com.devlogmh.www.domain.admin.util.RoutesContains.CATEGORY_MASTER_TRASH;
+import static com.devlogmh.www.domain.admin.util.RedirectContains.*;
+import static com.devlogmh.www.domain.admin.util.RoutesContains.*;
 
 /**
  * ユーザ管理コントローラー
@@ -58,14 +56,14 @@ public class CategoryController {
     public ModelAndView index(@ModelAttribute("errorMsg") String errorMsg, @PathVariable(name = "id", required = false) String id, ModelAndView mav) {
 
         // エラーメッセージ
-        categoryControlDto.setErrorMsg(errorMsg);
+        this.categoryControlDto.setErrorMsg(errorMsg);
         // パスパラメータ
-        categoryControlDto.setPathNum(id);
+        this.categoryControlDto.setPathNum(id);
         // ModelAndView
-        categoryControlDto.setMav(mav);
+        this.categoryControlDto.setMav(mav);
 
         // 一覧表示処理
-        categoryService.delegate(categoryControlDto);
+        this.categoryService.delegate(this.categoryControlDto);
 
         // ビューの設定
         mav.setViewName(CATEGORY_MASTER);
@@ -80,7 +78,7 @@ public class CategoryController {
     public ModelAndView trashAdd(@ModelAttribute("pagedListHolder") @Validated CategoryListForm inputForm, BindingResult result, ModelAndView mav, RedirectAttributes redirectAttributes) {
 
         // ユーザー管理一覧フォーム
-        categoryControlDto.setUsersListForm(inputForm);
+        categoryControlDto.setCategoryListForm(inputForm);
         // バリデーションエラー結果
         categoryControlDto.setBindingResult(result);
         // ModelAndView
@@ -111,7 +109,7 @@ public class CategoryController {
     public ModelAndView trashRemove(@ModelAttribute("pagedListHolder") @Validated CategoryListForm inputForm, BindingResult result, ModelAndView mav, RedirectAttributes redirectAttributes) {
 
         // ユーザー管理一覧フォーム
-        categoryControlDto.setUsersListForm(inputForm);
+        categoryControlDto.setCategoryListForm(inputForm);
         // バリデーションエラー結果
         categoryControlDto.setBindingResult(result);
         // ModelAndView
@@ -164,7 +162,7 @@ public class CategoryController {
     public ModelAndView trashDestroy(@ModelAttribute("pagedListHolder") @Validated CategoryListForm inputForm, BindingResult result, ModelAndView mav, RedirectAttributes redirectAttributes) {
 
         // ユーザー管理一覧フォーム
-        categoryControlDto.setUsersListForm(inputForm);
+        categoryControlDto.setCategoryListForm(inputForm);
         // バリデーションエラー結果
         categoryControlDto.setBindingResult(result);
         // ModelAndView

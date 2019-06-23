@@ -4,6 +4,7 @@ import com.devlogmh.www.domain.admin.service.categoryDetail.CategoryDetailCreate
 import com.devlogmh.www.domain.admin.service.categoryDetail.CategoryDetailEditService;
 import com.devlogmh.www.domain.admin.service.categoryDetail.CategoryDetailService;
 import com.devlogmh.www.domain.admin.service.categoryDetail.CategoryDetailUpdateService;
+import com.devlogmh.www.domain.admin.util.RedirectContains;
 import com.devlogmh.www.domain.model.category.CategoryControlDto;
 import com.devlogmh.www.domain.model.category.CategoryForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.devlogmh.www.domain.admin.util.RedirectContains.REDIRECT_USER_MASTER;
-import static com.devlogmh.www.domain.admin.util.RoutesContains.USER_MASTER_EDIT;
-import static com.devlogmh.www.domain.admin.util.RoutesContains.USER_MASTER_NEW;
+import static com.devlogmh.www.domain.admin.util.RedirectContains.*;
+import static com.devlogmh.www.domain.admin.util.RoutesContains.*;
 
 /**
- * ユーザ管理フォームコントローラー
+ * カテゴリーマスタフォームコントローラー
  */
 @Controller
 @RequestMapping("/admin/category-master")
@@ -26,7 +26,7 @@ public class CategoryDetailController {
 
     /*------------ DI ---------------*/
 
-    /** ユーザー管理 コントローラーからサービスへの橋渡し */
+    /** カテゴリーマスタ コントローラーからサービスへの橋渡し */
     @Autowired
     private CategoryControlDto categoryControlDto;
 
@@ -54,8 +54,8 @@ public class CategoryDetailController {
     @GetMapping("new")
     public ModelAndView index(CategoryForm inputForm, ModelAndView mav) {
 
-        // ユーザー管理詳細フォーム
-        categoryControlDto.setUsersForm(inputForm);
+        // カテゴリーマスタ詳細フォーム
+        categoryControlDto.setCategoryForm(inputForm);
         // ModelAndView
         categoryControlDto.setMav(mav);
 
@@ -63,7 +63,7 @@ public class CategoryDetailController {
         categoryDetailService.delegate(categoryControlDto);
 
         // ビューの設定
-        mav.setViewName(USER_MASTER_NEW);
+        mav.setViewName(CATEGORY_MASTER_NEW);
         return mav;
 
     }
@@ -76,8 +76,8 @@ public class CategoryDetailController {
     @PostMapping("new")
     public ModelAndView create(@ModelAttribute("form") @Validated CategoryForm inputForm, BindingResult result, ModelAndView mav) {
 
-        // ユーザー管理詳細フォーム
-        categoryControlDto.setUsersForm(inputForm);
+        // カテゴリーマスタ詳細フォーム
+        categoryControlDto.setCategoryForm(inputForm);
         // ModelAndView
         categoryControlDto.setMav(mav);
         // バリデーションエラー結果
@@ -89,12 +89,12 @@ public class CategoryDetailController {
         // エラーがあった場合
         if (result.hasErrors()) {
             // ビューの設定
-            mav.setViewName(USER_MASTER_NEW);
+            mav.setViewName(CATEGORY_MASTER_NEW);
             return mav;
         }
 
         // リダイレクト設定
-        mav = new ModelAndView(REDIRECT_USER_MASTER);
+        mav = new ModelAndView(RedirectContains.REDIRECT_CATEGORY_MASTER);
         return mav;
     }
 
@@ -104,10 +104,10 @@ public class CategoryDetailController {
     @GetMapping("edit/{id}")
     public ModelAndView edit(@PathVariable Long id, CategoryForm inputForm, ModelAndView mav) {
 
-        // ユーザーID
-        categoryControlDto.setUserId(id);
-        // ユーザー管理詳細フォーム
-        categoryControlDto.setUsersForm(inputForm);
+        // カテゴリーID
+        categoryControlDto.setId(id);
+        // カテゴリーマスタ詳細フォーム
+        categoryControlDto.setCategoryForm(inputForm);
         // ModelAndView
         categoryControlDto.setMav(mav);
 
@@ -115,7 +115,7 @@ public class CategoryDetailController {
         categoryDetailEditService.delegate(categoryControlDto);
 
         // ビューの設定
-        mav.setViewName(USER_MASTER_EDIT);
+        mav.setViewName(REDIRECT_CATEGORY_MASTER);
         return mav;
     }
 
@@ -125,10 +125,10 @@ public class CategoryDetailController {
     @PutMapping("edit/{id}")
     public ModelAndView update(@PathVariable Long id, @ModelAttribute("form") @Validated CategoryForm inputForm, BindingResult result, ModelAndView mav) {
 
-        // ユーザーID
-        categoryControlDto.setUserId(id);
-        // ユーザー管理詳細フォーム
-        categoryControlDto.setUsersForm(inputForm);
+        // カテゴリーID
+        categoryControlDto.setId(id);
+        // カテゴリーマスタ詳細フォーム
+        categoryControlDto.setCategoryForm(inputForm);
         // ModelAndView
         categoryControlDto.setMav(mav);
         // バリデーションエラー結果
@@ -140,12 +140,12 @@ public class CategoryDetailController {
         // エラーがあった場合
         if (result.hasErrors()) {
             // ビューの設定
-            mav.setViewName(USER_MASTER_EDIT);
+            mav.setViewName(REDIRECT_CATEGORY_MASTER);
             return mav;
         }
 
         // 更新後のリダイレクト先
-        mav = new ModelAndView(REDIRECT_USER_MASTER);
+        mav = new ModelAndView(RedirectContains.REDIRECT_CATEGORY_MASTER);
         return mav;
     }
 

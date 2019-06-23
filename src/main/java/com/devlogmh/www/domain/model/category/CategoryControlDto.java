@@ -1,29 +1,35 @@
 package com.devlogmh.www.domain.model.category;
 
 import com.devlogmh.www.domain.model.util.BaseControlDto;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 /**
- * ユーザー管理のコントローラーで設定したメソッドの引数をサービスへ橋渡しします。
+ * カテゴリーマスタのコントローラーで設定したメソッドの引数をサービスへ橋渡しします。
  */
-@Data
 @Component
 public class CategoryControlDto extends BaseControlDto {
 
     /**
-     * ユーザーID
+     * パスパラメータ用カテゴリーID
      */
-    private Long userId;
+    @Getter
+    @Setter
+    private Long id;
 
     /**
-     * ユーザー管理一覧フォーム
+     * カテゴリーマスタ一覧フォーム
      */
-    private CategoryListForm usersListForm;
+    @Getter
+    @Setter
+    private CategoryListForm categoryListForm;
 
     /**
-     * ユーザー管理フォーム
+     * カテゴリーマスタフォーム
      */
-    private CategoryForm usersForm;
+    @Getter
+    @Setter
+    private CategoryForm categoryForm;
 
 }
