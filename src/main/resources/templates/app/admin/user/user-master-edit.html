@@ -13,9 +13,9 @@
 <body>
 
   <div class="container" layout:fragment="contents">
-    <div layout:replace="app/admin/common/_component::btnPrev(url='../../user-master')"></div>
+    <div layout:replace="app/admin/common/_component::btnPrev(url='/admin/user-master')"></div>
     <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理 編集')"></div>
-    <form th:action="@{../edit/{id}(id=*{id})}" th:method="put" th:object="${form}">
+    <form th:action="@{/admin/user-master/edit/{id}(id=*{id})}" th:method="put" th:object="${form}">
       <div class="form-group">
         <p class="text-danger mb-0" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
         <label for="inputUserName1">ユーザー名</label>

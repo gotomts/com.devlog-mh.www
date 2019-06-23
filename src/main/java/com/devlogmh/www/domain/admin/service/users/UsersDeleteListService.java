@@ -1,9 +1,9 @@
 package com.devlogmh.www.domain.admin.service.users;
 
-import com.devlogmh.www.domain.model.session.SessionData;
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
+import com.devlogmh.www.domain.model.session.SessionData;
 import com.devlogmh.www.domain.model.users.UsersControlDto;
 import com.devlogmh.www.domain.model.users.UsersDto;
 import com.devlogmh.www.mapper.UsersMapper;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.devlogmh.www.domain.admin.util.Contains.PAGE_VIEW_SIZE;
 
@@ -50,7 +51,10 @@ public class UsersDeleteListService extends AbsUtilService {
         // エラーメッセージを取得
         String errorMsg = usersControlDto.getErrorMsg();
         // パスパラメータを取得
-        int pathNum = usersControlDto.getPathNum();
+        String pathNum = usersControlDto.getPathNum();
+        if (Objects.isNull(pathNum)) {
+            pathNum = "0";
+        }
 
         // エラーがあったら表示
         if (StringUtils.isNotEmpty(errorMsg)) {
@@ -68,7 +72,7 @@ public class UsersDeleteListService extends AbsUtilService {
      * 更新者はIDからユーザ名に変換します。
      * @return ユーザ情報DTO
      */
-    public PagedListHolder<UsersDto> delList(int id) {
+    public PagedListHolder<UsersDto> delList(String id) {
 
         // ユーザー情報の一覧を取得
         List<UsersDto> dtoList = usersMapper.selectUserList(sessionData.getUserId(), Contains.DelFlg.DELETE.getValue());
@@ -84,7 +88,7 @@ public class UsersDeleteListService extends AbsUtilService {
      * @param id
      * @return
      */
-    public PagedListHolder<UsersDto> createPageList(List<UsersDto> dtoList, int id) {
+    public PagedListHolder<UsersDto> createPageList(List<UsersDto> dtoList, String id) {
 
         // ユーザー情報を1件ずつ取り出してDTOに格納
         for (UsersDto dto : dtoList) {
@@ -104,7 +108,7 @@ public class UsersDeleteListService extends AbsUtilService {
         // DTOをページャー用に変換
         PagedListHolder<UsersDto> pagenation = new PagedListHolder<>(dtoList);
         // 現在のページ位置を渡す
-        pagenation.setPage(id);
+        pagenation.setPage(new Integer(id));
         // 1ページに表示するデータ数を設定
         pagenation.setPageSize(PAGE_VIEW_SIZE);
 

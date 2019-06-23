@@ -8,16 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="../node_modules/trumbowyg/dist/ui/trumbowyg.min.css" th:href="@{/node_modules/trumbowyg/dist/ui/trumbowyg.min.css}">
-    <link rel="stylesheet" href="../node_modules/prismjs/themes/prism.css" th:href="@{/node_modules/prismjs/themes/prism.css}">
-    <link rel="stylesheet" href="../node_modules/trumbowyg/dist/plugins/highlight/ui/trumbowyg.highlight.css" th:href="@{/node_modules/trumbowyg/dist/plugins/highlight/ui/trumbowyg.highlight.css}">
-    <link rel="stylesheet" href="./css/style.css" th:href="@{/admin/css/style.css}">
+    <link rel="stylesheet" th:href="@{/node_modules/trumbowyg/dist/ui/trumbowyg.min.css}">
+    <link rel="stylesheet" th:href="@{/node_modules/prismjs/themes/prism.css}">
+    <link rel="stylesheet" th:href="@{/node_modules/trumbowyg/dist/plugins/highlight/ui/trumbowyg.highlight.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/style.css}">
 </head>
 
 <body>
 
 <header th:fragment="header">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark"><a class="navbar-brand" href="./login">Mocha</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark"><a class="navbar-brand" href="/admin">Mocha</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent" th:if="${isLogin}">
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">

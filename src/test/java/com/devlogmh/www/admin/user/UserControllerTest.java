@@ -1,5 +1,6 @@
 package com.devlogmh.www.admin.user;
 
+import com.devlogmh.www.app.admin.user.UserController;
 import com.devlogmh.www.domain.model.session.SessionData;
 import org.junit.After;
 import org.junit.Before;
@@ -19,7 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -64,15 +66,31 @@ public class UserControllerTest {
     }
 
     /**
-     * ユーザー管理一覧の初期表示のテスト
+     * ユーザー管理一覧パスパラメータ付きURLへのリダイレクトテスト
      */
     @Test
-    public void ユーザー管理一覧の初期表示のテスト() throws Exception {
+    public void ユーザー管理一覧のパスパラメータ付きURLへのリダイレクトテスト() throws Exception {
+
         // GETメソッドで新規作成画面へアクセスする
         ResultActions resultActions = this.mockMvc.perform(get("/admin/user-master/"));
 
+        // リダイレクトできているか確認
         resultActions.andExpect(status().is3xxRedirection())
                 .andExpect(model().hasNoErrors());
+
+    }
+
+    /**
+     * ユーザー管理一覧 初期表示テスト
+     */
+    @Test
+    public void ユーザー管理一覧の初期表示テスト() throws Exception {
+
+        ResultActions resultActions = this.mockMvc.perform(get("/admin/user-master/0"));
+
+        resultActions.andExpect(status().is2xxSuccessful())
+                .andExpect(model().hasNoErrors());
+
     }
 
     /**

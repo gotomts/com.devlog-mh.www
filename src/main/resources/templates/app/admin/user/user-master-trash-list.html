@@ -13,10 +13,10 @@
 <body>
 
   <div class="container" layout:fragment="contents">
-    <div layout:replace="app/admin/common/_component::btnPrev(url='../')"></div>
+    <div layout:replace="app/admin/common/_component::btnPrev(url='/admin/user-master')"></div>
     <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理 ゴミ箱', deleteFlg=true)"></div>
 
-    <form th:action="@{../trash-remove}" th:method="post" class="custom-post-form">
+    <form th:action="@{/admin/user-master/trash-remove}" th:method="post" class="custom-post-form">
 
       <p th:if="${!#strings.isEmpty(errorMsg)}" th:text="${errorMsg}" class="alert alert-danger text-center"></p>
 

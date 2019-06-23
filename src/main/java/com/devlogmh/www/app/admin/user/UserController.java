@@ -54,22 +54,8 @@ public class UserController {
      * @param mav
      * @return
      */
-    @GetMapping
-    public ModelAndView index(ModelAndView mav) {
-
-        // パスパラメータ付きの一覧URLへリダイレクト
-        mav.setViewName(REDIRECT_USER_MASTER);
-        return mav;
-
-    }
-
-    /**
-     * 一覧表示
-     * @param mav
-     * @return
-     */
-    @GetMapping("{id}")
-    public ModelAndView index(@ModelAttribute("errorMsg") String errorMsg, @PathVariable int id, ModelAndView mav) {
+    @GetMapping({"", "{id}"})
+    public ModelAndView index(@ModelAttribute("errorMsg") String errorMsg, @PathVariable(name = "id", required = false) String id, ModelAndView mav) {
 
         // エラーメッセージ
         usersControlDto.setErrorMsg(errorMsg);
@@ -150,20 +136,10 @@ public class UserController {
 
 
     /**
-     * ゴミ箱を見る リダイレクト
-     */
-    @GetMapping("trash-list")
-    public ModelAndView deleteList(ModelAndView mav) {
-        // リダイレクト先
-        mav = new ModelAndView(REDIRECT_USER_MASTER_TRASH);
-        return mav;
-    }
-
-    /**
      * ゴミ箱 一覧
      */
-    @GetMapping("trash-list/{id}")
-    public ModelAndView deleteList(@ModelAttribute("errorMsg") String errorMsg, @PathVariable int id, ModelAndView mav) {
+    @GetMapping({"trash-list", "trash-list/{id}"})
+    public ModelAndView deleteList(@ModelAttribute("errorMsg") String errorMsg, @PathVariable(name = "id", required = false) String id, ModelAndView mav) {
 
         // エラーメッセージ
         usersControlDto.setErrorMsg(errorMsg);

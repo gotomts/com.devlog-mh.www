@@ -21,7 +21,7 @@ public class BaseControlDto {
     /**
      * パスパラメータ
      */
-    private int pathNum;
+    private String pathNum;
 
     /**
      * バリデーションチェック結果
