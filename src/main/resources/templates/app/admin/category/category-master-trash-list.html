@@ -14,7 +14,7 @@
 
   <div class="container" layout:fragment="contents">
     <div layout:replace="app/admin/common/_component::btnPrev(url='/admin/category-master')"></div>
-    <div layout:replace="app/admin/common/_component::pageTitle(title='カテゴリーマスタ ゴミ箱', deleteFlg=true)"></div>
+    <div layout:replace="app/admin/common/_component::pageTitle(title='カテゴリーマスタ ゴミ箱', deleteUrl='/admin/category-master/trash-destroy')"></div>
 
     <form th:action="@{/admin/category-master/trash-remove}" th:method="post" class="custom-post-form">
 
@@ -39,7 +39,7 @@
           <tbody th:if="${#lists.isEmpty(pagedListHolder.pageList)}">
           <tr>
             <td colspan="4" class="text-center">
-              削除するユーザーが存在しません。<br>
+              削除するカテゴリーが存在しません。<br>
             </td>
           </tr>
           </tbody>
@@ -48,7 +48,7 @@
               <th class="text-center" scope="row">
                 <input type="checkbox" name="checkId" th:value="*{id}" class="check-delete">
               </th>
-              <td class="text-nowrap" th:text="*{userName}"></td>
+              <td class="text-nowrap" th:text="*{categoryName}"></td>
               <td class="text-center text-nowrap" th:text="*{updaterName}"></td>
               <td class="text-center text-nowrap" th:text="*{updateTime}"></td>
             </tr>

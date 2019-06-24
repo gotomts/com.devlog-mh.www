@@ -1,13 +1,12 @@
 package com.devlogmh.www.domain.admin.service.categoryDetail;
 
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
+import com.devlogmh.www.domain.model.category.CategoryControlDto;
+import com.devlogmh.www.domain.model.category.CategoryDto;
+import com.devlogmh.www.domain.model.category.CategoryForm;
 import com.devlogmh.www.domain.model.session.SessionData;
-import com.devlogmh.www.domain.model.users.UsersControlDto;
-import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.domain.model.users.UsersForm;
-import com.devlogmh.www.mapper.UsersMapper;
+import com.devlogmh.www.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,19 +18,13 @@ public class CategoryDetailEditService extends AbsUtilService {
     @Autowired
     private SessionData sessionData;
 
-    /**
-     * パスワード暗号化処理
-     */
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private CategoryMapper categoryMapper;
 
     @Autowired
-    private UsersMapper usersMapper;
+    private CategoryControlDto categoryControlDto;
 
-    @Autowired
-    private UsersControlDto usersControlDto;
-
-    private UsersForm usersForm;
+    private CategoryForm categoryForm;
 
     private ModelAndView mav;
 
@@ -41,8 +34,8 @@ public class CategoryDetailEditService extends AbsUtilService {
     @Override
     public void customInit() {
         // コントローラーから渡された値を取得
-        this.usersForm = usersControlDto.getUsersForm();
-        this.mav = usersControlDto.getMav();
+        this.categoryForm = categoryControlDto.getCategoryForm();
+        this.mav = categoryControlDto.getMav();
     }
 
     /**
@@ -52,12 +45,12 @@ public class CategoryDetailEditService extends AbsUtilService {
     public void mainProcess() {
 
         // ユーザーIDを取得
-        Long userId = usersControlDto.getUserId();
+        Long categoryId = categoryControlDto.getId();
 
         // フォームの初期設定
-        this.setupForm(userId, this.usersForm);
+        this.setupForm(categoryId, this.categoryForm);
         // オブジェクトを詰め込み
-        this.mav.addObject("form", this.usersForm);
+        this.mav.addObject("form", this.categoryForm);
 
         // ログイン情報を格納
         this.mav.addObject("isLogin", this.sessionData.isLogin());
@@ -65,29 +58,16 @@ public class CategoryDetailEditService extends AbsUtilService {
     }
 
     /**
-     * フォームに入力された値を保持してフォームの初期設定
-     * @param inputForm
-     * @return
-     */
-    /**
      * IDをキーに検索し、フォームを初期設定
      * @return
      */
-    public void setupForm(Long id, UsersForm inputForm) {
+    public void setupForm(Long id, CategoryForm inputForm) {
 
         // ユーザ情報をIDをキーに1件検索
-        UsersDto usersDto = usersMapper.select(id);
+        CategoryDto categoryDto = categoryMapper.select(id);
 
-        // ユーザー名
-        inputForm.setUserName(usersDto.getUserName());
-        // メールアドレス
-        inputForm.setEmail(usersDto.getEmail());
-        // アカウント種類
-        inputForm.setRoleId(usersDto.getRoleId());
-        // アカウント種類リスト
-        inputForm.setRoleList(inputForm.getSelectRoleItems());
-        // パスワード
-        inputForm.setPassword(usersDto.getPassword());
+        // カテゴリー名
+        inputForm.setCategoryName(categoryDto.getCategoryName());
 
     }
 

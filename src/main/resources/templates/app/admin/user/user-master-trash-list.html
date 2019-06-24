@@ -14,7 +14,7 @@
 
   <div class="container" layout:fragment="contents">
     <div layout:replace="app/admin/common/_component::btnPrev(url='/admin/user-master')"></div>
-    <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理 ゴミ箱', deleteFlg=true)"></div>
+    <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理 ゴミ箱', deleteUrl='/admin/user-master/trash-destroy')"></div>
 
     <form th:action="@{/admin/user-master/trash-remove}" th:method="post" class="custom-post-form">
 

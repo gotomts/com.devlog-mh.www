@@ -94,7 +94,7 @@ public class CategoryDetailController {
         }
 
         // リダイレクト設定
-        mav = new ModelAndView(RedirectContains.REDIRECT_CATEGORY_MASTER);
+        mav = new ModelAndView(REDIRECT_CATEGORY_MASTER);
         return mav;
     }
 
@@ -115,7 +115,7 @@ public class CategoryDetailController {
         categoryDetailEditService.delegate(categoryControlDto);
 
         // ビューの設定
-        mav.setViewName(REDIRECT_CATEGORY_MASTER);
+        mav.setViewName(CATEGORY_MASTER_EDIT);
         return mav;
     }
 

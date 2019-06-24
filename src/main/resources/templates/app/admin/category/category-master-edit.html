@@ -5,46 +5,27 @@
       layout:decorator="~{app/admin/common/_base}">
 
 <head>
-  <title>カテゴリーマスタ</title>
-  <meta name="keywords" content="カテゴリーマスタ" />
-  <meta name="description" content="カテゴリーマスタ" />
+  <title>カテゴリーマスタ 編集</title>
+  <meta name="keywords" content="カテゴリーマスタ 編集" />
+  <meta name="description" content="カテゴリーマスタ 編集" />
 </head>
 
 <body>
 
-  <div class="container" layout:fragment="contents">
-    <h1>カテゴリー名 新規作成/編集</h1>
-    <form class="needs-validation" action="./category-master.html" novalidate>
-      <div class="form-group">
-        <label for="inputCategory1">カテゴリー名</label>
-        <input class="form-control" id="inputCategory1" type="text" aria-describedby="categoryHelp" placeholder="カテゴリー名" required>
-        <div class="invalid-feedback">カテゴリー名を入力してください。</div>
-      </div>
-      <div class="form-group">
-        <button class="btn btn-primary" type="submit">保存する</button>
-      </div>
-    </form>
-  </div>
+<div class="container" layout:fragment="contents">
+  <div layout:replace="app/admin/common/_component::btnPrev(url='/admin/category-master')"></div>
+  <div layout:replace="app/admin/common/_component::pageTitle(title='カテゴリーマスタ 編集')"></div>
+  <form th:action="@{/admin/category-master/edit/{id}(id=*{id})}" th:method="put" th:object="${form}">
+    <div class="form-group">
+      <p class="text-danger mb-0" th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}"></p>
+      <label for="inputCategoryName">カテゴリー名</label>
+      <input class="form-control" id="inputCategoryName" type="text" placeholder="カテゴリー名" name="categoryName" th:field="*{categoryName}" th:classappend="${#fields.hasErrors('categoryName')}? is-invalid">
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary" type="submit">保存する</button>
+    </div>
+  </form>
+</div>
 
-  <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-    'use strict';
-    window.addEventListener('load', function() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-        }, false);
-        });
-    }, false);
-    })();
-  </script>
 </body>
 </html>

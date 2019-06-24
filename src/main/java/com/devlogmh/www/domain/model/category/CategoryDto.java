@@ -30,6 +30,7 @@ public class CategoryDto extends CategoryEntity {
      * フォーマット後の更新時間
      */
     @Setter
+    @Getter
     private String updateTime;
 
     /**

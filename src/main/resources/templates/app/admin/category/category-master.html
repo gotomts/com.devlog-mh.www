@@ -53,7 +53,7 @@
                 <input type="checkbox" name="checkId" th:value="*{id}" class="check-delete">
               </th>
               <td class="text-center"><a class="btn btn-secondary btn-sm" th:href="@{/admin/category-master/edit/{id}(id=*{id})}">編集</a></td>
-              <td class="text-nowrap" th:text="*{userName}"></td>
+              <td class="text-nowrap" th:text="*{categoryName}"></td>
               <td class="text-center text-nowrap" th:text="*{updaterName}"></td>
               <td class="text-center text-nowrap" th:text="*{updateTime}"></td>
             </tr>

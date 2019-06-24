@@ -4,10 +4,10 @@
 <body>
 
 <!-- ページタイトル -->
-<div class="page-title" layout:fragment="pageTitle(title, url, deleteFlg)">
+<div class="page-title" layout:fragment="pageTitle(title, url, deleteUrl)">
     <h1 th:text="${title}">タイトル</h1>
     <a class="btn btn-primary align-middle" th:href="@{${url}}" th:if="${url}">新規作成</a>
-    <button class="btn btn-danger float-right" type="button" onclick="postForm('./trash-destroy');" th:if="${deleteFlg}">削除する</button>
+    <button class="btn btn-danger float-right" type="button" th:attr="onclick='postForm(\'' + ${deleteUrl} + '\');'" th:if="${deleteUrl}">削除する</button>
 </div>
 
 <!-- 前に戻るボタン -->
