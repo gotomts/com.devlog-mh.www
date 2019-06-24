@@ -2,10 +2,10 @@ package com.devlogmh.www.domain.admin.service.category;
 
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.Contains;
-import com.devlogmh.www.domain.model.users.UsersControlDto;
-import com.devlogmh.www.domain.model.users.UsersDto;
-import com.devlogmh.www.domain.model.users.UsersListForm;
-import com.devlogmh.www.mapper.UsersMapper;
+import com.devlogmh.www.domain.model.category.CategoryControlDto;
+import com.devlogmh.www.domain.model.category.CategoryDto;
+import com.devlogmh.www.domain.model.category.CategoryListForm;
+import com.devlogmh.www.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +18,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class CategoryTrashAddService extends AbsUtilService {
 
     @Autowired
-    private UsersMapper usersMapper;
+    private CategoryMapper categoryMapper;
 
     @Autowired
-    private UsersControlDto usersControlDto;
+    private CategoryControlDto categoryControlDto;
 
-    private UsersListForm usersListForm;
+    private CategoryListForm categoryListForm;
 
     private BindingResult bindingResult;
 
@@ -37,9 +37,9 @@ public class CategoryTrashAddService extends AbsUtilService {
     @Override
     public void customInit() {
         // コントローラーから渡された値を取得
-        this.usersListForm = usersControlDto.getUsersListForm();
-        this.bindingResult = usersControlDto.getBindingResult();
-        this.redirectAttributes = usersControlDto.getRedirectAttributes();
+        this.categoryListForm = categoryControlDto.getCategoryListForm();
+        this.bindingResult = categoryControlDto.getBindingResult();
+        this.redirectAttributes = categoryControlDto.getRedirectAttributes();
     }
     /**
      * 主処理
@@ -51,7 +51,7 @@ public class CategoryTrashAddService extends AbsUtilService {
         if (this.bindingResult.hasErrors()) {
 
             // リダイレクト時のエラーメッセージを詰める
-            String errorMsg = "ゴミ箱へ移動するユーザーを選択してください。";
+            String errorMsg = "ゴミ箱へ移動するカテゴリーを選択してください。";
             this.redirectAttributes.addFlashAttribute("errorMsg", errorMsg);
 
             return;
@@ -59,24 +59,24 @@ public class CategoryTrashAddService extends AbsUtilService {
         }
 
         // formからdtoへ詰め替え
-        UsersDto usersDto = new UsersDto();
-        usersDto.setDelflg(this.usersListForm.getDelflg());
-        usersDto.setCheckId(this.usersListForm.getCheckId());
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setDelflg(this.categoryListForm.getDelflg());
+        categoryDto.setCheckId(this.categoryListForm.getCheckId());
 
         // チェックしたレコードをゴミ箱へ移動
-        this.trashAdd(usersDto);
+        this.trashAdd(categoryDto);
 
     }
 
     /**
      * ゴミ箱へ追加
-     * @param usersDto
+     * @param categoryDto
      */
-    public void trashAdd(UsersDto usersDto) {
+    public void trashAdd(CategoryDto categoryDto) {
 
         // Deleteフラグ
-        usersDto.setDelflg(Contains.DelFlg.DELETE.getValue());
-        usersMapper.trashMove(usersDto);
+        categoryDto.setDelflg(Contains.DelFlg.DELETE.getValue());
+        categoryMapper.trashMove(categoryDto);
 
     }
 
