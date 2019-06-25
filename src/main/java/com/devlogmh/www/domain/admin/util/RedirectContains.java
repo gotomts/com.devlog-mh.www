@@ -5,6 +5,11 @@ package com.devlogmh.www.domain.admin.util;
  */
 public class RedirectContains {
 
+    //----------- プロフィール ----------------
+
+    /** プロフィール */
+    public static final String REDIRECT_PROFILE = "redirect:/admin/profile";
+
     //----------- ユーザー管理 ----------------
 
     /** ユーザー管理 */

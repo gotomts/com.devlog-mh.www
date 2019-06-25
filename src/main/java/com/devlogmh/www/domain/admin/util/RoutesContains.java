@@ -10,6 +10,13 @@ public class RoutesContains {
     /** ログイン */
     public static final String LOGIN = "app/admin/login/login";
 
+
+    // ----------- プロフィール管理 ----------------
+
+    /** プロフィール管理 */
+    public static final String PROFILE_EDIT = "app/admin/profile/profile-edit";
+
+
     //----------- ユーザー管理 一覧 ----------------
 
     /** ユーザー管理 一覧 */

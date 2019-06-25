@@ -13,12 +13,13 @@
 <body>
 
   <div class="container" layout:fragment="contents">
+
+    <p th:if="${!#strings.isEmpty(errorMsg)}" th:text="${errorMsg}" class="alert alert-danger mt-3 text-center"></p>
+
     <div layout:replace="app/admin/common/_component::btnPrev(url='/admin/user-master')"></div>
     <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理 ゴミ箱', deleteUrl='/admin/user-master/trash-destroy')"></div>
 
     <form th:action="@{/admin/user-master/trash-remove}" th:method="post" class="custom-post-form">
-
-      <p th:if="${!#strings.isEmpty(errorMsg)}" th:text="${errorMsg}" class="alert alert-danger text-center"></p>
 
       <div class="mb-2">
         <a href="#" class="text-submit"><i class="fas fa-undo-alt"></i> ゴミ箱から戻す</a>

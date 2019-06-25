@@ -34,6 +34,11 @@ public class BaseControlDto {
     private RedirectAttributes redirectAttributes;
 
     /**
+     * 成功メッセージ
+     */
+    private String successMsg;
+
+    /**
      * エラーメッセージ
      */
     private String errorMsg;

@@ -13,12 +13,13 @@
 <body>
 
   <div class="container" layout:fragment="contents">
+
+    <p th:if="${!#strings.isEmpty(errorMsg)}" th:text="${errorMsg}" class="alert alert-danger mt-3 text-center"></p>
+
     <div layout:replace="app/admin/common/_component::btnPrev(url='/admin')"></div>
     <div layout:replace="app/admin/common/_component::pageTitle(title='ユーザ管理', url='/admin/user-master/new')"></div>
 
     <form th:action="@{/admin/user-master/trash-add}" th:method="post">
-
-      <p th:if="${!#strings.isEmpty(errorMsg)}" th:text="${errorMsg}" class="alert alert-danger text-center"></p>
 
       <div class="mb-2">
         <a href="#" class="text-submit">ゴミ箱へ移動させる</a>

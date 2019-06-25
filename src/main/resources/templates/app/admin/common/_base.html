@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent" th:if="${isLogin}">
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="./profile-edit.html">プロフィール編集</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/profile">プロフィール編集</a></li>
                 <form th:action="@{/admin/logout}" method="post" name="logout">
                     <li class="nav-item"><a class="nav-link" href="javascript:logout.submit()">ログアウト</a></li>
                 </form>
@@ -46,6 +46,8 @@
 <script th:src="@{/node_modules/prismjs/prism.js}"></script>
 <script th:src="@{/node_modules/trumbowyg/dist/plugins/highlight/trumbowyg.highlight.min.js}"></script>
 <script th:src="@{/admin/js/common.js}"></script>
+
+<script layout:fragment="customScript"></script>
 
 <script>
   // Example starter JavaScript for disabling form submissions if there are invalid fields
