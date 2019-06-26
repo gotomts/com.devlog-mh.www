@@ -5,6 +5,21 @@ package com.devlogmh.www.domain.admin.util;
  */
 public class RoutesContains {
 
+    // ----------- エラーページ ----------------
+
+    /** 404エラー */
+    public static final String ERROR_404 = "app/admin/error/404";
+
+    /** 4xxエラー */
+    public static final String ERROR_4XX = "app/admin/error/4xx";
+
+    /** 5xxエラー */
+    public static final String ERROR_5XX = "app/admin/error/4xx";
+
+    /** 上記以外のエラー */
+    public static final String ERROR = "app/admin/error/error";
+
+
     // ----------- ログイン ----------------
 
     /** ログイン */

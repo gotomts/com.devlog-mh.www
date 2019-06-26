@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // account以下のURLも認証不要です。
         // それ以外はすべて認証を必要とします。
         http.authorizeRequests()
-                // .antMatchers("/account").permitAll()
+                 .antMatchers("/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
 
