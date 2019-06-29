@@ -21,11 +21,7 @@
 
     <form th:action="@{/admin/user-master/trash-add}" th:method="post">
 
-      <div class="mb-2">
-        <a href="#" class="text-submit">ゴミ箱へ移動させる</a>
-        |
-        <a href="/admin/user-master/trash-list"><i class="fas fa-trash-alt"></i> ゴミ箱を見る</a>
-      </div>
+      <div layout:replace="app/admin/common/_component::trashBox(url='/admin/user-master/trash-list')"></div>
 
       <div class="table-responsive">
         <table class="table table-striped table-hover table-bordered">

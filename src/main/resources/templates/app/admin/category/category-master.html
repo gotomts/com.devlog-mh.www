@@ -20,13 +20,7 @@
 
       <p th:if="${!#strings.isEmpty(errorMsg)}" th:text="${errorMsg}" class="alert alert-danger text-center"></p>
 
-      <div layout:replace="app/admin/common/_component::btnPrev(url='/admin')"></div>
-
-      <div class="mb-2">
-        <a href="#" class="text-submit">ゴミ箱へ移動させる</a>
-        |
-        <a href="/admin/category-master/trash-list"><i class="fas fa-trash-alt"></i> ゴミ箱を見る</a>
-      </div>
+      <div layout:replace="app/admin/common/_component::trashBox(url='/admin/category-master/trash-list')"></div>
 
       <div class="table-responsive">
         <table class="table table-striped table-hover table-bordered">
