@@ -26,7 +26,7 @@ public class CategoryDetailController {
 
     /*------------ DI ---------------*/
 
-    /** カテゴリーマスタ コントローラーからサービスへの橋渡し */
+    /** コントローラーからサービスへの橋渡し */
     @Autowired
     private CategoryControlDto categoryControlDto;
 

@@ -15,7 +15,7 @@ import static com.devlogmh.www.domain.admin.util.RedirectContains.*;
 import static com.devlogmh.www.domain.admin.util.RoutesContains.*;
 
 /**
- * ユーザ管理コントローラー
+ * カテゴリーコントローラー
  */
 @Controller
 @RequestMapping("/admin/category-master")
@@ -23,27 +23,27 @@ public class CategoryController {
 
     /*------------ DI ---------------*/
 
-    /** ユーザー管理 コントローラーからサービスへの橋渡し */
+    /** コントローラーからサービスへの橋渡し */
     @Autowired
     private CategoryControlDto categoryControlDto;
 
-    /** ユーザー管理 一覧 */
+    /** カテゴリーマスタ 一覧 */
     @Autowired
     private CategoryService categoryService;
 
-    /** ユーザー管理 ゴミ箱へ追加 */
+    /** ゴミ箱へ追加 */
     @Autowired
     private CategoryTrashAddService categoryTrashAddService;
 
-    /** ユーザー管理 ゴミ箱から戻す */
+    /** ゴミ箱から戻す */
     @Autowired
     private CategoryTrashRemoveService categoryTrashRemoveService;
 
-    /** ユーザー管理 ゴミ箱一覧 */
+    /** ゴミ箱一覧 */
     @Autowired
     private CategoryTrashListService categoryTrashListService;
 
-    /** ユーザー管理 ゴミ箱削除 */
+    /** ゴミ箱削除 */
     @Autowired
     private CategoryTrashDestroyService categoryTrashDestroyService;
 
