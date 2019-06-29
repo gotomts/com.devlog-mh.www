@@ -28,8 +28,8 @@ public class PostControlDto extends BaseControlDto {
     /**
      * 投稿記事 フォーム
      */
-//    @Getter
-//    @Setter
-//    private CategoryForm categoryForm;
+    @Getter
+    @Setter
+    private PostForm postForm;
 
 }

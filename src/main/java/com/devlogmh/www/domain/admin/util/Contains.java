@@ -30,6 +30,9 @@ public class Contains {
 
     }
 
+    /**
+     * 権限／リスト
+     */
     public static enum RoleList {
 
         /** 選択してください */
@@ -112,5 +115,38 @@ public class Contains {
             return this.name;
         }
     }
+
+    /**
+     * ステータス／リスト
+     */
+    public static enum StatusList {
+
+        /** 選択してください */
+        UNSELECTED("", "選択してください"),
+
+        /** 1.下書き */
+        DRAFT("1", "下書き"),
+
+        /** 8.公開 */
+        PUBLIC("8", "公開");
+
+        private final String id;
+        private final String name;
+
+        private StatusList(String id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public String getId() {
+            return this.id;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+    }
+
 
 }
