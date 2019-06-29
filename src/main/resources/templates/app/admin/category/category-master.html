@@ -20,6 +20,8 @@
 
       <p th:if="${!#strings.isEmpty(errorMsg)}" th:text="${errorMsg}" class="alert alert-danger text-center"></p>
 
+      <div layout:replace="app/admin/common/_component::btnPrev(url='/admin')"></div>
+
       <div class="mb-2">
         <a href="#" class="text-submit">ゴミ箱へ移動させる</a>
         |

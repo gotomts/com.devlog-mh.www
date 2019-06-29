@@ -34,5 +34,12 @@
     </nav>
 </div>
 
+<!-- ゴミ箱 -->
+<div class="mb-2" layout:fragment="trashBox(url)">
+    <a href="#" class="text-submit">ゴミ箱へ移動させる</a>
+    |
+    <a th:href="@{${url}}"><i class="fas fa-trash-alt"></i> ゴミ箱を見る</a>
+</div>
+
 </body>
 </html>

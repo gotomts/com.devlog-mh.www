@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devlogmh.www.mapper.PostMapper">
+
+    <!-- 新規登録 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO posts (
+            url,
+            title,
+            description,
+            keyword,
+            content,
+            image_id,
+            category_id,
+            status_id,
+            updater_id,
+            created,
+            updated,
+            delflg
+        ) VALUES (
+            #{url},
+            #{title},
+            #{description},
+            #{keyword},
+            #{content},
+            #{imageId},
+            #{categoryId},
+            #{statusId},
+            #{updaterId},
+            #{created},
+            #{updated},
+            #{delflg}
+        )
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" useGeneratedKeys="true" keyProperty="id">
+        UPDATE posts SET
+            url         = #{url},
+            title       = #{title},
+            description = #{description},
+            keyword     = #{keyword},
+            content     = #{content},
+            image_id    = #{image_id},
+            category_id = #{category_id},
+            status_id   = #{status_id},
+            updater_id  = #{updater_id},
+            created     = #{created},
+            updated     = #{updated},
+            delflg      = #{delflg}
+        WHERE
+            id = #{id}
+    </update>
+
+    <!-- 編集画面表示 -->
+    <select id="select" resultType="com.devlogmh.www.domain.model.post.PostDto">
+        SELECT
+            id,
+            title,
+            description,
+            keyword,
+            content,
+            image_id    AS "imageId",
+            category_id AS "categoryId",
+            status_id   AS "statusId",
+            updater_id  AS "updaterId",
+            created,
+            updated,
+            delflg
+        FROM
+            posts
+        WHERE
+            id = #{id}
+    </select>
+
+    <!-- 一覧表示 -->
+    <select id="selectAll" resultType="com.devlogmh.www.domain.model.post.PostDto">
+        <![CDATA[
+        SELECT
+            posts.id,
+            posts.title,
+            posts.description,
+            posts.keyword,
+            posts.content,
+            posts.image_id    AS "imageId",
+            posts.category_id AS "categoryId",
+            posts.status_id   AS "statusId",
+            posts.updater_id  AS "updaterId",
+            posts.created,
+            posts.updated,
+            posts.delflg,
+            users.name AS "updaterName"
+        FROM
+            posts
+        INNER JOIN users AS users
+        ON posts.updater_id = users.id
+        ORDER BY updated DESC
+        ]]>
+    </select>
+
+    <!-- 条件付き一覧表示 -->
+    <select id="selectCategoryList" resultType="com.devlogmh.www.domain.model.post.PostDto">
+        <![CDATA[
+        SELECT
+            posts.id,
+            posts.title,
+            posts.description,
+            posts.keyword,
+            posts.content,
+            posts.image_id    AS "imageId",
+            posts.category_id AS "categoryId",
+            posts.status_id   AS "statusId",
+            posts.updater_id  AS "updaterId",
+            posts.created,
+            posts.updated,
+            posts.delflg,
+            users.name AS "updaterName"
+        FROM
+            posts
+        INNER JOIN users AS users
+        ON posts.updater_id = users.id
+        WHERE
+            posts.delflg = #{delflg}
+        ORDER BY updated DESC
+        ]]>
+    </select>
+
+    <!-- ゴミ箱へ移動させる -->
+    <update id="trashMove" parameterType="com.devlogmh.www.domain.model.post.PostDto">
+        UPDATE posts SET
+            delflg = #{delflg}
+        WHERE
+            id in
+        <foreach item="item" collection="checkId" open="(" separator="," close=")">
+            ${item}
+        </foreach>
+    </update>
+
+    <!-- 削除処理 -->
+    <delete id="destroy" parameterType="com.devlogmh.www.domain.model.post.PostDto">
+        DELETE FROM posts
+        WHERE
+            id in
+        <foreach item="item" collection="checkId" open="(" separator="," close=")">
+            ${item}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -58,11 +58,11 @@
             categories.created,
             categories.updated,
             categories.delflg,
-            updater.name AS "updaterName"
+            users.name AS "usersName"
         FROM
             categories
-        INNER JOIN users AS updater
-        ON categories.updater_id = updater.id
+        INNER JOIN users AS users
+        ON categories.updater_id = users.id
         ORDER BY updated DESC
         ]]>
     </select>
@@ -77,11 +77,11 @@
             categories.created,
             categories.updated,
             categories.delflg,
-            updater.name AS "updaterName"
+            users.name AS "usersName"
         FROM
             categories
-        INNER JOIN users AS updater
-        ON categories.updater_id = updater.id
+        INNER JOIN users AS users
+        ON categories.updater_id = users.id
         WHERE
             categories.delflg = #{delflg}
         ORDER BY updated DESC
@@ -89,7 +89,7 @@
     </select>
 
     <!-- ゴミ箱へ移動させる -->
-    <update id="trashMove" parameterType="com.devlogmh.www.domain.model.users.UsersDto">
+    <update id="trashMove" parameterType="com.devlogmh.www.domain.model.category.CategoryDto">
         UPDATE categories SET
             delflg = #{delflg}
         WHERE
@@ -100,7 +100,7 @@
     </update>
 
     <!-- 削除処理 -->
-    <delete id="destroy" parameterType="com.devlogmh.www.domain.model.users.UsersDto">
+    <delete id="destroy" parameterType="com.devlogmh.www.domain.model.category.CategoryDto">
         DELETE FROM categories
         WHERE
             id in

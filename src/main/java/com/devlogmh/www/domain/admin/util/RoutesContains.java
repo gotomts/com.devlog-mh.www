@@ -49,7 +49,26 @@ public class RoutesContains {
     public static final String USER_MASTER_EDIT = "app/admin/user/user-master-edit";
 
 
+    //----------- 投稿記事 一覧 ----------------
+
+    /** 投稿記事 一覧 */
+    public static final String POST_LIST = "app/admin/post/post-list";
+
+    /** 投稿記事 ゴミ箱 */
+    public static final String POST_LIST_TRASH = "app/admin/post/post-trash-list";
+
+
+    //----------- 投稿記事 詳細 ----------------
+
+    /** カテゴリー 新規登録画面 */
+    public static final String POST_NEW = "app/admin/post/post-new";
+
+    /** カテゴリー 編集画面 */
+    public static final String POST_EDIT = "app/admin/post/post-edit";
+
+
     //----------- カテゴリー 一覧 ----------------
+
     /** カテゴリー管理 一覧 */
     public static final String CATEGORY_MASTER = "app/admin/category/category-master";
 

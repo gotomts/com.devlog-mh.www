@@ -307,4 +307,4 @@ from
 
 
 -- カラム名の変更
-ALTER TABLE categories RENAME updater TO updater_id;
+ALTER TABLE posts RENAME updater TO updater_id;

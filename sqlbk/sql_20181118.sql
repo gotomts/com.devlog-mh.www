@@ -29,7 +29,7 @@ CREATE TABLE images (
   url VARCHAR(255) NOT NULL,    -- 画像url
   title VARCHAR(255),    -- title属性
   alt VARCHAR(255),    -- alt属性
-  updater INTEGER NOT NULL,  -- 更新者
+  updater_id INTEGER NOT NULL,  -- 更新者
   created TIMESTAMP NOT NULL DEFAULT current_timestamp,    -- 作成日時
   updated TIMESTAMP NOT NULL DEFAULT current_timestamp,     -- 更新日時
   delflg INTEGER DEFAULT 0  -- 削除フラグ  
@@ -72,7 +72,7 @@ CREATE TABLE posts (
   description TEXT,    -- ディスクリプション
   keyword TEXT,    -- キーワード
   content TEXT,    -- 内容
-  image_id INTEGER NOT NULL REFERENCES post_images(id),    -- カテゴリーID
+  image_id INTEGER REFERENCES,    -- カテゴリーID
   category_id INTEGER NOT NULL REFERENCES categories(id),    -- カテゴリーID
   status_id INTEGER NOT NULL REFERENCES statuses(id),    -- ステータスID
   updater_id INTEGER DEFAULT 1,  -- 更新者
