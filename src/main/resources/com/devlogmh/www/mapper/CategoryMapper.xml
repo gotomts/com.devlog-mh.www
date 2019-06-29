@@ -77,10 +77,10 @@
             categories.created,
             categories.updated,
             categories.delflg,
-            users.name AS "usersName"
+            users.name AS "updaterName"
         FROM
             categories
-        INNER JOIN users AS users
+        INNER JOIN users
         ON categories.updater_id = users.id
         WHERE
             categories.delflg = #{delflg}
