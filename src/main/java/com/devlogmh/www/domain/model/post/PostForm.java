@@ -142,14 +142,24 @@ public class PostForm implements Serializable {
     @Setter
     private Integer delflg;
 
-    @Getter
-    @Setter
-    private String[] selectedCategories;
-
+    /**
+     * スタータス／リスト作成
+     */
     @Getter
     @Setter
     private String[] selectedStatuses;
 
+    /**
+     * ルートパス
+     */
+    @Getter
+    @Setter
+    private String rootPath;
+
+    /**
+     * ステータス／リスト getter
+     * @return
+     */
     public Map<String, String> getSelectedStatuses() {
         Map<String, String> selectMap = new LinkedHashMap<String, String>();
         selectMap.put(UNSELECTED.getId(), UNSELECTED.getName());

@@ -43,6 +43,13 @@ public interface CategoryMapper {
     List<CategoryDto> selectCategoryList(@Param("delflg") int delflg);
 
     /**
+     * 削除フラグを条件に全件検索
+     * @param delflg
+     * @return
+     */
+    List<CategoryDto> selectCategoryListOrderByCategoryName(@Param("delflg") int delflg);
+
+    /**
      * ゴミ箱へ移動
      * @param categoryDto
      */

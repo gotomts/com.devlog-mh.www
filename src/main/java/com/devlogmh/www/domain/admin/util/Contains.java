@@ -5,7 +5,9 @@ import lombok.Getter;
 
 public class Contains {
 
-    // 1ページに表示するページ数を設定
+    /**
+     * 1ページに表示するページ数を設定
+     */
     public static final int PAGE_VIEW_SIZE = 10;
 
     /**

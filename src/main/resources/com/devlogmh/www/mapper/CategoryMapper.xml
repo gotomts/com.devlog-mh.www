@@ -88,6 +88,27 @@
         ]]>
     </select>
 
+    <!-- 条件付き一覧表示 カテゴリー名昇順ソート -->
+    <select id="selectCategoryListOrderByCategoryName" resultType="com.devlogmh.www.domain.model.category.CategoryDto">
+        <![CDATA[
+        SELECT
+            categories.id,
+            categories.name AS "categoryName",
+            categories.updater_id AS "updaterId",
+            categories.created,
+            categories.updated,
+            categories.delflg,
+            users.name AS "updaterName"
+        FROM
+            categories
+        INNER JOIN users
+        ON categories.updater_id = users.id
+        WHERE
+            categories.delflg = #{delflg}
+        ORDER BY "categoryName" ASC
+        ]]>
+    </select>
+
     <!-- ゴミ箱へ移動させる -->
     <update id="trashMove" parameterType="com.devlogmh.www.domain.model.category.CategoryDto">
         UPDATE categories SET
