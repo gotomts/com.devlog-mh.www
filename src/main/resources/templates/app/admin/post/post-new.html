@@ -45,6 +45,7 @@
         <p class="text-danger mb-0" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></p>
         <label for="inputCategory">カテゴリーを選択</label>
         <select class="custom-select" id="inputCategory" name="categoryId" th:classappend="${#fields.hasErrors('categoryId')}? is-invalid">
+          <option value="" selected="selected">選択してください</option>
           <option th:each="item : ${form.categoryList}" th:value="${item.key}" th:selected="${item.key} == *{categoryId}" th:text="${item.value}"></option>
         </select>
       </div>

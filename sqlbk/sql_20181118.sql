@@ -46,14 +46,14 @@ CREATE TABLE categories (
 );
 
 -- ステータステーブルの作成
-CREATE TABLE statuses (
-  id SERIAL PRIMARY KEY,    -- ステータスID
-  name VARCHAR(31) NOT NULL    -- ステータス名
-);
-
-INSERT INTO statuses (name) VALUES('下書き');
-INSERT INTO statuses (name) VALUES('公開');
-INSERT INTO statuses (name) VALUES('限定公開');
+--CREATE TABLE statuses (
+--  id SERIAL PRIMARY KEY,    -- ステータスID
+--  name VARCHAR(31) NOT NULL    -- ステータス名
+--);
+--
+--INSERT INTO statuses (name) VALUES('下書き');
+--INSERT INTO statuses (name) VALUES('公開');
+--INSERT INTO statuses (name) VALUES('限定公開');
 
 -- アイキャッチ画像テーブルの作成
 CREATE TABLE post_images (

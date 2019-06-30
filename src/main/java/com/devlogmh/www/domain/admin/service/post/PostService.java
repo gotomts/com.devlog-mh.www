@@ -101,7 +101,7 @@ public class PostService extends AbsUtilService {
             dto.setId(dto.getId());
             dto.setUrl(dto.getUrl());
             dto.setTitle(dto.getTitle());
-            dto.setStatusName(dto.getStatusName());
+            dto.setStatusName(dto.getStatusName(dto.getStatusId().toString()));
             dto.setCategoryName(dto.getCategoryName());
             dto.setUpdaterName(dto.getUpdaterName());
             dto.setUpdateTime(dto.getUpdateTime(dto.getUpdated()));

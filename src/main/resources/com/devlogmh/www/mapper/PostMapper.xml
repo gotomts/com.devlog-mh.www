@@ -120,16 +120,13 @@
             posts.updated,
             posts.delflg,
             users.name      AS "updaterName",
-            categories.name AS "categoryName",
-            statuses.name   AS "statusName"
+            categories.name AS "categoryName"
         FROM
             posts
         INNER JOIN users
             ON posts.updater_id = users.id
         INNER JOIN categories
             ON posts.category_id = categories.id
-        INNER JOIN statuses
-            ON posts.status_id = statuses.id
         WHERE
             posts.delflg = #{delflg}
         ORDER BY updated DESC

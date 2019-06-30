@@ -118,4 +118,29 @@ public class PostDto extends PostEntity {
 
     }
 
+    /**
+     * ステータス名の取得
+     * @param statusId
+     * @return
+     */
+    public String getStatusName(String statusId) {
+
+        // ステータス名変数の初期化
+        String statusName = null;
+
+        switch (statusId) {
+            case "1":
+                statusName = DRAFT.getName();
+                break;
+            case "8":
+                statusName = PUBLIC.getName();
+                break;
+            default:
+                statusName = null;
+        }
+
+        return statusName;
+
+    }
+
 }
