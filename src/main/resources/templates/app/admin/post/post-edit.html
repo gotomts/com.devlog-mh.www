@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{app/admin/common/_base}">
+
+<head>
+  <title>投稿記事 編集</title>
+  <meta name="keywords" content="投稿記事 編集" />
+  <meta name="description" content="投稿記事 編集" />
+</head>
+
+<body>
+
+  <div class="container" layout:fragment="contents">
+    <div layout:replace="app/admin/common/_component::btnPrev(url='/admin/post')"></div>
+    <div layout:replace="app/admin/common/_component::pageTitle(title='投稿記事 編集')"></div>
+    <form th:action="@{/admin/post/edit/{id}(id=*{id})}" th:method="put" th:object="${form}">
+      <div class="form-group">
+        <p class="text-danger mb-0" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        <label for="inputTitle">タイトル</label>
+        <input class="form-control" id="inputTitle" type="text" placeholder="タイトル" name="title" th:field="*{title}" th:classappend="${#fields.hasErrors('title')}? is-invalid">
+      </div>
+      <div class="form-group">
+        <p class="text-danger mb-0" th:if="${#fields.hasErrors('url')}" th:errors="*{url}"></p>
+        <label for="inputUrl">URL</label>
+        <div class="input-group mb-2 mr-sm-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text" th:text="*{rootPath}"></div>
+          </div>
+          <input class="form-control" id="inputUrl" type="text" placeholder="url" name="url" th:field="*{url}" th:classappend="${#fields.hasErrors('url')}? is-invalid">
+        </div>
+      </div>
+      <div class="form-group">
+        <p class="text-danger mb-0" th:if="${#fields.hasErrors('keyword')}" th:errors="*{keyword}"></p>
+        <label for="inputKeyword">キーワード</label>
+        <input class="form-control" id="inputKeyword" type="text" placeholder="キーワード" name="keyword" th:field="*{keyword}" th:classappend="${#fields.hasErrors('keyword')}? is-invalid">
+      </div>
+      <div class="form-group">
+        <p class="text-danger mb-0" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+        <label for="inputDescription">ディスクリプション</label>
+        <textarea id="inputDescription" class="form-control" rows="3" placeholder="ディスクリプション" name="description" th:field="*{description}" th:classappend="${#fields.hasErrors('description')}? is-invalid"></textarea>
+      </div>
+      <div class="form-group">
+        <p class="text-danger mb-0" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></p>
+        <label for="inputCategory">カテゴリーを選択</label>
+        <select class="custom-select" id="inputCategory" name="categoryId" th:classappend="${#fields.hasErrors('categoryId')}? is-invalid">
+          <option th:each="item : ${form.categoryList}" th:value="${item.key}" th:selected="${item.key} == *{categoryId}" th:text="${item.value}"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <p class="text-danger mb-0" th:if="${#fields.hasErrors('statusId')}" th:errors="*{statusId}"></p>
+        <label for="inputStatus">ステータスを選択</label>
+        <select class="custom-select" id="inputStatus" name="statusId" th:classappend="${#fields.hasErrors('statusId')}? is-invalid">
+          <option th:each="item : ${form.statusList}" th:value="${item.key}" th:selected="${item.key} == *{statusId}" th:text="${item.value}"></option>
+        </select>
+      </div>
+      <!-- 画像 後から実装
+      <div class="form-group">
+        <label for="inputFile">アイキャッチ画像を選択</label>
+        <input name="uploadfile" class="form-control-file" id="inputFile" type="file">
+        <input name="post_image_id" type="hidden" value="${dto.postImageId}">
+        <input name="post_image_name" type="hidden" value="${dto.postImageTitle}">
+      </div>
+      -->
+      <div class="form-group">
+        <textarea id="editor" name="content" class="form-control" rows="20" th:field="*{content}"></textarea>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">保存する</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

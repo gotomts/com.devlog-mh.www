@@ -1,6 +1,7 @@
 package com.devlogmh.www.app.admin.post;
 
 import com.devlogmh.www.domain.admin.service.postDetail.PostDetailCreateService;
+import com.devlogmh.www.domain.admin.service.postDetail.PostDetailEditService;
 import com.devlogmh.www.domain.admin.service.postDetail.PostDetailService;
 import com.devlogmh.www.domain.model.post.PostControlDto;
 import com.devlogmh.www.domain.model.post.PostForm;
@@ -8,13 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import static com.devlogmh.www.domain.admin.util.RedirectContains.REDIRECT_POST_LIST;
+import static com.devlogmh.www.domain.admin.util.RoutesContains.POST_EDIT;
 import static com.devlogmh.www.domain.admin.util.RoutesContains.POST_NEW;
 
 /**
@@ -38,9 +37,9 @@ public class PostDetailController {
     @Autowired
     private PostDetailCreateService postDetailCreateService;
 
-//    /** 編集画面 初期表示 */
-//    @Autowired
-//    private CategoryDetailEditService categoryDetailEditService;
+    /** 編集画面 初期表示 */
+    @Autowired
+    private PostDetailEditService postDetailEditService;
 //
 //    /** 編集画面 更新処理 */
 //    @Autowired
@@ -98,27 +97,27 @@ public class PostDetailController {
         return mav;
     }
 
-//    /**
-//     * 編集画面 表示
-//     */
-//    @GetMapping("edit/{id}")
-//    public ModelAndView edit(@PathVariable Long id, CategoryForm inputForm, ModelAndView mav) {
-//
-//        // カテゴリーID
-//        postControlDto.setId(id);
-//        // カテゴリーマスタ詳細フォーム
-//        postControlDto.setCategoryForm(inputForm);
-//        // ModelAndView
-//        postControlDto.setMav(mav);
-//
-//        // フォームの初期設定
-//        categoryDetailEditService.delegate(postControlDto);
-//
-//        // ビューの設定
-//        mav.setViewName(CATEGORY_MASTER_EDIT);
-//        return mav;
-//    }
-//
+    /**
+     * 編集画面 表示
+     */
+    @GetMapping("edit/{id}")
+    public ModelAndView edit(@PathVariable Long id, PostForm inputForm, ModelAndView mav) {
+
+        // カテゴリーID
+        postControlDto.setId(id);
+        // カテゴリーマスタ詳細フォーム
+        postControlDto.setPostForm(inputForm);
+        // ModelAndView
+        postControlDto.setMav(mav);
+
+        // フォームの初期設定
+        postDetailEditService.delegate(postControlDto);
+
+        // ビューの設定
+        mav.setViewName(POST_EDIT);
+        return mav;
+    }
+
 //    /**
 //     * 編集画面 更新処理
 //     */
