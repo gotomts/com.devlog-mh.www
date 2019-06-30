@@ -45,16 +45,6 @@ CREATE TABLE categories (
   delflg INTEGER DEFAULT 0 -- 削除フラグ
 );
 
--- ステータステーブルの作成
---CREATE TABLE statuses (
---  id SERIAL PRIMARY KEY,    -- ステータスID
---  name VARCHAR(31) NOT NULL    -- ステータス名
---);
---
---INSERT INTO statuses (name) VALUES('下書き');
---INSERT INTO statuses (name) VALUES('公開');
---INSERT INTO statuses (name) VALUES('限定公開');
-
 -- アイキャッチ画像テーブルの作成
 CREATE TABLE post_images (
   id SERIAL PRIMARY KEY,    -- 画像ID
@@ -74,7 +64,7 @@ CREATE TABLE posts (
   content TEXT,    -- 内容
   top_image_id INTEGER,    -- アイキャッチ画像ID
   category_id INTEGER NOT NULL REFERENCES categories(id),    -- カテゴリーID
-  status_id INTEGER NOT NULL REFERENCES statuses(id),    -- ステータスID
+  status_id INTEGER NOT NULL DEFAULT 1,   -- ステータスID
   updater_id INTEGER DEFAULT 1,  -- 更新者
   created TIMESTAMP NOT NULL DEFAULT current_timestamp,    -- 作成日時
   updated TIMESTAMP NOT NULL DEFAULT current_timestamp,    -- 更新日時
