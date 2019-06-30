@@ -1,5 +1,7 @@
 package com.devlogmh.www.domain.model.post;
 
+import com.devlogmh.www.domain.model.category.CategoryDto;
+import com.devlogmh.www.mapper.CategoryMapper;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +10,10 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
+import static com.devlogmh.www.domain.admin.util.Contains.DelFlg.NOT_DEL;
 import static com.devlogmh.www.domain.admin.util.Contains.StatusList.*;
 
 /**
@@ -91,7 +95,7 @@ public class PostForm implements Serializable {
 //     */
 //    @Getter
 //    @Setter
-//    private String topImage;
+//    private Long topImageId;
 
     /**
      * コンテンツ
@@ -143,13 +147,6 @@ public class PostForm implements Serializable {
     private Integer delflg;
 
     /**
-     * スタータス／リスト作成
-     */
-    @Getter
-    @Setter
-    private String[] selectedStatuses;
-
-    /**
      * ルートパス
      */
     @Getter
@@ -166,6 +163,27 @@ public class PostForm implements Serializable {
         selectMap.put(DRAFT.getId(), DRAFT.getName());
         selectMap.put(PUBLIC.getId(), PUBLIC.getName());
         return selectMap;
+    }
+
+    /**
+     * カテゴリー／リスト gettter
+     * @param categoryMapper
+     * @return
+     */
+    public Map<String, String> getCategoryList(CategoryMapper categoryMapper) {
+
+        // カテゴリー一覧を取得
+        List<CategoryDto> categoryDtoList = categoryMapper.selectCategoryListOrderByCategoryName(NOT_DEL.getValue());
+
+        Map<String, String> selectedCategoryList = new LinkedHashMap<>();
+
+        // カテゴリーをプルダウン用のリストに詰める
+        for (CategoryDto categoryDto : categoryDtoList) {
+            selectedCategoryList.put(categoryDto.getId().toString(), categoryDto.getCategoryName());
+        }
+
+        return selectedCategoryList;
+
     }
 
 }

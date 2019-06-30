@@ -80,7 +80,7 @@ public class PostService extends AbsUtilService {
     public PagedListHolder<PostDto> init(String id) {
 
         // ユーザー情報の一覧を取得
-        List<PostDto> dtoList = postMapper.selectCategoryList(Contains.DelFlg.NOT_DEL.getValue());
+        List<PostDto> dtoList = postMapper.selectPostList(Contains.DelFlg.NOT_DEL.getValue());
 
         return this.createPageList(dtoList, id);
 
@@ -101,8 +101,8 @@ public class PostService extends AbsUtilService {
             dto.setId(dto.getId());
             dto.setUrl(dto.getUrl());
             dto.setTitle(dto.getTitle());
-            dto.setStatusId(dto.getStatusId());
-            dto.setCategoryId(dto.getCategoryId());
+            dto.setStatusName(dto.getStatusName());
+            dto.setCategoryName(dto.getCategoryName());
             dto.setUpdaterName(dto.getUpdaterName());
             dto.setUpdateTime(dto.getUpdateTime(dto.getUpdated()));
 

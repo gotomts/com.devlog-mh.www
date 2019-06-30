@@ -307,4 +307,9 @@ from
 
 
 -- カラム名の変更
-ALTER TABLE posts RENAME updater TO updater_id;
+ALTER TABLE posts RENAME image_id TO top_image_id;
+
+-- NOT NULL制約を外す
+ALTER TABLE posts ALTER COLUMN image_id DROP NOT NULL;
+
+DROP TABLE posts;

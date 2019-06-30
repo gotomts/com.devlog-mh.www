@@ -72,7 +72,7 @@ CREATE TABLE posts (
   description TEXT,    -- ディスクリプション
   keyword TEXT,    -- キーワード
   content TEXT,    -- 内容
-  image_id INTEGER REFERENCES,    -- カテゴリーID
+  top_image_id INTEGER,    -- アイキャッチ画像ID
   category_id INTEGER NOT NULL REFERENCES categories(id),    -- カテゴリーID
   status_id INTEGER NOT NULL REFERENCES statuses(id),    -- ステータスID
   updater_id INTEGER DEFAULT 1,  -- 更新者

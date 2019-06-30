@@ -28,8 +28,8 @@
             <th class="text-center text-nowrap" scope="col"></th>
             <th class="text-center text-nowrap" scope="col">編集</th>
             <th class="text-center text-nowrap" scope="col">記事タイトル</th>
-            <th class="text-center text-nowrap" scope="col">ステータス</th>
             <th class="text-center text-nowrap" scope="col">カテゴリー</th>
+            <th class="text-center text-nowrap" scope="col">ステータス</th>
             <th class="text-center text-nowrap" scope="col">投稿者</th>
             <th class="text-center text-nowrap" scope="col">更新日時</th>
           </tr>
@@ -49,8 +49,8 @@
           </th>
           <td class="text-center"><a class="btn btn-secondary btn-sm" th:href="@{/admin/post/edit/{id}(id=*{id})}">編集</a></td>
           <td class="text-nowrap" th:text="*{title}"></td>
-          <td class="text-nowrap" th:text="*{statusId}"></td>
-          <td class="text-nowrap" th:text="*{categoryId}"></td>
+          <td class="text-nowrap" th:text="*{categoryName}"></td>
+          <td class="text-center text-nowrap" th:text="*{statusName}"></td>
           <td class="text-center text-nowrap" th:text="*{updaterName}"></td>
           <td class="text-center text-nowrap" th:text="*{updateTime}"></td>
         </tr>

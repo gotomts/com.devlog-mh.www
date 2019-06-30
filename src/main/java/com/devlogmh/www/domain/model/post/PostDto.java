@@ -20,6 +20,20 @@ public class PostDto extends PostEntity {
     private Long[] checkId;
 
     /**
+     * カテゴリー名
+     */
+    @Getter
+    @Setter
+    private String categoryName;
+
+    /**
+     * ステータス名
+     */
+    @Getter
+    @Setter
+    private String statusName;
+
+    /**
      * 更新者
      */
     @Getter

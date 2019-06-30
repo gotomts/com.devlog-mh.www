@@ -2,7 +2,6 @@ package com.devlogmh.www.domain.admin.service.postDetail;
 
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.SiteInfoUtil;
-import com.devlogmh.www.domain.model.category.CategoryDto;
 import com.devlogmh.www.domain.model.post.PostControlDto;
 import com.devlogmh.www.domain.model.post.PostForm;
 import com.devlogmh.www.domain.model.session.SessionData;
@@ -14,11 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.devlogmh.www.domain.admin.util.Contains.DelFlg.NOT_DEL;
 
 @Service
 @Transactional
@@ -105,7 +99,7 @@ public class PostDetailService extends AbsUtilService {
         // カテゴリーID
         inputForm.setCategoryId(inputForm.getCategoryId());
         // カテゴリー
-        inputForm.setCategoryList(this.getCategoryList());
+        inputForm.setCategoryList(inputForm.getCategoryList(categoryMapper));
         // ステータスID
         inputForm.setStatusId(inputForm.getStatusId());
         // ステータス
@@ -114,25 +108,5 @@ public class PostDetailService extends AbsUtilService {
         inputForm.setContent(inputForm.getContent());
 
     }
-
-    /**
-     * カテゴリーの一覧を取得し、Mapに格納
-     */
-    public Map<String, String> getCategoryList() {
-
-        // カテゴリー一覧を取得
-        List<CategoryDto> categoryDtoList = this.categoryMapper.selectCategoryListOrderByCategoryName(NOT_DEL.getValue());
-
-        Map<String, String> selectedCategoryList = new LinkedHashMap<>();
-
-        // カテゴリーをプルダウン用のリストに詰める
-        for (CategoryDto categoryDto : categoryDtoList) {
-            selectedCategoryList.put(categoryDto.getId().toString(), categoryDto.getCategoryName());
-        }
-
-        return selectedCategoryList;
-
-    }
-
 
 }

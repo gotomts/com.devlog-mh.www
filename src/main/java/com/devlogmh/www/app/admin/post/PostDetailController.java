@@ -1,14 +1,20 @@
 package com.devlogmh.www.app.admin.post;
 
+import com.devlogmh.www.domain.admin.service.postDetail.PostDetailCreateService;
 import com.devlogmh.www.domain.admin.service.postDetail.PostDetailService;
 import com.devlogmh.www.domain.model.post.PostControlDto;
 import com.devlogmh.www.domain.model.post.PostForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import static com.devlogmh.www.domain.admin.util.RedirectContains.REDIRECT_POST_LIST;
 import static com.devlogmh.www.domain.admin.util.RoutesContains.POST_NEW;
 
 /**
@@ -28,10 +34,10 @@ public class PostDetailController {
     @Autowired
     private PostDetailService postDetailService;
 
-//    /** 新規作成 登録処理 */
-//    @Autowired
-//    private CategoryDetailCreateService categoryDetailCreateService;
-//
+    /** 新規作成 登録処理 */
+    @Autowired
+    private PostDetailCreateService postDetailCreateService;
+
 //    /** 編集画面 初期表示 */
 //    @Autowired
 //    private CategoryDetailEditService categoryDetailEditService;
@@ -62,36 +68,36 @@ public class PostDetailController {
 
     }
 
-//    /**
-//     * 新規作成 登録処理
-//     * @param inputForm
-//     * @return
-//     */
-//    @PostMapping("new")
-//    public ModelAndView create(@ModelAttribute("form") @Validated CategoryForm inputForm, BindingResult result, ModelAndView mav) {
-//
-//        // カテゴリーマスタ詳細フォーム
-//        postControlDto.setCategoryForm(inputForm);
-//        // ModelAndView
-//        postControlDto.setMav(mav);
-//        // バリデーションエラー結果
-//        postControlDto.setBindingResult(result);
-//
-//        // 新規作成 登録処理
-//        categoryDetailCreateService.delegate(postControlDto);
-//
-//        // エラーがあった場合
-//        if (result.hasErrors()) {
-//            // ビューの設定
-//            mav.setViewName(CATEGORY_MASTER_NEW);
-//            return mav;
-//        }
-//
-//        // リダイレクト設定
-//        mav = new ModelAndView(REDIRECT_CATEGORY_MASTER);
-//        return mav;
-//    }
-//
+    /**
+     * 新規作成 登録処理
+     * @param inputForm
+     * @return
+     */
+    @PostMapping("new")
+    public ModelAndView create(@ModelAttribute("form") @Validated PostForm inputForm, BindingResult result, ModelAndView mav) {
+
+        // カテゴリーマスタ詳細フォーム
+        postControlDto.setPostForm(inputForm);
+        // ModelAndView
+        postControlDto.setMav(mav);
+        // バリデーションエラー結果
+        postControlDto.setBindingResult(result);
+
+        // 新規作成 登録処理
+        postDetailCreateService.delegate(postControlDto);
+
+        // エラーがあった場合
+        if (result.hasErrors()) {
+            // ビューの設定
+            mav.setViewName(POST_NEW);
+            return mav;
+        }
+
+        // リダイレクト設定
+        mav = new ModelAndView(REDIRECT_POST_LIST);
+        return mav;
+    }
+
 //    /**
 //     * 編集画面 表示
 //     */

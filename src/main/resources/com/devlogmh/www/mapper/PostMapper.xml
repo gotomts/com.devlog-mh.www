@@ -12,7 +12,7 @@
             description,
             keyword,
             content,
-            image_id,
+            top_image_id,
             category_id,
             status_id,
             updater_id,
@@ -25,7 +25,7 @@
             #{description},
             #{keyword},
             #{content},
-            #{imageId},
+            #{topImageId},
             #{categoryId},
             #{statusId},
             #{updaterId},
@@ -38,18 +38,18 @@
     <!-- 更新 -->
     <update id="update" useGeneratedKeys="true" keyProperty="id">
         UPDATE posts SET
-            url         = #{url},
-            title       = #{title},
-            description = #{description},
-            keyword     = #{keyword},
-            content     = #{content},
-            image_id    = #{image_id},
-            category_id = #{category_id},
-            status_id   = #{status_id},
-            updater_id  = #{updater_id},
-            created     = #{created},
-            updated     = #{updated},
-            delflg      = #{delflg}
+            url          = #{url},
+            title        = #{title},
+            description  = #{description},
+            keyword      = #{keyword},
+            content      = #{content},
+            top_image_id = #{topImageId},
+            category_id  = #{category_id},
+            status_id    = #{status_id},
+            updater_id   = #{updater_id},
+            created      = #{created},
+            updated      = #{updated},
+            delflg       = #{delflg}
         WHERE
             id = #{id}
     </update>
@@ -58,11 +58,12 @@
     <select id="select" resultType="com.devlogmh.www.domain.model.post.PostDto">
         SELECT
             id,
+            url,
             title,
             description,
             keyword,
             content,
-            image_id    AS "imageId",
+            top_image_id    AS "topImageId",
             category_id AS "categoryId",
             status_id   AS "statusId",
             updater_id  AS "updaterId",
@@ -80,11 +81,12 @@
         <![CDATA[
         SELECT
             posts.id,
+            posts.url,
             posts.title,
             posts.description,
             posts.keyword,
             posts.content,
-            posts.image_id    AS "imageId",
+            posts.top_image_id    AS "topImageId",
             posts.category_id AS "categoryId",
             posts.status_id   AS "statusId",
             posts.updater_id  AS "updaterId",
@@ -101,26 +103,33 @@
     </select>
 
     <!-- 条件付き一覧表示 -->
-    <select id="selectCategoryList" resultType="com.devlogmh.www.domain.model.post.PostDto">
+    <select id="selectPostList" resultType="com.devlogmh.www.domain.model.post.PostDto">
         <![CDATA[
         SELECT
             posts.id,
+            posts.url,
             posts.title,
             posts.description,
             posts.keyword,
             posts.content,
-            posts.image_id    AS "imageId",
+            posts.top_image_id    AS "topImageId",
             posts.category_id AS "categoryId",
             posts.status_id   AS "statusId",
             posts.updater_id  AS "updaterId",
             posts.created,
             posts.updated,
             posts.delflg,
-            users.name AS "updaterName"
+            users.name      AS "updaterName",
+            categories.name AS "categoryName",
+            statuses.name   AS "statusName"
         FROM
             posts
-        INNER JOIN users AS users
-        ON posts.updater_id = users.id
+        INNER JOIN users
+            ON posts.updater_id = users.id
+        INNER JOIN categories
+            ON posts.category_id = categories.id
+        INNER JOIN statuses
+            ON posts.status_id = statuses.id
         WHERE
             posts.delflg = #{delflg}
         ORDER BY updated DESC

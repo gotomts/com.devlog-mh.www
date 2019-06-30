@@ -28,4 +28,13 @@ public class RedirectContains {
     public static final String REDIRECT_CATEGORY_MASTER_TRASH = "redirect:/admin/category-master/trash-list/0";
 
 
+    //----------- 投稿記事管理 ----------------
+
+    /** 一覧 */
+    public static final String REDIRECT_POST_LIST = "redirect:/admin/post/0";
+
+    /** ゴミ箱 */
+    public static final String REDIRECT_POST_LIST_TRASH = "redirect:/admin/post/trash-list/0";
+
+
 }

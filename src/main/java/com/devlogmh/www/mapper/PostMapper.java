@@ -40,7 +40,7 @@ public interface PostMapper {
      * @param delflg
      * @return
      */
-    List<PostDto> selectCategoryList(@Param("delflg") int delflg);
+    List<PostDto> selectPostList(@Param("delflg") int delflg);
 
     /**
      * ゴミ箱へ移動
