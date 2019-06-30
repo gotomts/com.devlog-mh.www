@@ -26,7 +26,7 @@ public class PostDetailController {
 
     /*------------ DI ---------------*/
 
-    /** カテゴリーマスタ コントローラーからサービスへの橋渡し */
+    /** コントローラーからサービスへの橋渡し */
     @Autowired
     private PostControlDto postControlDto;
 
