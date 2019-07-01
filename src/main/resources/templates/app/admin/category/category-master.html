@@ -13,12 +13,13 @@
 <body>
 
   <div class="container" layout:fragment="contents">
+
+    <p th:if="${!#strings.isEmpty(errorMsg)}" th:text="${errorMsg}" class="alert alert-danger mt-3 text-center"></p>
+
     <div layout:replace="app/admin/common/_component::btnPrev(url='/admin')"></div>
     <div layout:replace="app/admin/common/_component::pageTitle(title='カテゴリーマスタ', url='/admin/category-master/new')"></div>
 
     <form th:action="@{/admin/category-master/trash-add}" th:method="post">
-
-      <p th:if="${!#strings.isEmpty(errorMsg)}" th:text="${errorMsg}" class="alert alert-danger text-center"></p>
 
       <div layout:replace="app/admin/common/_component::trashBox(url='/admin/category-master/trash-list')"></div>
 
