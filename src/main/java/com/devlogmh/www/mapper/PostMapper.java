@@ -54,4 +54,10 @@ public interface PostMapper {
      */
     void destroy(PostDto postDto);
 
+    /**
+     * IDを全件検索
+     * @return
+     */
+    List<Long> selectAllId();
+
 }

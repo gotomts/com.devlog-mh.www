@@ -154,4 +154,12 @@
         </foreach>
     </delete>
 
+    <!-- IDを全件検索 -->
+    <select id="selectAllId" resultType="long">
+        SELECT
+            id
+        FROM
+            posts
+    </select>
+
 </mapper>

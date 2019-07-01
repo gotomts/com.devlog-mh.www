@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Transactional
@@ -89,7 +91,7 @@ public class PostDetailService extends AbsUtilService {
         // rootPath
         inputForm.setRootPath(SiteInfoUtil.getRootPath(request));
         // URL
-        inputForm.setUrl(inputForm.getUrl());
+        inputForm.setUrl(this.getUrl());
         // タイトル
         inputForm.setTitle(inputForm.getTitle());
         // キーワード
@@ -106,6 +108,32 @@ public class PostDetailService extends AbsUtilService {
         inputForm.setStatusList(inputForm.getSelectedStatuses());
         // コンテンツ
         inputForm.setContent(inputForm.getContent());
+
+    }
+
+    /**
+     * 新規作成時のURLを取得します。
+     * @return
+     */
+    public String getUrl() {
+
+        // 変数を初期化
+        String url = null;
+
+        // すでに存在する投稿記事のIDを検索
+        List<Long> longList = postMapper.selectAllId();
+
+        // IDが存在しなかったら1を設定して処理を終了
+        if (0 == longList.size()) {
+            url = "1";
+            return url;
+        }
+
+        // IDの最大値に+1して変数に格納
+        Long maxId = Collections.max(longList) + 1;
+        url = maxId.toString();
+
+        return url;
 
     }
 
