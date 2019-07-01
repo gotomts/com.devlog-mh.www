@@ -19,44 +19,48 @@
     <div layout:replace="app/admin/common/_component::btnPrev(url='/admin')"></div>
     <div layout:replace="app/admin/common/_component::pageTitle(title='投稿記事管理', url='/admin/post/new')"></div>
 
-    <div layout:replace="app/admin/common/_component::trashBox(url='/admin/post-list/trash-list')"></div>
+    <form th:action="@{/admin/post/trash-add}" th:method="post">
 
-    <div class="table-responsive">
-      <table class="table table-striped table-hover table-bordered">
-        <thead>
+      <div layout:replace="app/admin/common/_component::trashBox(url='/admin/post/trash-list')"></div>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+            <tr>
+              <th class="text-center text-nowrap" scope="col"></th>
+              <th class="text-center text-nowrap" scope="col">編集</th>
+              <th class="text-center text-nowrap" scope="col">記事タイトル</th>
+              <th class="text-center text-nowrap" scope="col">カテゴリー</th>
+              <th class="text-center text-nowrap" scope="col">ステータス</th>
+              <th class="text-center text-nowrap" scope="col">投稿者</th>
+              <th class="text-center text-nowrap" scope="col">更新日時</th>
+            </tr>
+          </thead>
+          <tbody th:if="${#lists.isEmpty(pagedListHolder.pageList)}">
           <tr>
-            <th class="text-center text-nowrap" scope="col"></th>
-            <th class="text-center text-nowrap" scope="col">編集</th>
-            <th class="text-center text-nowrap" scope="col">記事タイトル</th>
-            <th class="text-center text-nowrap" scope="col">カテゴリー</th>
-            <th class="text-center text-nowrap" scope="col">ステータス</th>
-            <th class="text-center text-nowrap" scope="col">投稿者</th>
-            <th class="text-center text-nowrap" scope="col">更新日時</th>
+            <td colspan="7" class="text-center">
+              投稿記事が存在しません。<br>
+              追加する場合は<a href="/admin/post/new">投稿記事を追加</a>してください。
+            </td>
           </tr>
-        </thead>
-        <tbody th:if="${#lists.isEmpty(pagedListHolder.pageList)}">
-        <tr>
-          <td colspan="7" class="text-center">
-            投稿記事が存在しません。<br>
-            追加する場合は<a href="/admin/post/new">投稿記事を追加</a>してください。
-          </td>
-        </tr>
-        </tbody>
-        <tbody th:unless="${#lists.isEmpty(pagedListHolder.pageList)}">
-        <tr th:each="i : ${pagedListHolder.pageList}" th:object="${i}">
-          <th class="text-center" scope="row">
-            <input type="checkbox" name="checkId" th:value="*{id}" class="check-delete">
-          </th>
-          <td class="text-center"><a class="btn btn-secondary btn-sm" th:href="@{/admin/post/edit/{id}(id=*{id})}">編集</a></td>
-          <td class="text-nowrap" th:text="*{title}"></td>
-          <td class="text-nowrap" th:text="*{categoryName}"></td>
-          <td class="text-center text-nowrap" th:text="*{statusName}"></td>
-          <td class="text-center text-nowrap" th:text="*{updaterName}"></td>
-          <td class="text-center text-nowrap" th:text="*{updateTime}"></td>
-        </tr>
-        </tbody>
-      </table>
-    </div><!-- END .table-responsive -->
+          </tbody>
+          <tbody th:unless="${#lists.isEmpty(pagedListHolder.pageList)}">
+          <tr th:each="i : ${pagedListHolder.pageList}" th:object="${i}">
+            <th class="text-center" scope="row">
+              <input type="checkbox" name="checkId" th:value="*{id}" class="check-delete">
+            </th>
+            <td class="text-center"><a class="btn btn-secondary btn-sm" th:href="@{/admin/post/edit/{id}(id=*{id})}">編集</a></td>
+            <td class="text-nowrap" th:text="*{title}"></td>
+            <td class="text-nowrap" th:text="*{categoryName}"></td>
+            <td class="text-center text-nowrap" th:text="*{statusName}"></td>
+            <td class="text-center text-nowrap" th:text="*{updaterName}"></td>
+            <td class="text-center text-nowrap" th:text="*{updateTime}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div><!-- END .table-responsive -->
+
+    </form>
 
     <div layout:replace="app/admin/common/_component::pager"></div>
 
