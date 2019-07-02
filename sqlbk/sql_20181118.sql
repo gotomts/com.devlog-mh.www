@@ -46,13 +46,13 @@ CREATE TABLE categories (
 );
 
 -- アイキャッチ画像テーブルの作成
-CREATE TABLE post_images (
-  id SERIAL PRIMARY KEY,    -- 画像ID
-  name VARCHAR(255),
-  url VARCHAR(255),
-  title VARCHAR(255),
-  alt VARCHAR(255)
-);
+--CREATE TABLE post_images (
+--  id SERIAL PRIMARY KEY,    -- 画像ID
+--  name VARCHAR(255),
+--  url VARCHAR(255),
+--  title VARCHAR(255),
+--  alt VARCHAR(255)
+--);
 
 -- 投稿記事テーブルの作成
 CREATE TABLE posts (
@@ -62,7 +62,9 @@ CREATE TABLE posts (
   description TEXT,    -- ディスクリプション
   keyword TEXT,    -- キーワード
   content TEXT,    -- 内容
-  top_image_id INTEGER,    -- アイキャッチ画像ID
+  top_image_title VARCHAR(255),    -- アイキャッチ画像タイトル
+  top_image_url VARCHAR(255),    -- アイキャッチ画像URL
+  top_image_alt VARCHAR(255),    -- アイキャッチ画像ALT
   category_id INTEGER NOT NULL REFERENCES categories(id),    -- カテゴリーID
   status_id INTEGER NOT NULL DEFAULT 1,   -- ステータスID
   updater_id INTEGER DEFAULT 1,  -- 更新者
