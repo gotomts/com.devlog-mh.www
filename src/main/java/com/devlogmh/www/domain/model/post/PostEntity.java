@@ -40,9 +40,19 @@ public class PostEntity {
     private String content;
 
     /**
-     * 画像URL
+     * アイキャッチ画像/URL
      */
     private String topImageUrl;
+
+    /**
+     * アイキャッチ画像/Title
+     */
+    private String topImageTitle;
+
+    /**
+     * アイキャッチ画像/Alt
+     */
+    private String topImageAlt;
 
     /**
      * カテゴリー
@@ -90,7 +100,7 @@ public class PostEntity {
      * @param delflg
      */
     public PostEntity(String url, String title, String description, String keyword,
-                      String content, String topImageUrl, Long categoryId, Long statusId,
+                      String content, String topImageUrl, String topImageTitle, String topImageAlt, Long categoryId, Long statusId,
                       Long updaterId, Timestamp created, Timestamp updated, Integer delflg) {
         this.url = url;
         this.title = title;
@@ -98,6 +108,8 @@ public class PostEntity {
         this.keyword = keyword;
         this.content = content;
         this.topImageUrl = topImageUrl;
+        this.topImageTitle = topImageTitle;
+        this.topImageAlt = topImageAlt;
         this.categoryId = categoryId;
         this.statusId = statusId;
         this.updaterId = updaterId;

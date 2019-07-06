@@ -1,7 +1,9 @@
 package com.devlogmh.www.domain.admin.service.postDetail;
 
+import com.devlogmh.www.domain.admin.service.aws.AwsS3Service;
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.Contains;
+import com.devlogmh.www.domain.admin.util.FileUploadUtil;
 import com.devlogmh.www.domain.admin.util.SiteInfoUtil;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.post.PostControlDto;
@@ -46,9 +48,19 @@ public class PostDetailUpdateService extends AbsUtilService {
     @Autowired
     private CategoryMapper categoryMapper;
 
+    // ---
 
+    /**
+     * コントローラーからデータを受け取り
+     */
     @Autowired
     private PostControlDto postControlDto;
+
+    /**
+     * AWS S3サービス
+     */
+    @Autowired
+    private AwsS3Service awsS3Service;
 
     private PostForm postForm;
 
@@ -124,6 +136,14 @@ public class PostDetailUpdateService extends AbsUtilService {
         inputForm.setStatusId(inputForm.getStatusId());
         // ステータス
         inputForm.setStatusList(inputForm.getSelectedStatuses());
+        // アイキャッチ画像
+        inputForm.setUploadFile(inputForm.getUploadFile());
+        // アイキャッチ画像/URL
+        inputForm.setTopImageUrl(inputForm.getTopImageUrl());
+        // アイキャッチ画像/title
+        inputForm.setTopImageTitle(inputForm.getTopImageTitle());
+        // アイキャッチ画像/alt
+        inputForm.setTopImageAlt(inputForm.getTopImageAlt());
         // コンテンツ
         inputForm.setContent(inputForm.getContent());
 
@@ -157,6 +177,9 @@ public class PostDetailUpdateService extends AbsUtilService {
         // 削除フラグ
         postDto.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
 
+        // 画像アップロード
+        FileUploadUtil.topImageUpload(awsS3Service , postDto, inputForm);
+
         postMapper.update(postDto);
     }
 
@@ -188,5 +211,7 @@ public class PostDetailUpdateService extends AbsUtilService {
         }
 
     }
+
+
 
 }

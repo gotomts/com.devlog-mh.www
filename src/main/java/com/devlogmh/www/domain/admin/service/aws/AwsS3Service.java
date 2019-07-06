@@ -1,4 +1,4 @@
-package com.devlogmh.www.domain.admin.service.util;
+package com.devlogmh.www.domain.admin.service.aws;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

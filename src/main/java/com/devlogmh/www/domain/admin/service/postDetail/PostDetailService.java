@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 
+import static com.devlogmh.www.domain.admin.util.Contains.DEFAULT_URL;
+
 @Service
 @Transactional
 public class PostDetailService extends AbsUtilService {
@@ -127,7 +129,7 @@ public class PostDetailService extends AbsUtilService {
 
         // IDが存在しなかったら1を設定して処理を終了
         if (0 == longList.size()) {
-            url = "1";
+            url = DEFAULT_URL;
             return url;
         }
 

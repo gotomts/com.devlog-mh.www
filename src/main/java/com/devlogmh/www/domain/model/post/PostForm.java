@@ -109,6 +109,20 @@ public class PostForm implements Serializable {
     private String topImageUrl;
 
     /**
+     * アイキャッチ画像／Titleタグ
+     */
+    @Getter
+    @Setter
+    private String topImageTitle;
+
+    /**
+     * アイキャッチ画像／Altタグ
+     */
+    @Getter
+    @Setter
+    private String topImageAlt;
+
+    /**
      * コンテンツ
      */
     @Getter

@@ -1,8 +1,9 @@
 package com.devlogmh.www.domain.admin.service.postDetail;
 
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
-import com.devlogmh.www.domain.admin.service.util.AwsS3Service;
+import com.devlogmh.www.domain.admin.service.aws.AwsS3Service;
 import com.devlogmh.www.domain.admin.util.Contains.DelFlg;
+import com.devlogmh.www.domain.admin.util.FileUploadUtil;
 import com.devlogmh.www.domain.admin.util.SiteInfoUtil;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.post.PostControlDto;
@@ -179,27 +180,9 @@ public class PostDetailCreateService extends AbsUtilService {
         postDto.setDelflg(DelFlg.NOT_DEL.getValue());
 
         // 画像アップロード
-        this.topImageUpload(postDto, inputForm);
+        FileUploadUtil.topImageUpload(awsS3Service, postDto, inputForm);
 
         postMapper.insert(postDto);
-    }
-
-    /**
-     * 画像アップロード処理
-     * @param postDto
-     * @param inputForm
-     */
-    private void topImageUpload(PostDto postDto, PostForm inputForm) {
-
-        // 画像名を自動生成
-        String fileName = this.getName(inputForm.getUploadFile().getOriginalFilename());
-
-        // 画像のアップロード
-        awsS3Service.upload(inputForm.getUploadFile(), fileName);
-
-        // アイキャッチ画像URLをDTOに詰める
-        postDto.setTopImageUrl(awsS3Service.getUrl(fileName));
-
     }
 
     /**
@@ -224,36 +207,6 @@ public class PostDetailCreateService extends AbsUtilService {
         if (Objects.nonNull(result.getErrorCount())) {
             new DuplicateProductException();
         }
-
-    }
-
-    /**
-     * ファイル名を作成して取得
-     */
-    private String getName(String filename) {
-
-        // 変数を初期化
-        String name = null;
-
-        // Calendarクラスのオブジェクトを生成
-        Calendar calendar = Calendar.getInstance();
-
-        // 日付のフォーマットパターンを設定
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        String time = simpleDateFormat.format(calendar.getTime());
-
-        // 正規表現で拡張子を取得
-        String regex = "(.jpg|.jpeg|.png|.gif|.pdf)";
-        Pattern pattern = Pattern.compile(regex);
-
-        Matcher matcher = pattern.matcher(filename);
-
-        if (matcher.find()) {
-            String matchrStr = matcher.group();
-            name = UPLOAD_FILE_NAME + time + matchrStr;
-        }
-
-        return name;
 
     }
 

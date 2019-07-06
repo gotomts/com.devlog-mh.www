@@ -15,7 +15,7 @@
   <div class="container" layout:fragment="contents">
     <div layout:replace="app/admin/common/_component::btnPrev(url='/admin/post')"></div>
     <div layout:replace="app/admin/common/_component::pageTitle(title='投稿記事 編集')"></div>
-    <form th:action="@{/admin/post/edit/{id}(id=*{id})}" th:method="put" th:object="${form}">
+    <form th:action="@{/admin/post/edit/{id}(id=*{id})}" th:method="put" th:object="${form}" enctype="multipart/form-data">
       <div class="form-group">
         <p class="text-danger mb-0" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
         <label for="inputTitle">タイトル</label>
@@ -56,14 +56,17 @@
           <option th:each="item : ${form.statusList}" th:value="${item.key}" th:selected="${item.key} == *{statusId}" th:text="${item.value}"></option>
         </select>
       </div>
-      <!-- 画像 後から実装
       <div class="form-group">
+        <p class="text-danger mb-0" th:if="${#fields.hasErrors('uploadFile')}" th:errors="*{uploadFile}"></p>
+        <figure class="text-center">
+          <img th:src="*{topImageUrl}" th:alt="*{topImageAlt}" th:title="*{topImageTitle}">
+        </figure>
         <label for="inputFile">アイキャッチ画像を選択</label>
-        <input name="uploadfile" class="form-control-file" id="inputFile" type="file">
-        <input name="post_image_id" type="hidden" value="${dto.postImageId}">
-        <input name="post_image_name" type="hidden" value="${dto.postImageTitle}">
+        <input name="uploadFile" class="form-control-file" id="inputFile" type="file">
+        <input name="topImageUrl" th:field="*{topImageUrl}" type="hidden">
+        <input name="topImageTitle" th:field="*{topImageTitle}" type="hidden">
+        <input name="topImageAlt" th:field="*{topImageAlt}" type="hidden">
       </div>
-      -->
       <div class="form-group">
         <textarea id="editor" name="content" class="form-control" rows="20" th:field="*{content}"></textarea>
       </div>

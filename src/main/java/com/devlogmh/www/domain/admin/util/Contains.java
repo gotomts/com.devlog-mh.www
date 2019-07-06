@@ -21,6 +21,11 @@ public class Contains {
     public static final String UPLOAD_FILE_NAME = "post-top-image";
 
     /**
+     * デフォルト URL
+     */
+    public static final String DEFAULT_URL = "1";
+
+    /**
      * DelFlg
      */
     @AllArgsConstructor

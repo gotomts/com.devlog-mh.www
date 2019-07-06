@@ -103,6 +103,14 @@ public class PostDetailEditService extends AbsUtilService {
         inputForm.setStatusId(postDto.getStatusId());
         // ステータス
         inputForm.setStatusList(postDto.getSelectedStatuses());
+        // アイキャッチ画像
+        inputForm.setUploadFile(inputForm.getUploadFile());
+        // アイキャッチ画像/URL
+        inputForm.setTopImageUrl(postDto.getTopImageUrl());
+        // アイキャッチ画像/title
+        inputForm.setTopImageTitle(postDto.getTopImageTitle());
+        // アイキャッチ画像/alt
+        inputForm.setTopImageAlt(postDto.getTopImageAlt());
         // コンテンツ
         inputForm.setContent(postDto.getContent());
 
