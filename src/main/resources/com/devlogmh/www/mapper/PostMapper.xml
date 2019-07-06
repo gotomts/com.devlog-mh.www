@@ -12,9 +12,9 @@
             description,
             keyword,
             content,
-            top_image_title,
-            top_image_url,
-            top_image_alt,
+<!--            top_image_title,-->
+<!--            top_image_url,-->
+<!--            top_image_alt,-->
             category_id,
             status_id,
             updater_id,
@@ -27,9 +27,9 @@
             #{description},
             #{keyword},
             #{content},
-            #{topImageTitle},
-            #{topImageUrl},
-            #{topImageAlt},
+<!--            #{topImageTitle},-->
+<!--            #{topImageUrl},-->
+<!--            #{topImageAlt},-->
             #{categoryId},
             #{statusId},
             #{updaterId},

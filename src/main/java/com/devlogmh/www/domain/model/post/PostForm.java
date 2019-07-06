@@ -4,6 +4,7 @@ import com.devlogmh.www.domain.model.category.CategoryDto;
 import com.devlogmh.www.mapper.CategoryMapper;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -93,12 +94,12 @@ public class PostForm implements Serializable {
     @Getter
     private Map<String, String> statusList;
 
-//    /**
-//     * アイキャッチ画像
-//     */
-//    @Getter
-//    @Setter
-//    private Long topImageId;
+    /**
+     * アイキャッチ画像
+     */
+    @Getter
+    @Setter
+    private MultipartFile uploadFile;
 
     /**
      * コンテンツ

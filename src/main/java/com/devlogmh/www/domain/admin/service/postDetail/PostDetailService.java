@@ -106,6 +106,8 @@ public class PostDetailService extends AbsUtilService {
         inputForm.setStatusId(inputForm.getStatusId());
         // ステータス
         inputForm.setStatusList(inputForm.getSelectedStatuses());
+        // アイキャッチ画像
+        inputForm.setUploadFile(inputForm.getUploadFile());
         // コンテンツ
         inputForm.setContent(inputForm.getContent());
 

@@ -58,6 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // それ以外はすべて認証を必要とします。
         http.authorizeRequests()
                  .antMatchers("/*").permitAll()
+                .antMatchers("/s3/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
 
