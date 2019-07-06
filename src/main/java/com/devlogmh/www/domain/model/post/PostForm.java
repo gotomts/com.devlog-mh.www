@@ -102,6 +102,13 @@ public class PostForm implements Serializable {
     private MultipartFile uploadFile;
 
     /**
+     * アイキャッチ画像／URL
+     */
+    @Getter
+    @Setter
+    private String topImageUrl;
+
+    /**
      * コンテンツ
      */
     @Getter

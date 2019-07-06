@@ -13,7 +13,7 @@
             keyword,
             content,
 <!--            top_image_title,-->
-<!--            top_image_url,-->
+            top_image_url,
 <!--            top_image_alt,-->
             category_id,
             status_id,
@@ -28,7 +28,7 @@
             #{keyword},
             #{content},
 <!--            #{topImageTitle},-->
-<!--            #{topImageUrl},-->
+            #{topImageUrl},
 <!--            #{topImageAlt},-->
             #{categoryId},
             #{statusId},

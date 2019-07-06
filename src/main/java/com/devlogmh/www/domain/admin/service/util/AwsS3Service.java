@@ -14,33 +14,44 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * AWS S3利用サービス
+ */
 @Component
 public class AwsS3Service {
 
+    /**
+     * AmazonS3クライアント情報
+     */
     @Autowired
     private AmazonS3Client amazonS3Client;
 
+    /**
+     * S3利用にあたって必要な情報
+     */
     @Autowired
     private AppSettingS3Util appSettingS3Util;
 
-    public PutObjectResult upload(MultipartFile file) {
+    /**
+     * ファイルアップロード
+     * @param file
+     * @return
+     */
+    public PutObjectResult upload(MultipartFile file, String fileName) {
 
         PutObjectResult putObjectResult;
 
         try (InputStream inputStream = file.getInputStream()) {
 
-            // ファイル名を取得
-            String fileName = file.getOriginalFilename();
-
             // ファイルのMetadataを取得
             final ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
+            metadata.setContentType(file.getContentType());
 
             // PutObjectにアップロード時の情報を詰める
             PutObjectRequest putObjectRequest = new PutObjectRequest(appSettingS3Util.getBucketUploadPath(), fileName, inputStream, metadata);
             putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
             putObjectResult = amazonS3Client.putObject(putObjectRequest);
-
             // close処理
             IOUtils.closeQuietly(inputStream);
 
@@ -49,6 +60,23 @@ public class AwsS3Service {
         }
 
         return putObjectResult;
+    }
+
+    /**
+     * URLを取得
+     * @param fileName
+     * @return url
+     */
+    public String getUrl(String fileName) {
+
+        // 変数の初期化
+        String url = null;
+
+        // URLを取得
+        url = amazonS3Client.getUrl(appSettingS3Util.getBucketUploadPath(), fileName).toString();
+
+        return url;
+
     }
 
 }

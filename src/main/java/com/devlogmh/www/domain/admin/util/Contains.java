@@ -16,6 +16,11 @@ public class Contains {
     public static final String TIME_FORMAT = "yyyy/MM/dd HH:mm";
 
     /**
+     * 画像アップロード名
+     */
+    public static final String UPLOAD_FILE_NAME = "post-top-image";
+
+    /**
      * DelFlg
      */
     @AllArgsConstructor

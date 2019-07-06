@@ -2,7 +2,7 @@ package com.devlogmh.www.domain.admin.service.postDetail;
 
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.service.util.AwsS3Service;
-import com.devlogmh.www.domain.admin.util.Contains;
+import com.devlogmh.www.domain.admin.util.Contains.DelFlg;
 import com.devlogmh.www.domain.admin.util.SiteInfoUtil;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.post.PostControlDto;
@@ -20,8 +20,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.devlogmh.www.domain.admin.util.Contains.UPLOAD_FILE_NAME;
 
 /**
  * 投稿記事管理 新規登録処理
@@ -170,12 +176,30 @@ public class PostDetailCreateService extends AbsUtilService {
         // 更新時間
         postDto.setUpdated(TimestampUtil.currentTime());
         // 削除フラグ
-        postDto.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
+        postDto.setDelflg(DelFlg.NOT_DEL.getValue());
 
-        // 画像のアップロード
-        awsS3Service.upload(inputForm.getUploadFile());
+        // 画像アップロード
+        this.topImageUpload(postDto, inputForm);
 
         postMapper.insert(postDto);
+    }
+
+    /**
+     * 画像アップロード処理
+     * @param postDto
+     * @param inputForm
+     */
+    private void topImageUpload(PostDto postDto, PostForm inputForm) {
+
+        // 画像名を自動生成
+        String fileName = this.getName(inputForm.getUploadFile().getOriginalFilename());
+
+        // 画像のアップロード
+        awsS3Service.upload(inputForm.getUploadFile(), fileName);
+
+        // アイキャッチ画像URLをDTOに詰める
+        postDto.setTopImageUrl(awsS3Service.getUrl(fileName));
+
     }
 
     /**
@@ -200,6 +224,36 @@ public class PostDetailCreateService extends AbsUtilService {
         if (Objects.nonNull(result.getErrorCount())) {
             new DuplicateProductException();
         }
+
+    }
+
+    /**
+     * ファイル名を作成して取得
+     */
+    private String getName(String filename) {
+
+        // 変数を初期化
+        String name = null;
+
+        // Calendarクラスのオブジェクトを生成
+        Calendar calendar = Calendar.getInstance();
+
+        // 日付のフォーマットパターンを設定
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String time = simpleDateFormat.format(calendar.getTime());
+
+        // 正規表現で拡張子を取得
+        String regex = "(.jpg|.jpeg|.png|.gif|.pdf)";
+        Pattern pattern = Pattern.compile(regex);
+
+        Matcher matcher = pattern.matcher(filename);
+
+        if (matcher.find()) {
+            String matchrStr = matcher.group();
+            name = UPLOAD_FILE_NAME + time + matchrStr;
+        }
+
+        return name;
 
     }
 

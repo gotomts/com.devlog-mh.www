@@ -117,7 +117,7 @@ public class PostDetailService extends AbsUtilService {
      * 新規作成時のURLを取得します。
      * @return
      */
-    public String getUrl() {
+    private String getUrl() {
 
         // 変数を初期化
         String url = null;
