@@ -13,28 +13,33 @@ public class RedirectContains {
     //----------- ユーザー管理 ----------------
 
     /** ユーザー管理 */
-    public static final String REDIRECT_USER_MASTER = "redirect:/admin/user-master/0";
+    public static final String REDIRECT_USER_MASTER = "redirect:/admin/user-master";
 
     /** ユーザー管理 ゴミ箱 */
-    public static final String REDIRECT_USER_MASTER_TRASH = "redirect:/admin/user-master/trash-list/0";
+    public static final String REDIRECT_USER_MASTER_TRASH = "redirect:/admin/user-master/trash-list";
 
 
     //----------- カテゴリーマスタ ----------------
 
     /** カテゴリーマスタ */
-    public static final String REDIRECT_CATEGORY_MASTER = "redirect:/admin/category-master/0";
+    public static final String REDIRECT_CATEGORY_MASTER = "redirect:/admin/category-master";
 
     /** カテゴリーマスタ ゴミ箱 */
-    public static final String REDIRECT_CATEGORY_MASTER_TRASH = "redirect:/admin/category-master/trash-list/0";
+    public static final String REDIRECT_CATEGORY_MASTER_TRASH = "redirect:/admin/category-master/trash-list";
 
 
     //----------- 投稿記事管理 ----------------
 
     /** 一覧 */
-    public static final String REDIRECT_POST_LIST = "redirect:/admin/post/0";
+    public static final String REDIRECT_POST_LIST = "redirect:/admin/post";
 
     /** ゴミ箱 */
-    public static final String REDIRECT_POST_LIST_TRASH = "redirect:/admin/post/trash-list/0";
+    public static final String REDIRECT_POST_LIST_TRASH = "redirect:/admin/post/trash-list";
+
+    //----------- 画像管理 ----------------
+
+    /** 一覧 */
+    public static final String REDIRECT_IMAGES_LIST = "redirect:/admin/images";
 
 
 }

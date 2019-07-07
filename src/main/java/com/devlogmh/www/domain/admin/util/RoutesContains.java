@@ -86,10 +86,10 @@ public class RoutesContains {
     //----------- 画像管理 ----------------
 
     /** 画像管理 一覧 */
-    public static final String UPLOAD_LIST = "app/admin/upload/upload-list";
+    public static final String IMAGES_LIST = "app/admin/images/images-list";
 
     /** 画像管理 詳細 */
-    public static final String UPLOAD_EDIT = "app/admin/upload/upload-edit";
+    public static final String IMAGES_EDIT = "app/admin/images/images-edit";
 
 
 }

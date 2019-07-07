@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{app/admin/common/_base}">
+
+<head>
+  <title>画像管理</title>
+  <meta name="keywords" content="画像管理" />
+  <meta name="description" content="画像管理" />
+</head>
+
+<body>
+
+  <div class="container" layout:fragment="contents">
+
+    <p th:if="${!#strings.isEmpty(errorMsg)}" th:text="${errorMsg}" class="alert alert-danger mt-3 text-center"></p>
+
+    <div layout:replace="app/admin/common/_component::btnPrev(url='/admin')"></div>
+    <div layout:replace="app/admin/common/_component::pageTitle(title='画像管理')"></div>
+
+    <form th:action="@{/admin/images/new}" th:method="post" th:object="${form}" enctype="multipart/form-data">
+      <div class="form-group">
+        <input name="uploadFile" class="form-control-file" type="file">
+      </div>
+      <div class="form-group clearfix">
+        <div class="float-left">
+          <button class="btn btn-primary" type="submit">画像をアップロードする</button>
+        </div>
+      </div>
+    </form>
+
+    <p class="text-center mb-5" th:if="${#lists.isEmpty(pagedListHolder.pageList)}">
+      投稿された画像が存在しません。
+      <a href="/admin/images/new">画像を追加</a>してください。
+    </p>
+
+    <div class="row">
+      <div class="col-2 mb-4" th:unless="${#lists.isEmpty(pagedListHolder.pageList)}">
+        <a th:href="@{/admin/images/edit/{id}(id=*{id})}">
+          <img th:src="@{url}" th:alt="*{alt}" title="*{title}">
+        </a>
+      </div>
+    </div>
+
+    <div layout:replace="app/admin/common/_component::pager"></div>
+
+  </div>
+
+</body>
+</html>
