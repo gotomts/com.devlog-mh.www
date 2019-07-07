@@ -54,7 +54,7 @@ public class PostDetailController {
     @GetMapping("new")
     public ModelAndView index(PostForm inputForm, ModelAndView mav) {
 
-        // カテゴリーマスタ詳細フォーム
+        // 投稿記事詳細フォーム
         postControlDto.setPostForm(inputForm);
         // ModelAndView
         postControlDto.setMav(mav);
@@ -76,7 +76,7 @@ public class PostDetailController {
     @PostMapping("new")
     public ModelAndView create(@ModelAttribute("form") @Validated PostForm inputForm, BindingResult result, ModelAndView mav) {
 
-        // カテゴリーマスタ詳細フォーム
+        // 投稿記事詳細フォーム
         postControlDto.setPostForm(inputForm);
         // ModelAndView
         postControlDto.setMav(mav);
@@ -125,9 +125,9 @@ public class PostDetailController {
     @PutMapping("edit/{id}")
     public ModelAndView update(@PathVariable Long id, @ModelAttribute("form") @Validated PostForm inputForm, BindingResult result, ModelAndView mav) {
 
-        // カテゴリーID
+        // 投稿記事ID
         postControlDto.setId(id);
-        // カテゴリーマスタ詳細フォーム
+        // 投稿記事詳細フォーム
         postControlDto.setPostForm(inputForm);
         // ModelAndView
         postControlDto.setMav(mav);

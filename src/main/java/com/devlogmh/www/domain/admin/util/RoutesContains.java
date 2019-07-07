@@ -83,5 +83,13 @@ public class RoutesContains {
     /** カテゴリー 編集画面 */
     public static final String CATEGORY_MASTER_EDIT = "app/admin/category/category-master-edit";
 
+    //----------- 画像管理 ----------------
+
+    /** 画像管理 一覧 */
+    public static final String UPLOAD_LIST = "app/admin/upload/upload-list";
+
+    /** 画像管理 詳細 */
+    public static final String UPLOAD_EDIT = "app/admin/upload/upload-edit";
+
 
 }
