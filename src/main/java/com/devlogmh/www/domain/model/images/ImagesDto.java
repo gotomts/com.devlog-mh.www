@@ -4,6 +4,7 @@ import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 
@@ -39,6 +40,13 @@ public class ImagesDto extends ImagesEntity {
     @Getter
     @Setter
     private String errorMsg;
+
+    /**
+     * 画像ファイル
+     */
+    @Getter
+    @Setter
+    private MultipartFile uploadFile;
 
     /**
      * 更新時間を取得

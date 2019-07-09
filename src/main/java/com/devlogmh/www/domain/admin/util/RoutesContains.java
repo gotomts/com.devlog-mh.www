@@ -88,7 +88,10 @@ public class RoutesContains {
     /** 画像管理 一覧 */
     public static final String IMAGES_LIST = "app/admin/images/images-list";
 
-    /** 画像管理 詳細 */
+    /** 画像管理 新規登録画面 */
+    public static final String IMAGES_NEW = "app/admin/images/images-new";
+
+    /** 画像管理 編集画面 */
     public static final String IMAGES_EDIT = "app/admin/images/images-edit";
 
 

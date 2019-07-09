@@ -1,14 +1,12 @@
 package com.devlogmh.www.domain.model.images;
 
-import com.devlogmh.www.domain.model.category.CategoryForm;
-import com.devlogmh.www.domain.model.category.CategoryListForm;
 import com.devlogmh.www.domain.model.util.BaseControlDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 /**
- * カテゴリーマスタのコントローラーで設定したメソッドの引数をサービスへ橋渡しします。
+ * 画像管理 コントローラーで設定したメソッドの引数をサービスへ橋渡しします。
  */
 @Component
 public class ImagesControlDto extends BaseControlDto {
@@ -21,17 +19,17 @@ public class ImagesControlDto extends BaseControlDto {
     private Long id;
 
     /**
-     * カテゴリーマスタ一覧フォーム
+     * 画像管理フォーム
      */
     @Getter
     @Setter
-    private CategoryListForm categoryListForm;
+    private ImagesListForm imagesListForm;
 
     /**
-     * カテゴリーマスタフォーム
+     * 画像管理フォーム
      */
     @Getter
     @Setter
-    private CategoryForm categoryForm;
+    private ImagesForm imagesForm;
 
 }

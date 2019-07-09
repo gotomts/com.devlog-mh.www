@@ -41,5 +41,7 @@ public class RedirectContains {
     /** 一覧 */
     public static final String REDIRECT_IMAGES_LIST = "redirect:/admin/images";
 
+    /** 詳細 */
+    public static final String REDIRECT_IMAGES_UPLOAD = "redirect:/admin/images/new";
 
 }

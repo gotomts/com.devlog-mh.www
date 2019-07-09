@@ -2,6 +2,7 @@ package com.devlogmh.www.domain.model.images;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -19,6 +20,13 @@ public class ImagesForm implements Serializable {
     @Getter
     @Setter
     private Long id;
+
+    /**
+     * 画像ファイル
+     */
+    @Getter
+    @Setter
+    private MultipartFile uploadFile;
 
     /**
      * URL
