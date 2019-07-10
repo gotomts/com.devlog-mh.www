@@ -99,6 +99,9 @@ public class ImagesService extends AbsUtilService {
 
             // DTOに情報を詰める
             dto.setId(dto.getId());
+            dto.setUrl(dto.getUrl());
+            dto.setTitle(dto.getTitle());
+            dto.setAlt(dto.getAlt());
 
         }
 

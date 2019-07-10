@@ -36,9 +36,11 @@
 
     <div class="row">
       <div class="col-2 mb-4" th:unless="${#lists.isEmpty(pagedListHolder.pageList)}">
-        <a th:href="@{/admin/images/edit/{id}(id=*{id})}">
-          <img th:src="@{url}" th:alt="*{alt}" title="*{title}">
-        </a>
+        <div th:each="i : ${pagedListHolder.pageList}" th:object="${i}">
+          <a th:href="@{/admin/images/edit/{id}(id=*{id})}">
+            <img th:src="*{url}" th:alt="*{alt}" title="*{title}">
+          </a>
+        </div>
       </div>
     </div>
 
