@@ -19,7 +19,7 @@
     <div layout:replace="app/admin/common/_component::btnPrev(url='/admin')"></div>
     <div layout:replace="app/admin/common/_component::pageTitle(title='画像管理')"></div>
 
-    <form th:action="@{/admin/images/new}" th:method="post" th:object="${form}" enctype="multipart/form-data">
+    <form th:action="@{/admin/images/upload}" th:method="post" th:object="${form}" enctype="multipart/form-data">
       <div class="form-group">
         <input name="uploadFile" class="form-control-file" type="file">
       </div>

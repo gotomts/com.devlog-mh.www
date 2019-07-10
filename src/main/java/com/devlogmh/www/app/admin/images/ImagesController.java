@@ -69,7 +69,7 @@ public class ImagesController {
      * @param redirectAttributes
      * @return mav
      */
-    @PostMapping("new")
+    @PostMapping("upload")
     public ModelAndView upload(@ModelAttribute("form") @Validated ImagesListForm inputForm, BindingResult result, ModelAndView mav, RedirectAttributes redirectAttributes) {
 
         // 画像アップロードフォーム

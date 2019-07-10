@@ -42,7 +42,6 @@ public class ImagesForm implements Serializable {
      */
     @Getter
     @Setter
-    @NotEmpty(message = "必須項目です。")
     @Size(max = 255, message = "255文字以下で入力してください。")
     private String title;
 
@@ -51,7 +50,6 @@ public class ImagesForm implements Serializable {
      */
     @Getter
     @Setter
-    @NotEmpty(message = "必須項目です。")
     @Size(max = 255, message = "255文字以下で入力してください。")
     private String alt;
 
