@@ -89,6 +89,7 @@ public class TopService extends AbsUtilService {
             dto.setUrl(dto.getUrl());
             dto.setCategoryName(dto.getCategoryName());
             dto.setContent(dto.getContent());
+            dto.setTopImage(dto.isTopImage(dto.getTopImageUrl()));
             dto.setTopImageUrl(dto.getTopImageUrl());
             dto.setTopImageTitle(dto.getTopImageTitle());
             dto.setTopImageAlt(dto.getTopImageAlt());

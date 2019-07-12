@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 
+import static com.devlogmh.www.domain.admin.util.RoutesContains.ADMIN_INDEX;
+
 /**
  * 管理画面トップコントローラークラス
  * @author goto
@@ -38,7 +40,7 @@ public class IndexController {
     @GetMapping
     public ModelAndView index(ModelAndView mav, Principal principal) {
         // 参照するHTML
-        mav.setViewName("app/admin/top/top");
+        mav.setViewName(ADMIN_INDEX);
 
         // Principalからログインユーザの情報を取得
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -2,6 +2,7 @@ package com.devlogmh.www.domain.model.blog;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Timestamp;
 
@@ -49,6 +50,12 @@ public class BlogDisplay {
     @Setter
     @Getter
     private Long statusId;
+
+    /**
+     * 画像 有無
+     */
+    @Setter
+    private boolean isTopImage;
 
     /** アイキャッチ画像／URL */
     @Getter
@@ -98,5 +105,18 @@ public class BlogDisplay {
     @Setter
     private Integer delflg;
 
+    /**
+     * アイキャッチ画像の有無を判定し、取得します。
+     * @param topImageUrl
+     * @return true 画像あり / false 画像なし
+     */
 
+
+    public boolean isTopImage(String topImageUrl) {
+
+        // 画像の有無を判定
+        this.isTopImage = StringUtils.isNotEmpty(topImageUrl);
+
+        return this.isTopImage;
+    }
 }

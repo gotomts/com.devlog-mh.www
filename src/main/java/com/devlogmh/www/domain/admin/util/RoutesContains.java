@@ -36,6 +36,9 @@ public class RoutesContains {
     /** ログイン */
     public static final String LOGIN = "app/admin/login/login";
 
+    /** 管理画面トップ */
+    public static final String ADMIN_INDEX = "app/admin/index/index";
+
 
     // ----------- プロフィール管理 ----------------
 

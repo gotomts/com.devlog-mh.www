@@ -41,9 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
-                "/*/favicon.ico","/*/css/**",
-                "/*/js/**", "/*/images/**", "/*/fonts/**",
-                "/node_modules/**");
+                "/*/favicon.ico", "/favicon.ico", "/*/css/**","/css/**",
+                "/*/js/**", "/js/**", "/*/images/**", "/images/**",
+                "/*/fonts/**", "/fonts/**", "/node_modules/**");
     }
 
     /**
@@ -57,8 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // account以下のURLも認証不要です。
         // それ以外はすべて認証を必要とします。
         http.authorizeRequests()
-                 .antMatchers("/*").permitAll()
-                .antMatchers("/s3/*").permitAll()
+                .antMatchers("/*", "/s3/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
 
