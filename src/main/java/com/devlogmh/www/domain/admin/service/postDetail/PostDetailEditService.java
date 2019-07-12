@@ -20,9 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 public class PostDetailEditService extends AbsUtilService {
 
     @Autowired
-    private SessionData sessionData;
-
-    @Autowired
     private HttpServletRequest request;
 
     // ------------- Mapper -----------------
@@ -70,9 +67,6 @@ public class PostDetailEditService extends AbsUtilService {
         this.setupForm(categoryId, this.postForm);
         // オブジェクトを詰め込み
         this.mav.addObject("form", this.postForm);
-
-        // ログイン情報を格納
-        this.mav.addObject("isLogin", this.sessionData.isLogin());
 
     }
 

@@ -28,9 +28,6 @@ public class PostTrashListService extends AbsUtilService {
     @Autowired
     private PostControlDto postControlDto;
 
-    @Autowired
-    private SessionData sessionData;
-
     private ModelAndView mav;
 
     /**
@@ -42,10 +39,8 @@ public class PostTrashListService extends AbsUtilService {
         // コントローラーから渡された値を取得
         this.mav = this.postControlDto.getMav();
 
-        // ログイン情報を格納
-        this.mav.addObject("isLogin", this.sessionData.isLogin());
-
     }
+
     /**
      * 主処理
      */

@@ -71,9 +71,6 @@ public class ProfileEditService extends AbsUtilService {
         // オブジェクトを詰め込み
         this.mav.addObject("form", this.usersForm);
 
-        // ログイン情報を格納
-        this.mav.addObject("isLogin", this.sessionData.isLogin());
-
     }
 
     /**

@@ -58,9 +58,6 @@ public class CategoryDetailUpdateService extends AbsUtilService {
         // カテゴリーIDを取得
         Long id = categoryControlDto.getId();
 
-        // フォームの初期設定
-        this.setupForm(this.categoryForm);
-
         // エンティティ生成
         CategoryDto categoryDto = new CategoryDto();
 
@@ -78,18 +75,6 @@ public class CategoryDetailUpdateService extends AbsUtilService {
 
         // 更新処理
         this.update(categoryDto, this.categoryForm);
-
-    }
-
-    /**
-     * フォームに入力された値を保持してフォームの初期設定
-     * @param inputForm
-     * @return
-     */
-    public void setupForm(CategoryForm inputForm) {
-
-        // カテゴリー名
-        inputForm.setCategoryName(inputForm.getCategoryName());
 
     }
 

@@ -28,9 +28,6 @@ public class CategoryTrashListService extends AbsUtilService {
     @Autowired
     private CategoryControlDto categoryControlDto;
 
-    @Autowired
-    private SessionData sessionData;
-
     private ModelAndView mav;
 
     /**
@@ -42,10 +39,8 @@ public class CategoryTrashListService extends AbsUtilService {
         // コントローラーから渡された値を取得
         this.mav = this.categoryControlDto.getMav();
 
-        // ログイン情報を格納
-        this.mav.addObject("isLogin", this.sessionData.isLogin());
-
     }
+
     /**
      * 主処理
      */

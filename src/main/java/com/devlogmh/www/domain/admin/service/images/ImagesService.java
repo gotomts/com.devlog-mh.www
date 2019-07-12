@@ -28,9 +28,6 @@ public class ImagesService extends AbsUtilService {
     @Autowired
     private ImagesControlDto imagesControlDto;
 
-    @Autowired
-    private SessionData sessionData;
-
     private ModelAndView mav;
 
     /**
@@ -41,9 +38,6 @@ public class ImagesService extends AbsUtilService {
 
         // コントローラーから渡された値を取得
         this.mav = this.imagesControlDto.getMav();
-
-        // ログイン情報を格納
-        this.mav.addObject("isLogin", this.sessionData.isLogin());
 
     }
 

@@ -4,7 +4,6 @@ import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.model.category.CategoryControlDto;
 import com.devlogmh.www.domain.model.category.CategoryDto;
-import com.devlogmh.www.domain.model.session.SessionData;
 import com.devlogmh.www.mapper.CategoryMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +27,6 @@ public class CategoryService extends AbsUtilService {
     @Autowired
     private CategoryControlDto categoryControlDto;
 
-    @Autowired
-    private SessionData sessionData;
-
     private ModelAndView mav;
 
     /**
@@ -41,9 +37,6 @@ public class CategoryService extends AbsUtilService {
 
         // コントローラーから渡された値を取得
         this.mav = this.categoryControlDto.getMav();
-
-        // ログイン情報を格納
-        this.mav.addObject("isLogin", this.sessionData.isLogin());
 
     }
 

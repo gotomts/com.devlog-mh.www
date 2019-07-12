@@ -15,9 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class CategoryDetailService extends AbsUtilService {
 
     @Autowired
-    private SessionData sessionData;
-
-    @Autowired
     private CategoryMapper categoryMapper;
 
     @Autowired
@@ -35,9 +32,6 @@ public class CategoryDetailService extends AbsUtilService {
         // コントローラーから渡された値を取得
         this.categoryForm = categoryControlDto.getCategoryForm();
         this.mav = categoryControlDto.getMav();
-
-        // ログイン情報を格納
-        this.mav.addObject("isLogin", this.sessionData.isLogin());
 
     }
 

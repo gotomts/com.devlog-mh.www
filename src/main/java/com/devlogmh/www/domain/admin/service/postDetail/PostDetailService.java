@@ -22,12 +22,6 @@ import static com.devlogmh.www.domain.admin.util.Contains.DEFAULT_URL;
 @Transactional
 public class PostDetailService extends AbsUtilService {
 
-    /**
-     * session
-     */
-    @Autowired
-    private SessionData sessionData;
-
     // ------------- Mapper -----------------
 
     /**
@@ -64,10 +58,6 @@ public class PostDetailService extends AbsUtilService {
         // コントローラーから渡された値を取得
         this.postForm = postControlDto.getPostForm();
         this.mav = postControlDto.getMav();
-
-        // ログイン情報を格納
-        this.mav.addObject("isLogin", this.sessionData.isLogin());
-
     }
 
     /**

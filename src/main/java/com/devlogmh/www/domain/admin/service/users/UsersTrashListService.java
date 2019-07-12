@@ -43,10 +43,8 @@ public class UsersTrashListService extends AbsUtilService {
         // コントローラーから渡された値を取得
         this.mav = usersControlDto.getMav();
 
-        // ログイン情報を格納
-        this.mav.addObject("isLogin", this.sessionData.isLogin());
-
     }
+
     /**
      * 主処理
      */
