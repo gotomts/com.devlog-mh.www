@@ -1,7 +1,7 @@
 package com.devlogmh.www.domain.admin.service.postDetail;
 
-import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.service.aws.AwsS3Service;
+import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.Contains.DelFlg;
 import com.devlogmh.www.domain.admin.util.FileUploadUtil;
 import com.devlogmh.www.domain.admin.util.SiteInfoUtil;
@@ -21,14 +21,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static com.devlogmh.www.domain.admin.util.Contains.UPLOAD_FILE_NAME;
 
 /**
  * 投稿記事管理 新規登録処理
@@ -179,8 +173,11 @@ public class PostDetailCreateService extends AbsUtilService {
         // 削除フラグ
         postDto.setDelflg(DelFlg.NOT_DEL.getValue());
 
-        // 画像アップロード
-        FileUploadUtil.topImageUpload(awsS3Service, postDto, inputForm);
+        // アップロードファイルが存在するか確認
+        if (StringUtils.isNotEmpty(inputForm.getUploadFile().getOriginalFilename())) {
+            // 画像アップロード処理
+            FileUploadUtil.topImageUpload(awsS3Service , postDto, inputForm);
+        }
 
         postMapper.insert(postDto);
     }

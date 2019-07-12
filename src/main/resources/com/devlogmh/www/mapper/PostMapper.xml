@@ -47,9 +47,11 @@
             description     = #{description},
             keyword         = #{keyword},
             content         = #{content},
-            top_image_title = #{topImageTitle},
-            top_image_url   = #{topImageUrl},
-            top_image_alt   = #{topImageAlt},
+            <if test="topImageUrl">
+                top_image_title = #{topImageTitle},
+                top_image_url   = #{topImageUrl},
+                top_image_alt   = #{topImageAlt},
+            </if>
             category_id     = #{categoryId},
             status_id       = #{statusId},
             updater_id      = #{updaterId},

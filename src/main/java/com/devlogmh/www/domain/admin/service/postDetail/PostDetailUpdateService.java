@@ -177,8 +177,11 @@ public class PostDetailUpdateService extends AbsUtilService {
         // 削除フラグ
         postDto.setDelflg(Contains.DelFlg.NOT_DEL.getValue());
 
-        // 画像アップロード
-        FileUploadUtil.topImageUpload(awsS3Service , postDto, inputForm);
+        // アップロードファイルが存在するか確認
+        if (StringUtils.isNotEmpty(inputForm.getUploadFile().getOriginalFilename())) {
+            // 画像アップロード処理
+            FileUploadUtil.topImageUpload(awsS3Service , postDto, inputForm);
+        }
 
         postMapper.update(postDto);
     }
