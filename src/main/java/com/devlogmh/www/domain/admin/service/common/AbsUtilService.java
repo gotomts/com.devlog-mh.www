@@ -27,8 +27,11 @@ public abstract class AbsUtilService implements BaseService {
      */
     public void delegate(BaseControlDto dto) {
 
-        // ログイン情報をmavに格納
-        dto.getMav().addObject("isLogin", this.sessionData.isLogin());
+        // ログインセッションが存在するか確認
+//        if (Objects.nonNull(sessionData)) {
+            // ログイン情報をmavに格納
+            dto.getMav().addObject("isLogin", this.sessionData.isLogin());
+//        }
 
         // 初期化処理
         this.customInit();

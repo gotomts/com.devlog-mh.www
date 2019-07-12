@@ -1,5 +1,6 @@
 package com.devlogmh.www.mapper;
 
+import com.devlogmh.www.domain.model.blog.BlogDisplay;
 import com.devlogmh.www.domain.model.post.PostDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -59,5 +60,10 @@ public interface PostMapper {
      * @return
      */
     List<Long> selectAllId();
+
+    /**
+     * ステータスが公開かつ削除フラグが0の記事を検索
+     */
+    List<BlogDisplay> selectBlogDisplayList();
 
 }

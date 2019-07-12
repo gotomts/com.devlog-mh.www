@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devlogmh.www.mapper.BlogMapper">
+
+    <!-- ブログ記事表示 -->
+    <select id="selectBlogDisplayList" resultType="com.devlogmh.www.domain.model.blog.BlogDisplay">
+        <![CDATA[
+        SELECT
+            posts.id,
+            posts.url,
+            posts.title,
+            posts.description,
+            posts.keyword,
+            posts.content,
+            posts.top_image_title AS "topImageTitle",
+            posts.top_image_url   AS "topImageUrl",
+            posts.top_image_alt   AS "topImageAlt",
+            posts.category_id     AS "categoryId",
+            posts.status_id       AS "statusId",
+            posts.updated,
+            posts.delflg,
+            categories.name       AS "categoryName"
+        FROM
+            posts
+        LEFT OUTER JOIN categories ON
+            posts.category_id = categories.id
+        WHERE
+            posts.status_id = '8'
+            AND posts.delflg = '0'
+        ORDER BY updated DESC
+        ]]>
+    </select>
+
+</mapper>

@@ -38,7 +38,7 @@ public class IndexController {
     @GetMapping
     public ModelAndView index(ModelAndView mav, Principal principal) {
         // 参照するHTML
-        mav.setViewName("app/admin/index/index");
+        mav.setViewName("app/admin/top/top");
 
         // Principalからログインユーザの情報を取得
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
