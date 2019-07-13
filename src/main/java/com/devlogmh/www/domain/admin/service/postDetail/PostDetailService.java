@@ -4,7 +4,6 @@ import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.SiteInfoUtil;
 import com.devlogmh.www.domain.model.post.PostControlDto;
 import com.devlogmh.www.domain.model.post.PostForm;
-import com.devlogmh.www.domain.model.session.SessionData;
 import com.devlogmh.www.mapper.CategoryMapper;
 import com.devlogmh.www.mapper.PostMapper;
 import org.springframework.beans.factory.annotation.Autowired;

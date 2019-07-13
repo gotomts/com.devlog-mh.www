@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+
+<!-- ページャー -->
+<nav class="mb-5" th:object="${pager}" layout:fragment="pager" th:if="${pager.nextPage}">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="*{firstPage}? disabled">
+            <a th:href="*{prevPageLink}" class="page-link">&laquo; 前へ</a>
+        </li>
+        <li th:each="pagerLink : *{pagerLinkList}" th:object="${pagerLink}" class="page-item" th:classappend="*{currentPage}? disabled">
+            <a th:href="*{link}" th:text="*{text}" class="page-link"></a>
+        </li>
+        <li class="page-item" th:classappend="*{lastPage}? disabled">
+            <a th:href="*{nextPageLink}" class="page-link">次へ &raquo;</a>
+        </li>
+    </ul>
+</nav>
+
+</body>
+</html>

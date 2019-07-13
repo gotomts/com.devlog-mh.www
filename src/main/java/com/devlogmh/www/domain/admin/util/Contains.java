@@ -11,9 +11,14 @@ public class Contains {
     public static final int PAGE_VIEW_SIZE = 10;
 
     /**
-     * 時間のフォーマット
+     * 時間のフォーマット yyyy/MM/dd HH:mm
      */
     public static final String TIME_FORMAT = "yyyy/MM/dd HH:mm";
+
+    /**
+     * 時間のフォーマット yyyy/MM/dd
+     */
+    public static final String TIME_FORMAT_DATE = "yyyy/MM/dd";
 
     /**
      * 画像アップロード名

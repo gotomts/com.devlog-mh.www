@@ -40,6 +40,20 @@ public class CategoryDto extends CategoryEntity {
     @Setter
     private String errorMsg;
 
+    /**
+     * カテゴリーURL
+     * @param categoryUrl
+     * @return
+     */
+    @Getter
+    @Setter
+    private String categoryUrl;
+
+    /**
+     * アップデート時間
+     * @param updateTime
+     * @return
+     */
     public String getUpdateTime(Timestamp updateTime) {
         return TimestampUtil.formattedTimestamp(updateTime, Contains.TIME_FORMAT);
     }

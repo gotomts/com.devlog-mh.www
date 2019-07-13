@@ -11,42 +11,51 @@ import java.sql.Timestamp;
  */
 public class BlogDisplay {
 
-    /** 投稿記事ID */
+    /**
+     * 投稿記事ID
+     */
     @Getter
     @Setter
     private Long id;
 
-    /** url */
+    /**
+     * url
+     */
     @Getter
     @Setter
     private String url;
 
-    /** タイトル */
+    /**
+     * カテゴリーURL
+     */
+    @Getter
+    @Setter
+    private String categoryUrl;
+
+    /**
+     * タイトル
+     */
     @Getter
     @Setter
     private String title;
 
-    /** キーワード */
-    @Getter
-    @Setter
-    private String keyword;
-
-    /** ディスクリプション */
-    @Getter
-    @Setter
-    private String description;
-
-    /** カテゴリーID */
+    /**
+     * カテゴリーID
+     */
     @Setter
     @Getter
     private Long categoryId;
 
-    /** カテゴリー名 */
-    @Setter
+    /**
+     * カテゴリー名
+     */
     @Getter
+    @Setter
     private String categoryName;
 
-    /** ステータスID */
+    /**
+     * ステータスID
+     */
     @Setter
     @Getter
     private Long statusId;
@@ -55,27 +64,43 @@ public class BlogDisplay {
      * 画像 有無
      */
     @Setter
+    @Getter
     private boolean isTopImage;
 
-    /** アイキャッチ画像／URL */
+    /**
+     * アイキャッチ画像／URL
+     */
     @Getter
     @Setter
     private String topImageUrl;
 
-    /** アイキャッチ画像／Titleタグ */
+    /**
+     * アイキャッチ画像／Titleタグ
+     */
     @Getter
     @Setter
     private String topImageTitle;
 
-    /** アイキャッチ画像／Altタグ */
+    /**
+     * アイキャッチ画像／Altタグ
+     */
     @Getter
     @Setter
     private String topImageAlt;
 
-    /** コンテンツ */
+    /**
+     * コンテンツ
+     */
     @Getter
     @Setter
     private String content;
+
+    /**
+     * 公開日
+     */
+    @Getter
+    @Setter
+    private String date;
 
     /**
      * 作成日時
@@ -92,13 +117,6 @@ public class BlogDisplay {
     private Timestamp updated;
 
     /**
-     * フォーマット後の更新時間
-     */
-    @Getter
-    @Setter
-    private String updateTime;
-
-    /**
      * 削除フラグ
      */
     @Getter
@@ -107,11 +125,10 @@ public class BlogDisplay {
 
     /**
      * アイキャッチ画像の有無を判定し、取得します。
+     *
      * @param topImageUrl
      * @return true 画像あり / false 画像なし
      */
-
-
     public boolean isTopImage(String topImageUrl) {
 
         // 画像の有無を判定
@@ -119,4 +136,5 @@ public class BlogDisplay {
 
         return this.isTopImage;
     }
+
 }

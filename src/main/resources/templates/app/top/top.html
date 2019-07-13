@@ -4,30 +4,29 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{app/common/_base}">
 
-<head>
-  <title>トップ</title>
-  <meta name="keywords" content="トップ" />
-  <meta name="description" content="トップ" />
-</head>
-
 <body>
 
 <div layout:fragment="contents">
-  <div th:each="i : ${pagedListHolder.pageList}" th:object="${i}">
-    <article class="blog-post">
-      <header class="blog-post-header">
-        <h1 class="blog-post-title"><a class="text-dark" th:href="@{url}" th:text="*{title}">ページタイトル</a></h1>
-        <p class="blog-post-meta">2019/07/12 <a th:href="@{/category/{categoryName}}" th:text="*{categoryName}">カテゴリー</a></p>
-        <div th:if="${isTopImage}">
-          <figure class="text-center">
-            <img class="img-fluid" th:src="*{topImageUrl}" th:title="*{topImageTitle}" th:alt="*{topImageAlt}">
-          </figure>
-        </div>
-        <div th:utext="*{content}"></div>
-        <p><a class="btn btn-primary mt-2" th:href="@{url}">続きを読む</a></p>
-      </header>
-    </article>
-  </div>
+
+  <article class="blog-post" th:each="i : ${pagedListHolder.pageList}" th:object="${i}">
+    <header class="blog-post-header">
+      <h1 class="blog-post-title"><a class="text-dark" th:href="*{url}" th:text="*{title}">ページタイトル</a></h1>
+      <p class="blog-post-meta">
+        <span th:text="*{date}"></span>
+        <a th:href="*{categoryUrl}" th:text="*{categoryName}">カテゴリー</a>
+      </p>
+      <div th:if="*{topImage}">
+        <figure class="text-center">
+          <img class="img-fluid" th:src="*{topImageUrl}" th:title="*{topImageTitle}" th:alt="*{topImageAlt}">
+        </figure>
+      </div>
+      <div th:utext="*{content}"></div>
+      <p><a class="btn btn-primary mt-2" th:href="*{url}">続きを読む</a></p>
+    </header>
+  </article>
+
+  <div layout:replace="app/common/_component::pager"></div>
+
 </div>
 
 </body>

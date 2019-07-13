@@ -9,8 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static com.devlogmh.www.domain.admin.util.RoutesContains.TOP;
 
-//import com.devlogmh.www.domain.service.top.TopService;
-
 /**
  * トップページ表示 コントローラー
  */
