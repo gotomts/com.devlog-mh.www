@@ -101,7 +101,7 @@ public class TopService extends AbsUtilService {
     /**
      * Webサイト Meta情報設定
      */
-    public BlogMetaDisplay setupBlogMetaDisplay() {
+    private BlogMetaDisplay setupBlogMetaDisplay() {
 
         BlogMetaDisplay blogMetaDisplay = new BlogMetaDisplay();
 
@@ -121,7 +121,7 @@ public class TopService extends AbsUtilService {
      * カテゴリー 一覧設定
      * @return categorylist
      */
-    public List<CategoryDto> setupCategoryList() {
+    private List<CategoryDto> setupCategoryList() {
 
         // カテゴリー名称一覧を取得
         List<CategoryDto> categoryList = categoryMapper.selectCategoryListOrderByCategoryName(NOT_DEL.getValue());
@@ -136,7 +136,7 @@ public class TopService extends AbsUtilService {
      * ブログ記事取得します。<br />
      * @return ブログ記事DTO
      */
-    public PagedListHolder<BlogDisplay> init(String id) {
+    private PagedListHolder<BlogDisplay> init(String id) {
 
         // ブログ記事を取得
         List<BlogDisplay> displayList = blogMapper.selectBlogDisplayList();
@@ -151,7 +151,7 @@ public class TopService extends AbsUtilService {
      * @param id
      * @return pagenation
      */
-    public PagedListHolder<BlogDisplay> createPageList(List<BlogDisplay> displayList, String id) {
+    private PagedListHolder<BlogDisplay> createPageList(List<BlogDisplay> displayList, String id) {
 
         // ユーザー情報を1件ずつ取り出してDTOに格納
         for (BlogDisplay dto : displayList) {
@@ -198,7 +198,7 @@ public class TopService extends AbsUtilService {
      * @param orgUrl
      * @return
      */
-    public String getSetupUrl(String path, String orgUrl) {
+    private String getSetupUrl(String path, String orgUrl) {
 
         // 変数を初期化
         String url = null;
@@ -214,7 +214,7 @@ public class TopService extends AbsUtilService {
     /**
      * ページャーを生成して取得
      */
-    public Pager setupPager(PagedListHolder pagedListHolder) {
+    private Pager setupPager(PagedListHolder pagedListHolder) {
 
         Pager pager = new Pager();
 
@@ -284,14 +284,14 @@ public class TopService extends AbsUtilService {
     /**
      * 前ページの計算
      */
-    public int calcPrevPage(int page) {
+    private int calcPrevPage(int page) {
         return page - 1;
     }
 
     /**
      * 後ろページの計算
      */
-    public int calcNextPage(int page) {
+    private int calcNextPage(int page) {
         return page + 1;
     }
 
