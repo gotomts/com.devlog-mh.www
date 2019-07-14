@@ -50,6 +50,12 @@ public interface CategoryMapper {
     List<CategoryDto> selectCategoryListOrderByCategoryName(@Param("delflg") int delflg);
 
     /**
+     * 投稿記事の存在するカテゴリー一覧を取得
+     * @return
+     */
+    List<CategoryDto> selectCategoryListInPostOrderByCategoryName();
+
+    /**
      * ゴミ箱へ移動
      * @param categoryDto
      */

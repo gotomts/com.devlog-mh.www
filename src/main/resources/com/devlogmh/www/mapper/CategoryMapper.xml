@@ -109,6 +109,21 @@
         ]]>
     </select>
 
+    <!-- 投稿記事の存在するカテゴリー一覧を取得 -->
+    <select id="selectCategoryListInPostOrderByCategoryName" resultType="com.devlogmh.www.domain.model.category.CategoryDto">
+        <![CDATA[
+        SELECT DISTINCT
+            categories.name AS "categoryName"
+        FROM
+            categories
+        INNER JOIN posts ON
+            categories.id = posts.category_id
+        WHERE
+            categories.delflg = '0'
+        ORDER BY "categoryName" ASC
+        ]]>
+    </select>
+
     <!-- ゴミ箱へ移動させる -->
     <update id="trashMove" parameterType="com.devlogmh.www.domain.model.category.CategoryDto">
         UPDATE categories SET

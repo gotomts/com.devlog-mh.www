@@ -3,11 +3,11 @@ package com.devlogmh.www.domain.util;
 import com.devlogmh.www.domain.admin.util.SiteInfoUtil;
 import com.devlogmh.www.domain.model.category.CategoryDto;
 import com.devlogmh.www.mapper.CategoryMapper;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.devlogmh.www.domain.admin.util.Contains.DelFlg.NOT_DEL;
 import static com.devlogmh.www.domain.contains.WebInfoContains.CATEGORY_URL;
 
 /**
@@ -55,14 +55,16 @@ public class WebInfoUtil {
      * カテゴリー 一覧設定
      * @return categorylist
      */
-    public static List<CategoryDto> setupCategoryList(CategoryMapper categoryMapper, HttpServletRequest request) {
+    public static void setupCategoryList(CategoryMapper categoryMapper, HttpServletRequest request, ModelAndView mav) {
 
         // カテゴリー名称一覧を取得
-        List<CategoryDto> categoryList = categoryMapper.selectCategoryListOrderByCategoryName(NOT_DEL.getValue());
+        List<CategoryDto> categoryList = categoryMapper.selectCategoryListInPostOrderByCategoryName();
         for (CategoryDto categoryDto: categoryList) {
             categoryDto.setCategoryUrl(WebInfoUtil.getSetupUrl(request, CATEGORY_URL, categoryDto.getCategoryName()));
         }
-        return categoryList;
+
+        // ModelAndViewにオブジェクトを追加
+        mav.addObject("categoryList", categoryList);
 
     }
 

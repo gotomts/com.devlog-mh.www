@@ -8,7 +8,6 @@ import com.devlogmh.www.domain.model.PagerLink;
 import com.devlogmh.www.domain.model.blog.BlogControlDto;
 import com.devlogmh.www.domain.model.blog.BlogDisplay;
 import com.devlogmh.www.domain.model.blog.BlogMetaDisplay;
-import com.devlogmh.www.domain.model.category.CategoryDto;
 import com.devlogmh.www.domain.util.WebInfoUtil;
 import com.devlogmh.www.mapper.BlogMapper;
 import com.devlogmh.www.mapper.CategoryMapper;
@@ -65,8 +64,7 @@ public class TopService extends AbsUtilService {
         }
 
         // グローバルナビゲーションに表示するカテゴリー一覧
-        List<CategoryDto> categoryList = WebInfoUtil.setupCategoryList(categoryMapper, request);
-        this.mav.addObject("categoryList", categoryList);
+        WebInfoUtil.setupCategoryList(categoryMapper, request, mav);
 
     }
 

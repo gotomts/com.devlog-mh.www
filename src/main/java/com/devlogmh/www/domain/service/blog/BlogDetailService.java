@@ -4,7 +4,6 @@ import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.model.blog.BlogControlDto;
 import com.devlogmh.www.domain.model.blog.BlogDetailDisplay;
 import com.devlogmh.www.domain.model.blog.BlogMetaDisplay;
-import com.devlogmh.www.domain.model.category.CategoryDto;
 import com.devlogmh.www.domain.util.WebInfoUtil;
 import com.devlogmh.www.mapper.BlogMapper;
 import com.devlogmh.www.mapper.CategoryMapper;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 import static com.devlogmh.www.domain.contains.WebInfoContains.CATEGORY_URL;
 
@@ -49,8 +47,7 @@ public class BlogDetailService extends AbsUtilService {
         this.mav = this.blogControlDto.getMav();
 
         // グローバルナビゲーションに表示するカテゴリー一覧
-        List<CategoryDto> categoryList = WebInfoUtil.setupCategoryList(categoryMapper, request);
-        this.mav.addObject("categoryList", categoryList);
+        WebInfoUtil.setupCategoryList(categoryMapper, request, mav);
 
     }
 
