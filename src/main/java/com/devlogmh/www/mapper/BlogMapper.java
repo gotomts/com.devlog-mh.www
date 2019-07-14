@@ -18,6 +18,11 @@ public interface BlogMapper {
     List<BlogDisplay> selectBlogDisplayList();
 
     /**
+     * ステータスが公開かつ削除フラグが0の記事を検索
+     */
+    List<BlogDisplay> selectBlogDisplayListByCategory(String category);
+
+    /**
      * ブログ記事詳細
      */
     BlogDetailDisplay selectByCategoryAndUrl(String category, String url);

@@ -14,7 +14,7 @@ public class RoutesContains {
     public static final String ERROR_4XX = "app/admin/error/4xx";
 
     /** 5xxエラー */
-    public static final String ERROR_5XX = "app/admin/error/4xx";
+    public static final String ERROR_5XX = "app/admin/error/5xx";
 
     /** 上記以外のエラー */
     public static final String ERROR = "app/admin/error/error";
@@ -25,6 +25,9 @@ public class RoutesContains {
 
     /** トップページ */
     public static final String TOP = "app/top/top";
+
+    /** カテゴリー一覧 */
+    public static final String CATEGORY_LIST = "app/category/category";
 
     /** ブログ詳細 */
     public static final String BLOG_DETAIL = "app/blog/blog-detail";
