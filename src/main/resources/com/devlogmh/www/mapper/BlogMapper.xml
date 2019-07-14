@@ -64,4 +64,33 @@
         ]]>
     </select>
 
+    <!-- ブログ記事詳細表示 -->
+    <select id="selectByCategoryAndUrl" resultType="com.devlogmh.www.domain.model.blog.BlogDetailDisplay">
+        <![CDATA[
+        SELECT
+            posts.id,
+            posts.url,
+            posts.title,
+            posts.description,
+            posts.keyword,
+            posts.content,
+            posts.top_image_title AS "topImageTitle",
+            posts.top_image_url   AS "topImageUrl",
+            posts.top_image_alt   AS "topImageAlt",
+            posts.category_id     AS "categoryId",
+            posts.status_id       AS "statusId",
+            posts.created,
+            posts.updated,
+            posts.delflg,
+            categories.name       AS "categoryName"
+        FROM
+            posts
+        LEFT OUTER JOIN categories ON
+            posts.category_id = categories.id
+        WHERE
+            posts.url = #{url}
+            AND categories.name = #{category}
+        ]]>
+    </select>
+
 </mapper>

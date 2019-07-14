@@ -18,9 +18,9 @@ public class WebInfoContains {
     public static String WEB_SITE_DESCRIPTION = "description";
 
     /** 記事詳細 */
-    public static String POST_URL = "post/";
+    public static String BLOG_URL = "blog/";
 
     /** カテゴリー */
-    public static String CATEOGRY_URL = "category/";
+    public static String CATEGORY_URL = "category/";
 
 }

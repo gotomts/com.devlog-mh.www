@@ -126,7 +126,7 @@ public class TopService extends AbsUtilService {
         // カテゴリー名称一覧を取得
         List<CategoryDto> categoryList = categoryMapper.selectCategoryListOrderByCategoryName(NOT_DEL.getValue());
         for (CategoryDto categoryDto: categoryList) {
-            categoryDto.setCategoryUrl(this.getSetupUrl(CATEOGRY_URL, categoryDto.getCategoryName()));
+            categoryDto.setCategoryUrl(this.getSetupUrl(CATEGORY_URL, categoryDto.getCategoryName()));
         }
         return categoryList;
 
@@ -162,11 +162,11 @@ public class TopService extends AbsUtilService {
             // タイトル
             dto.setTitle(dto.getTitle());
             // URL
-            dto.setUrl(this.getSetupUrl(POST_URL, dto.getUrl()));
+            dto.setUrl(this.getSetupUrl(BLOG_URL, dto.getCategoryName() + "/", dto.getUrl()));
             // 作成日
             dto.setDate(TimestampUtil.formattedTimestamp(dto.getCreated(), TIME_FORMAT_DATE));
             // カテゴリーURL
-            dto.setCategoryUrl(this.getSetupUrl(CATEOGRY_URL, dto.getCategoryName()));
+            dto.setCategoryUrl(this.getSetupUrl(CATEGORY_URL, dto.getCategoryName()));
             // カテゴリー名
             dto.setCategoryName(dto.getCategoryName());
             // コンテンツ
@@ -196,7 +196,7 @@ public class TopService extends AbsUtilService {
     /**
      * URLを生成して取得
      * @param orgUrl
-     * @return
+     * @return url
      */
     private String getSetupUrl(String path, String orgUrl) {
 
@@ -205,6 +205,24 @@ public class TopService extends AbsUtilService {
 
         // URLを結合
         url = SiteInfoUtil.getRootPath(request) + path + orgUrl;
+
+        // 返却
+        return url;
+
+    }
+
+    /**
+     * URLを生成して取得
+     * @param orgUrl
+     * @return url
+     */
+    private String getSetupUrl(String path1, String path2, String orgUrl) {
+
+        // 変数を初期化
+        String url = null;
+
+        // URLを結合
+        url = SiteInfoUtil.getRootPath(request) + path1 + path2 + orgUrl;
 
         // 返却
         return url;

@@ -26,6 +26,8 @@ public class RoutesContains {
     /** トップページ */
     public static final String TOP = "app/top/top";
 
+    /** ブログ詳細 */
+    public static final String BLOG_DETAIL = "app/blog/blog-detail";
 
     // ------------------------------------
     // ▼ 管理画面

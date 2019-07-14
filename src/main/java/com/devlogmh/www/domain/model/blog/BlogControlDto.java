@@ -19,6 +19,20 @@ public class BlogControlDto extends BaseControlDto {
     private Long id;
 
     /**
+     * PathVariable用 カテゴリー
+     */
+    @Getter
+    @Setter
+    private String category;
+
+    /**
+     * PathVariable用 URL
+     */
+    @Getter
+    @Setter
+    private String url;
+
+    /**
      * ブログ記事表示ディスプレイ
      */
     @Getter
