@@ -1,6 +1,7 @@
 package com.devlogmh.www.domain.service.blog;
 
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
+import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.blog.BlogControlDto;
 import com.devlogmh.www.domain.model.blog.BlogDetailDisplay;
 import com.devlogmh.www.domain.model.blog.BlogMetaDisplay;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.devlogmh.www.domain.admin.util.Contains.TIME_FORMAT_DATE;
 import static com.devlogmh.www.domain.contains.WebInfoContains.CATEGORY_URL;
 
 /**
@@ -84,8 +86,12 @@ public class BlogDetailService extends AbsUtilService {
      */
     private void setupBlogDetailDisplay(BlogDetailDisplay blogDetailDisplay) {
 
+        // 作成日
+        blogDetailDisplay.setDate(TimestampUtil.formattedTimestamp(blogDetailDisplay.getCreated(), TIME_FORMAT_DATE));
         // カテゴリーURL
         blogDetailDisplay.setCategoryUrl(WebInfoUtil.getSetupUrl(request, CATEGORY_URL, blogDetailDisplay.getCategoryName()));
+        // アイキャッチ画像の有無
+        blogDetailDisplay.setTopImage(blogDetailDisplay.isTopImage(blogDetailDisplay.getTopImageUrl()));
 
     }
 

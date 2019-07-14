@@ -1,17 +1,15 @@
 package com.devlogmh.www.domain.service.top;
 
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
-import com.devlogmh.www.domain.admin.util.SiteInfoUtil;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.Pager;
-import com.devlogmh.www.domain.model.PagerLink;
 import com.devlogmh.www.domain.model.blog.BlogControlDto;
 import com.devlogmh.www.domain.model.blog.BlogDisplay;
 import com.devlogmh.www.domain.model.blog.BlogMetaDisplay;
+import com.devlogmh.www.domain.util.PagerUtil;
 import com.devlogmh.www.domain.util.WebInfoUtil;
 import com.devlogmh.www.mapper.BlogMapper;
 import com.devlogmh.www.mapper.CategoryMapper;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -87,7 +84,7 @@ public class TopService extends AbsUtilService {
         PagedListHolder<BlogDisplay> pagedListHolder = this.init(pathNum);
 
         // ページャーの設定
-        Pager pager = this.setupPager(pagedListHolder);
+        Pager pager = PagerUtil.setupPager(pagedListHolder, this.blogControlDto, this.request);
 
         // MAVにオブジェクトを詰める
         this.mav.addObject("blogMetaDisplay", blogMetaDisplay);
@@ -177,94 +174,7 @@ public class TopService extends AbsUtilService {
 
 
 
-    /**
-     * ページャーを生成して取得
-     */
-    private Pager setupPager(PagedListHolder pagedListHolder) {
 
-        Pager pager = new Pager();
-
-        // 最初のページ
-        pager.setFirstPage(pagedListHolder.isFirstPage());
-        // 最後のページ
-        pager.setLastPage(pagedListHolder.isLastPage());
-        // ページャーのリンク数
-        this.setPagerLinkList(pager, pagedListHolder);
-        // 前のページ
-        pager.setPrevPageLink(this.calcPrevPage(pagedListHolder.getPage()));
-        // 後ろのページ
-        pager.setNextPageLink(this.calcNextPage(pagedListHolder.getPage()));
-        // 次ページが存在するか
-        pager.setNextPage(pagedListHolder.getPageCount() != 1);
-
-        return pager;
-
-    }
-
-    /**
-     * ページャーの拡張設定
-     * @param pager
-     * @param pagedListHolder
-     */
-    private void setPagerLinkList(Pager pager, PagedListHolder pagedListHolder) {
-
-        // リンクのある最後のページ - 最初のページ
-        int pageDiff = pagedListHolder.getLastLinkedPage() - pagedListHolder.getFirstLinkedPage();
-
-        // ページャーのリンクと表示リストの準備
-        List<PagerLink> pagerLinkList = new ArrayList<>();
-
-        // ページャーのリンク数を計算
-        for (int i = 0; i <= pageDiff; i++) {
-            // ページャーリスト用
-            PagerLink pagerLink = new PagerLink();
-            // ページャー リンク
-            pagerLink.setLink(SiteInfoUtil.getRootPath(request) + String.valueOf(i));
-            // ページャー 表示テキスト
-            pagerLink.setText(String.valueOf(i + 1));
-            // ページャー 現在位置判定
-            pagerLink.setCurrentPage(this.isCurrentPage(i));
-            // リストに追加
-            pagerLinkList.add(pagerLink);
-
-            this.isCurrentPage(i);
-        }
-
-        // ページャーリストを設定
-        pager.setPagerLinkList(pagerLinkList);
-
-    }
-
-    /**
-     * 現在ページの判定
-     * @param currentPage
-     * @return true 現在ページ / false 別ページ
-     */
-    private boolean isCurrentPage(int currentPage) {
-
-        boolean result = false;
-
-        if (StringUtils.equals(blogControlDto.getPathNum(), String.valueOf(currentPage))) {
-            result = true;
-        }
-
-        return result;
-
-    }
-
-    /**
-     * 前ページの計算
-     */
-    private int calcPrevPage(int page) {
-        return page - 1;
-    }
-
-    /**
-     * 後ろページの計算
-     */
-    private int calcNextPage(int page) {
-        return page + 1;
-    }
 
 
 }

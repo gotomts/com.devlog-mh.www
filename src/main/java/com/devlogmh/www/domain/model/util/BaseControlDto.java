@@ -24,6 +24,11 @@ public class BaseControlDto {
     private String pathNum;
 
     /**
+     * PathVariable カテゴリー
+     */
+    private String pathCategory;
+
+    /**
      * バリデーションチェック結果
      */
     private BindingResult bindingResult;

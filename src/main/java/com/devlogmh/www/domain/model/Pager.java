@@ -38,12 +38,12 @@ public class Pager {
     /** 前のページリンク */
     @Getter
     @Setter
-    private int prevPageLink;
+    private String prevPageLink;
 
     /** 後ろのページリンク */
     @Getter
     @Setter
-    private int nextPageLink;
+    private String nextPageLink;
 
     /** 次ページが存在するか */
     @Getter

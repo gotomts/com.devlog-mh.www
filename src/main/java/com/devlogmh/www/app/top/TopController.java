@@ -37,6 +37,7 @@ public class TopController {
 
         // パスパラメータ
         this.blogControlDto.setPathNum(id);
+        this.blogControlDto.setPathCategory(null);
         // ModelAndView
         this.blogControlDto.setMav(mav);
 
