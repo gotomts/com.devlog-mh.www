@@ -1,11 +1,11 @@
 package com.devlogmh.www.domain.service.blog;
 
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
-import com.devlogmh.www.domain.admin.util.SiteInfoUtil;
 import com.devlogmh.www.domain.model.blog.BlogControlDto;
 import com.devlogmh.www.domain.model.blog.BlogDetailDisplay;
 import com.devlogmh.www.domain.model.blog.BlogMetaDisplay;
 import com.devlogmh.www.domain.model.category.CategoryDto;
+import com.devlogmh.www.domain.util.WebInfoUtil;
 import com.devlogmh.www.mapper.BlogMapper;
 import com.devlogmh.www.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.devlogmh.www.domain.admin.util.Contains.DelFlg.NOT_DEL;
 import static com.devlogmh.www.domain.contains.WebInfoContains.CATEGORY_URL;
 
 /**
@@ -50,7 +49,7 @@ public class BlogDetailService extends AbsUtilService {
         this.mav = this.blogControlDto.getMav();
 
         // グローバルナビゲーションに表示するカテゴリー一覧
-        List<CategoryDto> categoryList = this.setupCategoryList();
+        List<CategoryDto> categoryList = WebInfoUtil.setupCategoryList(categoryMapper, request);
         this.mav.addObject("categoryList", categoryList);
 
     }
@@ -70,6 +69,9 @@ public class BlogDetailService extends AbsUtilService {
         // ブログ記事詳細
         BlogDetailDisplay blogDetailDisplay = blogMapper.selectByCategoryAndUrl(category, url);
 
+        // ブログ記事詳細 拡張設定
+        this.setupBlogDetailDisplay(blogDetailDisplay);
+
         // WebサイトのMeta情報を取得
         BlogMetaDisplay blogMetaDisplay = this.setupBlogMetaDisplay(blogDetailDisplay);
 
@@ -80,10 +82,24 @@ public class BlogDetailService extends AbsUtilService {
     }
 
     /**
+     * ブログ記事詳細 拡張設定
+     * @param blogDetailDisplay
+     */
+    private void setupBlogDetailDisplay(BlogDetailDisplay blogDetailDisplay) {
+
+        // カテゴリーURL
+        blogDetailDisplay.setCategoryUrl(WebInfoUtil.getSetupUrl(request, CATEGORY_URL, blogDetailDisplay.getCategoryName()));
+
+    }
+
+    /**
      * Webサイト Meta情報設定
+     * @param blogDetailDisplay
+     * @return blogMetaDisplay
      */
     private BlogMetaDisplay setupBlogMetaDisplay(BlogDetailDisplay blogDetailDisplay) {
 
+        // 設定の準備
         BlogMetaDisplay blogMetaDisplay = new BlogMetaDisplay();
 
         // Title
@@ -94,39 +110,6 @@ public class BlogDetailService extends AbsUtilService {
         blogMetaDisplay.setDescription(blogDetailDisplay.getDescription());
 
         return blogMetaDisplay;
-
-    }
-
-    /**
-     * カテゴリー 一覧設定
-     * @return categorylist
-     */
-    private List<CategoryDto> setupCategoryList() {
-
-        // カテゴリー名称一覧を取得
-        List<CategoryDto> categoryList = categoryMapper.selectCategoryListOrderByCategoryName(NOT_DEL.getValue());
-        for (CategoryDto categoryDto: categoryList) {
-            categoryDto.setCategoryUrl(this.getSetupUrl(CATEGORY_URL, categoryDto.getCategoryName()));
-        }
-        return categoryList;
-
-    }
-
-    /**
-     * URLを生成して取得
-     * @param orgUrl
-     * @return
-     */
-    private String getSetupUrl(String path, String orgUrl) {
-
-        // 変数を初期化
-        String url = null;
-
-        // URLを結合
-        url = SiteInfoUtil.getRootPath(request) + path + orgUrl;
-
-        // 返却
-        return url;
 
     }
 

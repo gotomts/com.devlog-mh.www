@@ -69,7 +69,7 @@ strong {
   font-size: 0.8rem; }
 
 .blog-breadcrumb {
-  margin: 2rem 0 6rem; }
+  margin: 2rem 0; }
 
 .card .btn-sm {
   display: inline-block; }

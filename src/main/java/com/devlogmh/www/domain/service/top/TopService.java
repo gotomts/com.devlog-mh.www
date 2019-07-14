@@ -9,6 +9,7 @@ import com.devlogmh.www.domain.model.blog.BlogControlDto;
 import com.devlogmh.www.domain.model.blog.BlogDisplay;
 import com.devlogmh.www.domain.model.blog.BlogMetaDisplay;
 import com.devlogmh.www.domain.model.category.CategoryDto;
+import com.devlogmh.www.domain.util.WebInfoUtil;
 import com.devlogmh.www.mapper.BlogMapper;
 import com.devlogmh.www.mapper.CategoryMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.devlogmh.www.domain.admin.util.Contains.DelFlg.NOT_DEL;
 import static com.devlogmh.www.domain.admin.util.Contains.PAGE_VIEW_SIZE;
 import static com.devlogmh.www.domain.admin.util.Contains.TIME_FORMAT_DATE;
 import static com.devlogmh.www.domain.contains.WebInfoContains.*;
@@ -64,6 +64,10 @@ public class TopService extends AbsUtilService {
             blogControlDto.setPathNum("0");
         }
 
+        // グローバルナビゲーションに表示するカテゴリー一覧
+        List<CategoryDto> categoryList = WebInfoUtil.setupCategoryList(categoryMapper, request);
+        this.mav.addObject("categoryList", categoryList);
+
     }
 
     /**
@@ -81,9 +85,6 @@ public class TopService extends AbsUtilService {
         // WebサイトのMeta情報を取得
         BlogMetaDisplay blogMetaDisplay = this.setupBlogMetaDisplay();
 
-        // グローバルナビゲーションに表示するカテゴリー一覧
-        List<CategoryDto> categoryList = this.setupCategoryList();
-
         // サービスの初期処理
         PagedListHolder<BlogDisplay> pagedListHolder = this.init(pathNum);
 
@@ -92,7 +93,6 @@ public class TopService extends AbsUtilService {
 
         // MAVにオブジェクトを詰める
         this.mav.addObject("blogMetaDisplay", blogMetaDisplay);
-        this.mav.addObject("categoryList", categoryList);
         this.mav.addObject("pagedListHolder", pagedListHolder);
         this.mav.addObject("pager", pager);
 
@@ -113,22 +113,6 @@ public class TopService extends AbsUtilService {
         blogMetaDisplay.setDescription(WEB_SITE_DESCRIPTION);
 
         return blogMetaDisplay;
-
-    }
-
-
-    /**
-     * カテゴリー 一覧設定
-     * @return categorylist
-     */
-    private List<CategoryDto> setupCategoryList() {
-
-        // カテゴリー名称一覧を取得
-        List<CategoryDto> categoryList = categoryMapper.selectCategoryListOrderByCategoryName(NOT_DEL.getValue());
-        for (CategoryDto categoryDto: categoryList) {
-            categoryDto.setCategoryUrl(this.getSetupUrl(CATEGORY_URL, categoryDto.getCategoryName()));
-        }
-        return categoryList;
 
     }
 
@@ -162,11 +146,11 @@ public class TopService extends AbsUtilService {
             // タイトル
             dto.setTitle(dto.getTitle());
             // URL
-            dto.setUrl(this.getSetupUrl(BLOG_URL, dto.getCategoryName() + "/", dto.getUrl()));
+            dto.setUrl(WebInfoUtil.getSetupUrl(request, BLOG_URL, dto.getCategoryName() + "/", dto.getUrl()));
             // 作成日
             dto.setDate(TimestampUtil.formattedTimestamp(dto.getCreated(), TIME_FORMAT_DATE));
             // カテゴリーURL
-            dto.setCategoryUrl(this.getSetupUrl(CATEGORY_URL, dto.getCategoryName()));
+            dto.setCategoryUrl(WebInfoUtil.getSetupUrl(request, CATEGORY_URL, dto.getCategoryName()));
             // カテゴリー名
             dto.setCategoryName(dto.getCategoryName());
             // コンテンツ
@@ -193,41 +177,7 @@ public class TopService extends AbsUtilService {
 
     }
 
-    /**
-     * URLを生成して取得
-     * @param orgUrl
-     * @return url
-     */
-    private String getSetupUrl(String path, String orgUrl) {
 
-        // 変数を初期化
-        String url = null;
-
-        // URLを結合
-        url = SiteInfoUtil.getRootPath(request) + path + orgUrl;
-
-        // 返却
-        return url;
-
-    }
-
-    /**
-     * URLを生成して取得
-     * @param orgUrl
-     * @return url
-     */
-    private String getSetupUrl(String path1, String path2, String orgUrl) {
-
-        // 変数を初期化
-        String url = null;
-
-        // URLを結合
-        url = SiteInfoUtil.getRootPath(request) + path1 + path2 + orgUrl;
-
-        // 返却
-        return url;
-
-    }
 
     /**
      * ページャーを生成して取得
@@ -253,6 +203,11 @@ public class TopService extends AbsUtilService {
 
     }
 
+    /**
+     * ページャーの拡張設定
+     * @param pager
+     * @param pagedListHolder
+     */
     private void setPagerLinkList(Pager pager, PagedListHolder pagedListHolder) {
 
         // リンクのある最後のページ - 最初のページ

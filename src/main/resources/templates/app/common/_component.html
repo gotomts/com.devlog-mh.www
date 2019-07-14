@@ -19,11 +19,11 @@
 </nav>
 
 <!-- パンくずリスト -->
-<nav layout:fragment="breadcrumb" class="blog-breadcrumb" aria-label="breadcrumb">
+<nav layout:fragment="breadcrumb" th:object="${blogDetailDisplay}" class="blog-breadcrumb" aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="./"> <i class="fas fa-home"></i> Home</a></li>
-        <li class="breadcrumb-item"><a href="./category?c=${dto.categoryId}">${dto.categoryName}</a></li>
-        <li class="breadcrumb-item active">${dto.title}</li>
+        <li class="breadcrumb-item"><a href="/"> <i class="fas fa-home"></i> Home</a></li>
+        <li class="breadcrumb-item"><a th:href="*{categoryUrl}" th:text="*{categoryName}"></a></li>
+        <li class="breadcrumb-item active" th:text="*{title}"></li>
     </ol>
 </nav>
 

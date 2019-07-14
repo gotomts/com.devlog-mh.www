@@ -15,14 +15,14 @@
         <span th:text="*{date}"></span>
         <a th:href="*{categoryUrl}" th:text="*{categoryName}">カテゴリー</a>
       </p>
-      <div th:if="*{topImage}">
-        <figure class="text-center">
-          <img class="img-fluid" th:src="*{topImageUrl}" th:title="*{topImageTitle}" th:alt="*{topImageAlt}">
-        </figure>
-      </div>
-      <div th:utext="*{content}"></div>
-      <p><a class="btn btn-primary mt-2" th:href="*{url}">続きを読む</a></p>
     </header>
+    <div th:if="*{topImage}">
+      <figure class="text-center">
+        <img class="img-fluid" th:src="*{topImageUrl}" th:title="*{topImageTitle}" th:alt="*{topImageAlt}">
+      </figure>
+    </div>
+    <div th:utext="*{content}"></div>
+    <p><a class="btn btn-primary mt-2" th:href="*{url}">続きを読む</a></p>
   </article>
 
   <div layout:replace="app/common/_component::pager"></div>

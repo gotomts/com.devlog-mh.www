@@ -4,9 +4,15 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{app/common/_base}">
 
+<head th:object="${blogMetaDisplay}">
+  <title>[[*{title}]]</title>
+</head>
+
 <body>
 
 <div layout:fragment="contents">
+
+  <div layout:replace="app/common/_component::breadcrumb"></div>
 
   <article class="blog-post" th:object="${blogDetailDisplay}">
     <header class="blog-post-header">
@@ -15,13 +21,13 @@
         <span th:text="*{date}"></span>
         <a th:href="*{categoryUrl}" th:text="*{categoryName}">カテゴリー</a>
       </p>
-      <div th:if="*{topImage}">
-        <figure class="text-center">
-          <img class="img-fluid" th:src="*{topImageUrl}" th:title="*{topImageTitle}" th:alt="*{topImageAlt}">
-        </figure>
-      </div>
-      <div th:utext="*{content}"></div>
     </header>
+    <div th:if="*{topImage}">
+      <figure class="text-center">
+        <img class="img-fluid" th:src="*{topImageUrl}" th:title="*{topImageTitle}" th:alt="*{topImageAlt}">
+      </figure>
+    </div>
+    <div th:utext="*{content}"></div>
   </article>
 
 </div>
