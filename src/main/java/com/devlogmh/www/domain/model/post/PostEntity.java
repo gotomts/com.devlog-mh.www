@@ -40,6 +40,11 @@ public class PostEntity {
     private String content;
 
     /**
+     * shortContent
+     */
+    private String shortContent;
+
+    /**
      * アイキャッチ画像/URL
      */
     private String topImageUrl;

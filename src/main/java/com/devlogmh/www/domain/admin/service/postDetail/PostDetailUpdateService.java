@@ -168,6 +168,8 @@ public class PostDetailUpdateService extends AbsUtilService {
         postDto.setStatusId(inputForm.getStatusId());
         // コンテンツ
         postDto.setContent(inputForm.getContent());
+        // コンテンツ 120文字まで
+        postDto.setShortContent(this.getShortContent(inputForm.getContent()));
         // 更新者
         postDto.setUpdaterId(sessionData.getUserId().longValue());
         // 登録時間
@@ -215,6 +217,22 @@ public class PostDetailUpdateService extends AbsUtilService {
 
     }
 
+    /**
+     * コンテンツを120文字までに加工します。
+     * @param orgContent
+     * @return shortContent
+     */
+    private String getShortContent(String orgContent) {
 
+        String shortContent = null;
+
+        String regex = "<.*?>";
+
+        String content = orgContent.replaceAll("<br>", "").replaceAll(regex, "");
+
+        shortContent = content.substring(0, 119);
+
+        return shortContent;
+    }
 
 }

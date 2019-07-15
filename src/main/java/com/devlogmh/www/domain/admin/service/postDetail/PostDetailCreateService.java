@@ -164,6 +164,8 @@ public class PostDetailCreateService extends AbsUtilService {
         postDto.setStatusId(inputForm.getStatusId());
         // コンテンツ
         postDto.setContent(inputForm.getContent());
+        // コンテンツ 120文字まで
+        postDto.setShortContent(this.getShortContent(inputForm.getContent()));
         // 更新者
         postDto.setUpdaterId(sessionData.getUserId().longValue());
         // 登録時間
@@ -205,6 +207,20 @@ public class PostDetailCreateService extends AbsUtilService {
             new DuplicateProductException();
         }
 
+    }
+
+    /**
+     * コンテンツを120文字までに加工します。
+     * @param content
+     * @return shortContent
+     */
+    private String getShortContent(String content) {
+
+        String shortContent = null;
+
+        System.out.println(content.matches("<[a-z]>"));
+
+        return shortContent;
     }
 
 }

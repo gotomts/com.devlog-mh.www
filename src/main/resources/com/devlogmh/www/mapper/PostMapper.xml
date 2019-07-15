@@ -12,6 +12,7 @@
             description,
             keyword,
             content,
+            short_content,
             top_image_title,
             top_image_url,
             top_image_alt,
@@ -27,6 +28,7 @@
             #{description},
             #{keyword},
             #{content},
+            #{shortContent},
             #{topImageTitle},
             #{topImageUrl},
             #{topImageAlt},
@@ -47,6 +49,7 @@
             description     = #{description},
             keyword         = #{keyword},
             content         = #{content},
+            short_content   = #{shortContent},
             <if test="topImageUrl">
                 top_image_title = #{topImageTitle},
                 top_image_url   = #{topImageUrl},
