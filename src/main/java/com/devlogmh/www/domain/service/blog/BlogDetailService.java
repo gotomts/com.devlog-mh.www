@@ -5,6 +5,7 @@ import com.devlogmh.www.domain.admin.util.TimestampUtil;
 import com.devlogmh.www.domain.model.blog.BlogControlDto;
 import com.devlogmh.www.domain.model.blog.BlogDetailDisplay;
 import com.devlogmh.www.domain.model.blog.BlogMetaDisplay;
+import com.devlogmh.www.domain.model.blog.BlogRecommendDisplay;
 import com.devlogmh.www.domain.util.WebInfoUtil;
 import com.devlogmh.www.mapper.BlogMapper;
 import com.devlogmh.www.mapper.CategoryMapper;
@@ -14,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import static com.devlogmh.www.domain.admin.util.Contains.TIME_FORMAT_DATE;
+import static com.devlogmh.www.domain.contains.WebInfoContains.BLOG_URL;
 import static com.devlogmh.www.domain.contains.WebInfoContains.CATEGORY_URL;
 
 /**
@@ -74,9 +77,13 @@ public class BlogDetailService extends AbsUtilService {
         // WebサイトのMeta情報を取得
         BlogMetaDisplay blogMetaDisplay = this.setupBlogMetaDisplay(blogDetailDisplay);
 
+        // おすすめ記事取得（カテゴリー絞り込み）
+        List<BlogRecommendDisplay> blogRecommendDisplayList = this.setupBlogRecommendDisplay(category);
+
         // MAVにオブジェクトを詰める
         this.mav.addObject("blogDetailDisplay", blogDetailDisplay);
         this.mav.addObject("blogMetaDisplay", blogMetaDisplay);
+        this.mav.addObject("blogRecommendDisplayList", blogRecommendDisplayList);
 
     }
 
@@ -113,6 +120,35 @@ public class BlogDetailService extends AbsUtilService {
         blogMetaDisplay.setDescription(blogDetailDisplay.getDescription());
 
         return blogMetaDisplay;
+
+    }
+
+    /**
+     * おすすめ記事
+     * @param category
+     * @return blogRecommendDisplayList
+     */
+    private List<BlogRecommendDisplay> setupBlogRecommendDisplay(String category) {
+
+        // おすすめ記事一覧を取得
+        List<BlogRecommendDisplay> blogRecommendDisplayList = this.blogMapper.selectBlogRecommendDisplayList(category);
+
+        for (BlogRecommendDisplay blogRecommendDisplay : blogRecommendDisplayList) {
+            // URL
+            blogRecommendDisplay.setUrl(WebInfoUtil.getSetupUrl(request, BLOG_URL, category + "/", blogRecommendDisplay.getUrl()));
+            // 作成日
+            blogRecommendDisplay.setDate(TimestampUtil.formattedTimestamp(blogRecommendDisplay.getCreated(), TIME_FORMAT_DATE));
+            // アイキャッチ画像の有無
+            blogRecommendDisplay.setTopImage(blogRecommendDisplay.isTopImage(blogRecommendDisplay.getTopImageUrl()));
+            // アイキャッチ画像がなかった場合
+            if (!blogRecommendDisplay.isTopImage()) {
+                blogRecommendDisplay.setTopImageUrl("http://placehold.it/320x160/?text=Not Image");
+                blogRecommendDisplay.setTopImageTitle("Not Image");
+                blogRecommendDisplay.setTopImageAlt("Not Image");
+            }
+        }
+
+        return blogRecommendDisplayList;
 
     }
 

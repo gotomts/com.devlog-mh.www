@@ -123,4 +123,32 @@
         ]]>
     </select>
 
+    <!-- おすすめ記事一覧取得 -->
+    <select id="selectBlogRecommendDisplayList" resultType="com.devlogmh.www.domain.model.blog.BlogRecommendDisplay">
+        <![CDATA[
+        SELECT
+            posts.id,
+            posts.url,
+            posts.title,
+            posts.content,
+            posts.top_image_title AS "topImageTitle",
+            posts.top_image_url   AS "topImageUrl",
+            posts.top_image_alt   AS "topImageAlt",
+            posts.category_id     AS "categoryId",
+            posts.status_id       AS "statusId",
+            posts.created,
+            posts.updated,
+            posts.delflg,
+            categories.name       AS "categoryName"
+        FROM
+            posts
+        LEFT OUTER JOIN categories ON
+            posts.category_id = categories.id
+        WHERE
+            categories.name = #{category}
+        ORDER BY posts.created ASC
+        LIMIT 4
+        ]]>
+    </select>
+
 </mapper>

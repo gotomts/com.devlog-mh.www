@@ -27,5 +27,25 @@
     </ol>
 </nav>
 
+<!-- おすすめ記事 -->
+<aside layout:fragment="recommend" class="mt-5">
+    <h3>おすすめ記事</h3>
+    <div class="clearfix row">
+        <div class="col-6 mb-4" th:each="blogRecommendDisplay : ${blogRecommendDisplayList}" th:object="${blogRecommendDisplay}">
+            <a th:href="*{url}" class="card">
+                <figure class="mt-0 mb-0 card-img-top text-center border-bottom">
+                    <img th:src="*{topImageUrl}" class="img-fluid" th:title="${topImageTitle}" th:alt="${topImageAlt}">
+                </figure>
+                <div class="card-body">
+                    <p class="card-meta" th:text="*{date}">2019/01/01</p>
+                    <h4 class="card-title" th:text="*{title}">タイトル</h4>
+                    <p th:text="*{content}"></p>
+                    <p class="btn-sm btn-primary">続きを読む</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</aside>
+
 </body>
 </html>

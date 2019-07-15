@@ -2,6 +2,7 @@ package com.devlogmh.www.mapper;
 
 import com.devlogmh.www.domain.model.blog.BlogDetailDisplay;
 import com.devlogmh.www.domain.model.blog.BlogDisplay;
+import com.devlogmh.www.domain.model.blog.BlogRecommendDisplay;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -27,4 +28,8 @@ public interface BlogMapper {
      */
     BlogDetailDisplay selectByCategoryAndUrl(String category, String url);
 
+    /**
+     * ブログおすすめ記事
+     */
+    List<BlogRecommendDisplay> selectBlogRecommendDisplayList(String category);
 }
