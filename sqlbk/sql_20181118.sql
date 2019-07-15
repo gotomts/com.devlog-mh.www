@@ -45,15 +45,6 @@ CREATE TABLE categories (
   delflg INTEGER DEFAULT 0 -- 削除フラグ
 );
 
--- アイキャッチ画像テーブルの作成
---CREATE TABLE post_images (
---  id SERIAL PRIMARY KEY,    -- 画像ID
---  name VARCHAR(255),
---  url VARCHAR(255),
---  title VARCHAR(255),
---  alt VARCHAR(255)
---);
-
 -- 投稿記事テーブルの作成
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,    -- 記事ID
@@ -62,6 +53,7 @@ CREATE TABLE posts (
   description TEXT,    -- ディスクリプション
   keyword TEXT,    -- キーワード
   content TEXT,    -- 内容
+  short_content VARCHAR(120),   --内容(120文字以内)
   top_image_title VARCHAR(255),    -- アイキャッチ画像タイトル
   top_image_url VARCHAR(255),    -- アイキャッチ画像URL
   top_image_alt VARCHAR(255),    -- アイキャッチ画像ALT

@@ -313,3 +313,6 @@ ALTER TABLE posts RENAME image_id TO top_image_id;
 ALTER TABLE posts ALTER COLUMN image_id DROP NOT NULL;
 
 DROP TABLE posts;
+
+-- カテゴリーテーブルに更新者カラムを追加する
+ALTER TABLE posts ADD short_content VARCHAR(120);
