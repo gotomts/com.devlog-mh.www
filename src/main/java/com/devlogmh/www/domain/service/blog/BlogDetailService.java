@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 import static com.devlogmh.www.domain.admin.util.Contains.TIME_FORMAT_DATE;
 import static com.devlogmh.www.domain.contains.WebInfoContains.BLOG_URL;
@@ -140,6 +141,8 @@ public class BlogDetailService extends AbsUtilService {
             blogRecommendDisplay.setDate(TimestampUtil.formattedTimestamp(blogRecommendDisplay.getCreated(), TIME_FORMAT_DATE));
             // アイキャッチ画像の有無
             blogRecommendDisplay.setTopImage(blogRecommendDisplay.isTopImage(blogRecommendDisplay.getTopImageUrl()));
+            // コンテンツ
+            blogRecommendDisplay.setContent(this.getRecommendContent(blogRecommendDisplay.getShortContent()));
             // アイキャッチ画像がなかった場合
             if (!blogRecommendDisplay.isTopImage()) {
                 blogRecommendDisplay.setTopImageUrl("http://placehold.it/320x160/?text=Not Image");
@@ -149,6 +152,27 @@ public class BlogDetailService extends AbsUtilService {
         }
 
         return blogRecommendDisplayList;
+
+    }
+
+    /**
+     * おすすめ記事用にコメント整形
+     * @param shortContent
+     * @return content
+     */
+    private String getRecommendContent(String shortContent) {
+
+        String content = null;
+
+        if (Objects.nonNull(shortContent)) {
+            if (shortContent.length() >= 30) {
+                content = shortContent.substring(0, 29);
+            } else {
+                content = shortContent;
+            }
+        }
+
+        return content;
 
     }
 

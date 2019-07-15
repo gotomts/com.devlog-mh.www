@@ -96,6 +96,13 @@ public class BlogDisplay {
     private String content;
 
     /**
+     * ショートコンテンツ
+     */
+    @Getter
+    @Setter
+    private String shortContent;
+
+    /**
      * 公開日
      */
     @Getter

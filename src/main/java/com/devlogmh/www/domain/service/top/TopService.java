@@ -136,28 +136,16 @@ public class TopService extends AbsUtilService {
         for (BlogDisplay dto : displayList) {
 
             // DTOに情報を詰める
-            // ID
-            dto.setId(dto.getId());
-            // タイトル
-            dto.setTitle(dto.getTitle());
             // URL
             dto.setUrl(WebInfoUtil.getSetupUrl(request, BLOG_URL, dto.getCategoryName() + "/", dto.getUrl()));
             // 作成日
             dto.setDate(TimestampUtil.formattedTimestamp(dto.getCreated(), TIME_FORMAT_DATE));
             // カテゴリーURL
             dto.setCategoryUrl(WebInfoUtil.getSetupUrl(request, CATEGORY_URL, dto.getCategoryName()));
-            // カテゴリー名
-            dto.setCategoryName(dto.getCategoryName());
             // コンテンツ
-            dto.setContent(dto.getContent());
+            dto.setContent(dto.getShortContent());
             // アイキャッチ画像の有無
             dto.setTopImage(dto.isTopImage(dto.getTopImageUrl()));
-            // アイキャッチ画像URL
-            dto.setTopImageUrl(dto.getTopImageUrl());
-            // アイキャッチ画像タイトル
-            dto.setTopImageTitle(dto.getTopImageTitle());
-            // アイキャッチ画像ALT
-            dto.setTopImageAlt(dto.getTopImageAlt());
 
         }
 
@@ -171,10 +159,5 @@ public class TopService extends AbsUtilService {
         return pagenation;
 
     }
-
-
-
-
-
 
 }

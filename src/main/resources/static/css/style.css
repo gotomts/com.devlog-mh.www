@@ -45,6 +45,9 @@ strong {
   margin-bottom: 0.5rem;
   color: #999; }
 
+.img-fluid {
+  max-height: 152px; }
+
 @media (min-width: 1200px) {
   .container-sm {
     max-width: 670px; } }
