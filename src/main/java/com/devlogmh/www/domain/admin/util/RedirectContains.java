@@ -5,6 +5,11 @@ package com.devlogmh.www.domain.admin.util;
  */
 public class RedirectContains {
 
+    //----------- ログイン ----------------
+
+    /** ログイン */
+    public static final String REDIRECT_LOGIN = "redirect:/admin/login";
+
     //----------- プロフィール ----------------
 
     /** プロフィール */

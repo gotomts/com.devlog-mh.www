@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 
+import static com.devlogmh.www.domain.admin.util.RedirectContains.REDIRECT_LOGIN;
 import static com.devlogmh.www.domain.admin.util.RoutesContains.ADMIN_INDEX;
 
 /**
@@ -39,8 +40,12 @@ public class IndexController {
      */
     @GetMapping
     public ModelAndView index(ModelAndView mav, Principal principal) {
-        // 参照するHTML
-        mav.setViewName(ADMIN_INDEX);
+
+        // ログイン確認
+        if (!this.sessionData.isLogin()) {
+            mav.setViewName(REDIRECT_LOGIN);
+            return mav;
+        }
 
         // Principalからログインユーザの情報を取得
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -55,6 +60,8 @@ public class IndexController {
 
         mav.addObject("isLogin", this.sessionData.isLogin());
 
+        // 参照するHTML
+        mav.setViewName(ADMIN_INDEX);
         return mav;
     }
 
