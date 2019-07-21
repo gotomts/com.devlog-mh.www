@@ -35,12 +35,10 @@
     </p>
 
     <div class="row">
-      <div class="col-2 mb-4" th:unless="${#lists.isEmpty(pagedListHolder.pageList)}">
-        <div th:each="i : ${pagedListHolder.pageList}" th:object="${i}">
-          <a th:href="@{/admin/images/edit/{id}(id=*{id})}">
-            <img th:src="*{url}" th:alt="*{alt}" title="*{title}">
-          </a>
-        </div>
+      <div class="col-2 mb-4" th:unless="${#lists.isEmpty(pagedListHolder.pageList)}" th:each="i : ${pagedListHolder.pageList}" th:object="${i}">
+        <a th:href="@{/admin/images/edit/{id}(id=*{id})}">
+          <img class="img-fluid" th:src="*{url}" th:alt="*{alt}" th:title="*{title}">
+        </a>
       </div>
     </div>
 
