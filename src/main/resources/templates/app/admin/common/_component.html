@@ -18,21 +18,19 @@
 </div>
 
 <!-- ページャー -->
-<div layout:fragment="pager" th:if="${pagedListHolder.pageCount != 1}">
-    <nav class="mb-5">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${pagedListHolder.firstPage}? disabled">
-                <a th:href="@{./{id}(id=*{pagedListHolder.getPage()-1})}" class="page-link">&laquo; 前へ</a>
-            </li>
-            <li th:each="i : ${#numbers.sequence(pagedListHolder.firstLinkedPage, pagedListHolder.lastLinkedPage)}" class="page-item" th:classappend="${pagedListHolder.page == i}? disabled">
-                <a th:href="@{${i}}" th:text="${i+1}" class="page-link"></a>
-            </li>
-            <li class="page-item" th:classappend="${pagedListHolder.lastPage}? disabled">
-                <a th:href="@{./{id}(id=*{pagedListHolder.getPage()+1})}" class="page-link">次へ &raquo;</a>
-            </li>
-        </ul>
-    </nav>
-</div>
+<nav class="mb-5" th:object="${pager}" layout:fragment="pager" th:if="${pager.nextPage}">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="*{firstPage}? disabled">
+            <a th:href="*{prevPageLink}" class="page-link">&laquo; 前へ</a>
+        </li>
+        <li th:each="pagerLink : *{pagerLinkList}" th:object="${pagerLink}" class="page-item" th:classappend="*{currentPage}? disabled">
+            <a th:href="*{link}" th:text="*{text}" class="page-link"></a>
+        </li>
+        <li class="page-item" th:classappend="*{lastPage}? disabled">
+            <a th:href="*{nextPageLink}" class="page-link">次へ &raquo;</a>
+        </li>
+    </ul>
+</nav>
 
 <!-- ゴミ箱 -->
 <div class="mb-2" layout:fragment="trashBox(url)">

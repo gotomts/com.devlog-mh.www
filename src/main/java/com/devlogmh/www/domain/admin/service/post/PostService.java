@@ -2,8 +2,10 @@ package com.devlogmh.www.domain.admin.service.post;
 
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.Contains;
+import com.devlogmh.www.domain.model.Pager;
 import com.devlogmh.www.domain.model.post.PostControlDto;
 import com.devlogmh.www.domain.model.post.PostDto;
+import com.devlogmh.www.domain.util.PagerUtil;
 import com.devlogmh.www.mapper.PostMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,6 +29,9 @@ public class PostService extends AbsUtilService {
 
     @Autowired
     private PostControlDto postControlDto;
+
+    @Autowired
+    private HttpServletRequest request;
 
     private ModelAndView mav;
 
@@ -52,6 +58,7 @@ public class PostService extends AbsUtilService {
         String pathNum = postControlDto.getPathNum();
         if (Objects.isNull(pathNum)) {
             pathNum = "0";
+            postControlDto.setPathNum(pathNum);
         }
 
         // エラーがあったら表示
@@ -62,6 +69,10 @@ public class PostService extends AbsUtilService {
         // サービスの初期処理
         PagedListHolder<PostDto> pagedListHolder = this.init(pathNum);
         this.mav.addObject("pagedListHolder", pagedListHolder);
+
+        // ページャーの設定
+        Pager pager = PagerUtil.setupPager(pagedListHolder, this.postControlDto, this.request);
+        this.mav.addObject("pager", pager);
 
     }
 

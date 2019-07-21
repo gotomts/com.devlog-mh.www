@@ -1,11 +1,13 @@
 package com.devlogmh.www.domain.admin.service.users;
 
-import com.devlogmh.www.domain.model.session.SessionData;
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.Contains;
 import com.devlogmh.www.domain.admin.util.TimestampUtil;
+import com.devlogmh.www.domain.model.Pager;
+import com.devlogmh.www.domain.model.session.SessionData;
 import com.devlogmh.www.domain.model.users.UsersControlDto;
 import com.devlogmh.www.domain.model.users.UsersDto;
+import com.devlogmh.www.domain.util.PagerUtil;
 import com.devlogmh.www.mapper.UsersMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +31,9 @@ public class UsersService extends AbsUtilService {
 
     @Autowired
     private UsersControlDto usersControlDto;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @Autowired
     private SessionData sessionData;
@@ -57,7 +63,9 @@ public class UsersService extends AbsUtilService {
         String pathNum = this.usersControlDto.getPathNum();
         if (Objects.isNull(pathNum)) {
             pathNum = "0";
+            usersControlDto.setPathNum(pathNum);
         }
+
 
         // エラーがあったら表示
         if (StringUtils.isNotEmpty(errorMsg)) {
@@ -67,6 +75,10 @@ public class UsersService extends AbsUtilService {
         // サービスの初期処理
         PagedListHolder<UsersDto> pagedListHolder = this.init(pathNum);
         this.mav.addObject("pagedListHolder", pagedListHolder);
+
+        // ページャーの設定
+        Pager pager = PagerUtil.setupPager(pagedListHolder, this.usersControlDto, this.request);
+        this.mav.addObject("pager", pager);
 
     }
 

@@ -10,9 +10,6 @@ import org.springframework.beans.support.PagedListHolder;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import static com.devlogmh.www.domain.contains.WebInfoContains.CATEGORY_URL;
 
 /**
  * ページャー生成用 共通クラス
@@ -33,9 +30,9 @@ public class PagerUtil {
         // ページャーのリンク数
         setPagerLinkList(pager, pagedListHolder, baseControlDto, request);
         // 前のページ
-        pager.setPrevPageLink(calcPrevPage(pagedListHolder.getPage(), baseControlDto));
+        pager.setPrevPageLink(calcPrevPage(pagedListHolder.getPage(), baseControlDto, request));
         // 後ろのページ
-        pager.setNextPageLink(calcNextPage(pagedListHolder.getPage(), baseControlDto));
+        pager.setNextPageLink(calcNextPage(pagedListHolder.getPage(), baseControlDto, request));
         // 次ページが存在するか
         pager.setNextPage(pagedListHolder.getPageCount() != 1);
 
@@ -80,13 +77,7 @@ public class PagerUtil {
             // ページャーリスト用
             PagerLink pagerLink = new PagerLink();
             // ページャー リンク
-            if (Objects.nonNull(baseControlDto.getPathCategory())) {
-                // カテゴリー付き
-                pagerLink.setLink(SiteInfoUtil.getRootPath(request) + CATEGORY_URL + baseControlDto.getPathCategory() + "/" + String.valueOf(i));
-            } else {
-                // カテゴリーパスなし
-                pagerLink.setLink(SiteInfoUtil.getRootPath(request) + String.valueOf(i));
-            }
+            pagerLink.setLink(SiteInfoUtil.getCurrentURL(request, baseControlDto.getPathNum()) + String.valueOf(i));
             // ページャー 表示テキスト
             pagerLink.setText(String.valueOf(i + 1));
             // ページャー 現在位置判定
@@ -125,9 +116,9 @@ public class PagerUtil {
      * @param baseControlDto
      * @return
      */
-    private static String calcPrevPage(int page, BaseControlDto baseControlDto) {
+    private static String calcPrevPage(int page, BaseControlDto baseControlDto, HttpServletRequest request) {
         page = page - 1;
-        return urlConcatToPage(page, baseControlDto);
+        return urlConcatToPage(page, baseControlDto, request);
     }
 
     /**
@@ -136,9 +127,9 @@ public class PagerUtil {
      * @param baseControlDto
      * @return
      */
-    private static String calcNextPage(int page, BaseControlDto baseControlDto) {
+    private static String calcNextPage(int page, BaseControlDto baseControlDto, HttpServletRequest request) {
         page = page + 1;
-        return urlConcatToPage(page, baseControlDto);
+        return urlConcatToPage(page, baseControlDto, request);
     }
 
     /**
@@ -146,18 +137,12 @@ public class PagerUtil {
      * @param page
      * @return
      */
-    private static String urlConcatToPage(int page, BaseControlDto baseControlDto) {
+    private static String urlConcatToPage(int page, BaseControlDto baseControlDto, HttpServletRequest request) {
 
         String url;
 
         // カテゴリーパスが存在するか判定
-        if (Objects.nonNull(baseControlDto.getPathCategory())) {
-            // カテゴリーとページを連結
-            url = baseControlDto.getPathCategory() + "/" + String.valueOf(page);
-        } else {
-            // ページを文字列に変換
-            url = String.valueOf(page);
-        }
+        url = SiteInfoUtil.getCurrentURL(request, baseControlDto.getPathNum()) + String.valueOf(page);
 
         return url;
     }

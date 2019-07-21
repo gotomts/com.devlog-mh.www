@@ -2,9 +2,10 @@ package com.devlogmh.www.domain.admin.service.category;
 
 import com.devlogmh.www.domain.admin.service.common.AbsUtilService;
 import com.devlogmh.www.domain.admin.util.Contains;
+import com.devlogmh.www.domain.model.Pager;
 import com.devlogmh.www.domain.model.category.CategoryControlDto;
 import com.devlogmh.www.domain.model.category.CategoryDto;
-import com.devlogmh.www.domain.model.session.SessionData;
+import com.devlogmh.www.domain.util.PagerUtil;
 import com.devlogmh.www.mapper.CategoryMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,6 +29,9 @@ public class CategoryTrashListService extends AbsUtilService {
 
     @Autowired
     private CategoryControlDto categoryControlDto;
+
+    @Autowired
+    private HttpServletRequest request;
 
     private ModelAndView mav;
 
@@ -53,6 +58,7 @@ public class CategoryTrashListService extends AbsUtilService {
         String pathNum = this.categoryControlDto.getPathNum();
         if (Objects.isNull(pathNum)) {
             pathNum = "0";
+            categoryControlDto.setPathNum(pathNum);
         }
 
         // エラーがあったら表示
@@ -63,6 +69,10 @@ public class CategoryTrashListService extends AbsUtilService {
         // サービスの初期処理
         PagedListHolder<CategoryDto> pagedListHolder = this.delList(pathNum);
         this.mav.addObject("pagedListHolder", pagedListHolder);
+
+        // ページャーの設定
+        Pager pager = PagerUtil.setupPager(pagedListHolder, this.categoryControlDto, this.request);
+        this.mav.addObject("pager", pager);
 
     }
 
