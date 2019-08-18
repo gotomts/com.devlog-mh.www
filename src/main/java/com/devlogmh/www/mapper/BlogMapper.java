@@ -4,6 +4,7 @@ import com.devlogmh.www.domain.model.blog.BlogDetailDisplay;
 import com.devlogmh.www.domain.model.blog.BlogDisplay;
 import com.devlogmh.www.domain.model.blog.BlogRecommendDisplay;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface BlogMapper {
     /**
      * ブログ記事詳細
      */
-    BlogDetailDisplay selectByCategoryAndUrl(String category, String url);
+    BlogDetailDisplay selectByCategoryAndUrl(@Param("category") String category, @Param("url") String url);
 
     /**
      * ブログおすすめ記事
