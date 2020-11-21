@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{app/admin/common/_base}">
+
+<head>
+  <title>カテゴリーマスタ 編集</title>
+  <meta name="keywords" content="カテゴリーマスタ 編集" />
+  <meta name="description" content="カテゴリーマスタ 編集" />
+</head>
+
+<body>
+
+<div class="container" layout:fragment="contents">
+  <div layout:replace="app/admin/common/_component::btnPrev(url='/admin/category-master')"></div>
+  <div layout:replace="app/admin/common/_component::pageTitle(title='カテゴリーマスタ 編集')"></div>
+  <form th:action="@{/admin/category-master/edit/{id}(id=*{id})}" th:method="put" th:object="${form}">
+    <div class="form-group">
+      <p class="text-danger mb-0" th:if="${#fields.hasErrors('categoryName')}" th:errors="*{categoryName}"></p>
+      <label for="inputCategoryName">カテゴリー名</label>
+      <input class="form-control" id="inputCategoryName" type="text" placeholder="カテゴリー名" name="categoryName" th:field="*{categoryName}" th:classappend="${#fields.hasErrors('categoryName')}? is-invalid">
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary" type="submit">保存する</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devlogmh.www.mapper.CategoryMapper">
+
+    <!-- 新規登録 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO categories (
+            name,
+            updater_id,
+            created,
+            updated,
+            delflg
+        ) VALUES (
+            #{categoryName},
+            #{updaterId},
+            #{created},
+            #{updated},
+            #{delflg}
+        )
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" useGeneratedKeys="true" keyProperty="id">
+        UPDATE categories SET
+            name = #{categoryName},
+            updater_id = #{updaterId},
+            created = #{created},
+            updated = #{updated},
+            delflg = #{delflg}
+        WHERE
+            id = #{id}
+    </update>
+
+    <!-- 編集画面表示 -->
+    <select id="select" resultType="com.devlogmh.www.domain.model.category.CategoryDto">
+        SELECT
+            id,
+            name AS "categoryName",
+            updater_id AS "updaterId",
+            created,
+            updated,
+            delflg
+        FROM
+            categories
+        WHERE
+            id = #{id}
+    </select>
+
+    <!-- 一覧表示 -->
+    <select id="selectAll" resultType="com.devlogmh.www.domain.model.category.CategoryDto">
+        <![CDATA[
+        SELECT
+            categories.id,
+            categories.name AS "categoryName",
+            categories.updater_id AS "updaterId",
+            categories.created,
+            categories.updated,
+            categories.delflg,
+            users.name AS "usersName"
+        FROM
+            categories
+        INNER JOIN users AS users
+        ON categories.updater_id = users.id
+        ORDER BY updated DESC
+        ]]>
+    </select>
+
+    <!-- 条件付き一覧表示 -->
+    <select id="selectCategoryList" resultType="com.devlogmh.www.domain.model.category.CategoryDto">
+        <![CDATA[
+        SELECT
+            categories.id,
+            categories.name AS "categoryName",
+            categories.updater_id AS "updaterId",
+            categories.created,
+            categories.updated,
+            categories.delflg,
+            users.name AS "updaterName"
+        FROM
+            categories
+        INNER JOIN users
+        ON categories.updater_id = users.id
+        WHERE
+            categories.delflg = #{delflg}
+        ORDER BY updated DESC
+        ]]>
+    </select>
+
+    <!-- 条件付き一覧表示 カテゴリー名昇順ソート -->
+    <select id="selectCategoryListOrderByCategoryName" resultType="com.devlogmh.www.domain.model.category.CategoryDto">
+        <![CDATA[
+        SELECT
+            categories.id,
+            categories.name AS "categoryName",
+            categories.updater_id AS "updaterId",
+            categories.created,
+            categories.updated,
+            categories.delflg,
+            users.name AS "updaterName"
+        FROM
+            categories
+        INNER JOIN users
+        ON categories.updater_id = users.id
+        WHERE
+            categories.delflg = #{delflg}
+        ORDER BY "categoryName" ASC
+        ]]>
+    </select>
+
+    <!-- 投稿記事の存在するカテゴリー一覧を取得 -->
+    <select id="selectCategoryListInPostOrderByCategoryName" resultType="com.devlogmh.www.domain.model.category.CategoryDto">
+        <![CDATA[
+        SELECT DISTINCT
+            categories.name AS "categoryName"
+        FROM
+            categories
+        INNER JOIN posts ON
+            categories.id = posts.category_id
+        WHERE
+            categories.delflg = '0'
+        ORDER BY "categoryName" ASC
+        ]]>
+    </select>
+
+    <!-- ゴミ箱へ移動させる -->
+    <update id="trashMove" parameterType="com.devlogmh.www.domain.model.category.CategoryDto">
+        UPDATE categories SET
+            delflg = #{delflg}
+        WHERE
+            id in
+        <foreach item="item" collection="checkId" open="(" separator="," close=")">
+            ${item}
+        </foreach>
+    </update>
+
+    <!-- 削除処理 -->
+    <delete id="destroy" parameterType="com.devlogmh.www.domain.model.category.CategoryDto">
+        DELETE FROM categories
+        WHERE
+            id in
+        <foreach item="item" collection="checkId" open="(" separator="," close=")">
+            ${item}
+        </foreach>
+    </delete>
+
+</mapper>

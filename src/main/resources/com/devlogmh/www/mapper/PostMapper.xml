@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devlogmh.www.mapper.PostMapper">
+
+    <!-- 新規登録 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO posts (
+            url,
+            title,
+            description,
+            keyword,
+            content,
+            short_content,
+            top_image_title,
+            top_image_url,
+            top_image_alt,
+            category_id,
+            status_id,
+            updater_id,
+            created,
+            updated,
+            delflg
+        ) VALUES (
+            #{url},
+            #{title},
+            #{description},
+            #{keyword},
+            #{content},
+            #{shortContent},
+            #{topImageTitle},
+            #{topImageUrl},
+            #{topImageAlt},
+            #{categoryId},
+            #{statusId},
+            #{updaterId},
+            #{created},
+            #{updated},
+            #{delflg}
+        )
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" useGeneratedKeys="true" keyProperty="id">
+        UPDATE posts SET
+            url             = #{url},
+            title           = #{title},
+            description     = #{description},
+            keyword         = #{keyword},
+            content         = #{content},
+            short_content   = #{shortContent},
+            <if test="topImageUrl">
+                top_image_title = #{topImageTitle},
+                top_image_url   = #{topImageUrl},
+                top_image_alt   = #{topImageAlt},
+            </if>
+            category_id     = #{categoryId},
+            status_id       = #{statusId},
+            updater_id      = #{updaterId},
+            created         = #{created},
+            updated         = #{updated},
+            delflg          = #{delflg}
+        WHERE
+            id = #{id}
+    </update>
+
+    <!-- 編集画面表示 -->
+    <select id="select" resultType="com.devlogmh.www.domain.model.post.PostDto">
+        SELECT
+            id,
+            url,
+            title,
+            description,
+            keyword,
+            content,
+            top_image_title  AS "topImageTitle",
+            top_image_url    AS "topImageUrl",
+            top_image_alt    AS "topImageAlt",
+            category_id      AS "categoryId",
+            status_id        AS "statusId",
+            updater_id       AS "updaterId",
+            created,
+            updated,
+            delflg
+        FROM
+            posts
+        WHERE
+            id = #{id}
+    </select>
+
+    <!-- 一覧表示 -->
+    <select id="selectAll" resultType="com.devlogmh.www.domain.model.post.PostDto">
+        <![CDATA[
+        SELECT
+            posts.id,
+            posts.url,
+            posts.title,
+            posts.description,
+            posts.keyword,
+            posts.content,
+            posts.top_image_title AS "topImageTitle",
+            posts.top_image_url   AS "topImageUrl",
+            posts.top_image_alt   AS "topImageAlt",
+            posts.category_id     AS "categoryId",
+            posts.status_id       AS "statusId",
+            posts.updater_id      AS "updaterId",
+            posts.created,
+            posts.updated,
+            posts.delflg,
+            users.name AS "updaterName"
+        FROM
+            posts
+        INNER JOIN users AS users
+            ON posts.updater_id = users.id
+        ORDER BY updated DESC
+        ]]>
+    </select>
+
+    <!-- 条件付き一覧表示 -->
+    <select id="selectPostList" resultType="com.devlogmh.www.domain.model.post.PostDto">
+        <![CDATA[
+        SELECT
+            posts.id,
+            posts.url,
+            posts.title,
+            posts.description,
+            posts.keyword,
+            posts.content,
+            posts.top_image_title AS "topImageTitle",
+            posts.top_image_url   AS "topImageUrl",
+            posts.top_image_alt   AS "topImageAlt",
+            posts.category_id     AS "categoryId",
+            posts.status_id       AS "statusId",
+            posts.updater_id      AS "updaterId",
+            posts.created,
+            posts.updated,
+            posts.delflg,
+            users.name            AS "updaterName",
+            categories.name       AS "categoryName"
+        FROM
+            posts
+        INNER JOIN users
+            ON posts.updater_id = users.id
+        INNER JOIN categories
+            ON posts.category_id = categories.id
+        WHERE
+            posts.delflg = #{delflg}
+        ORDER BY updated DESC
+        ]]>
+    </select>
+
+    <!-- ゴミ箱へ移動させる -->
+    <update id="trashMove" parameterType="com.devlogmh.www.domain.model.post.PostDto">
+        UPDATE posts SET
+            delflg = #{delflg}
+        WHERE
+            id in
+        <foreach item="item" collection="checkId" open="(" separator="," close=")">
+            ${item}
+        </foreach>
+    </update>
+
+    <!-- 削除処理 -->
+    <delete id="destroy" parameterType="com.devlogmh.www.domain.model.post.PostDto">
+        DELETE FROM posts
+        WHERE
+            id in
+        <foreach item="item" collection="checkId" open="(" separator="," close=")">
+            ${item}
+        </foreach>
+    </delete>
+
+    <!-- IDを全件検索 -->
+    <select id="selectAllId" resultType="long">
+        SELECT
+            id
+        FROM
+            posts
+    </select>
+
+</mapper>

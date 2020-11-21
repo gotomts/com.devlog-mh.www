@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devlogmh.www.mapper.AccountMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (
+            name,
+            email,
+            password,
+            role_id,
+            updater_id,
+            created,
+            updated,
+            delflg
+        ) VALUES (
+            #{userName},
+            #{email},
+            #{password},
+            #{roleId},
+            #{updaterId},
+            #{created},
+            #{updated},
+            #{delflg}
+        )
+    </insert>
+
+    <select id="findByEmail" resultType="com.devlogmh.www.domain.model.account.AccountEntity">
+        SELECT
+            id,
+            name,
+            email,
+            password,
+            role_id AS "roleId",
+            updater_id AS "updaterId",
+            created,
+            updated,
+            delflg
+        FROM
+            users
+        WHERE
+            email = #{email}
+    </select>
+
+</mapper>

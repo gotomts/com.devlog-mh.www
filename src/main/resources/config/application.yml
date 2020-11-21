@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/postgresql-metric1-60905
+    username: postgres
+    password: root
+    driverClassName: org.postgresql.Driver
+  thymeleaf:
+    cache: false
+  session:
+    store-type:jdbc
+  messages:
+    basename: ValidationMessages
+cloud.aws:
+    stack:
+      # CloundFormationのstack名を自動収集しない
+      auto: false
+    region:
+      # EC2のmetadataを自動収集しない
+      auto: false
+      static: ${AWS_REGION_NAME}
+    # credentials情報を設定
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY_ID}
+      secretKey: ${AWS_SECRET_ACCESS_KEY}
+s3:
+  bucketName: ${AWS_BUCKET_NAME}
+  uploadPath: /upload

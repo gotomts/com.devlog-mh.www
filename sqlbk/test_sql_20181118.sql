@@ -297,3 +297,22 @@ SELECT mo_category_id, mo_category_name FROM mo_categories
 INNER JOIN mo_posts ON mo_posts.mo_category_id = mo_categories.mo_category_id
 WHERE mo_posts.mo_status_id = 2
 GROUP BY mo_category_id, mo_category_name;
+
+
+select
+    *
+from
+    users
+;
+
+
+-- カラム名の変更
+ALTER TABLE posts RENAME image_id TO top_image_id;
+
+-- NOT NULL制約を外す
+ALTER TABLE posts ALTER COLUMN image_id DROP NOT NULL;
+
+DROP TABLE posts;
+
+-- カテゴリーテーブルに更新者カラムを追加する
+ALTER TABLE posts ADD short_content VARCHAR(120);

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devlogmh.www.mapper.UsersMapper">
+
+    <!-- 新規登録 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (
+            name,
+            email,
+            password,
+            role_id,
+            updater_id,
+            created,
+            updated,
+            delflg
+        ) VALUES (
+            #{userName},
+            #{email},
+            #{password},
+            #{roleId},
+            #{updaterId},
+            #{created},
+            #{updated},
+            #{delflg}
+        )
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update" useGeneratedKeys="true" keyProperty="id">
+        UPDATE users SET
+            name = #{userName},
+            email = #{email},
+            password = #{password},
+            role_id = #{roleId},
+            updater_id = #{updaterId},
+            created = #{created},
+            updated = #{updated},
+            delflg = #{delflg}
+        WHERE
+            id = #{id}
+    </update>
+
+    <!-- 編集画面表示 -->
+    <select id="select" resultType="com.devlogmh.www.domain.model.users.UsersDto">
+        SELECT
+            id,
+            name AS "userName",
+            email,
+            password,
+            role_id AS "roleId",
+            updater_id AS "updaterId",
+            created,
+            updated,
+            delflg
+        FROM
+            users
+        WHERE
+            id = #{id}
+    </select>
+
+    <!-- 一覧表示 -->
+    <select id="selectAll" resultType="com.devlogmh.www.domain.model.users.UsersDto">
+        <![CDATA[
+        SELECT
+            users.id,
+            users.name AS "userName",
+            users.email,
+            users.password,
+            users.role_id AS "roleId",
+            users.updater_id AS "updaterId",
+            users.created,
+            users.updated,
+            users.delflg,
+            updater.name AS "updaterName"
+        FROM
+            users
+        INNER JOIN users AS updater
+        ON users.updater_id = updater.id
+        ORDER BY updated DESC
+        ]]>
+    </select>
+
+    <!-- 条件付き一覧表示 -->
+    <select id="selectUserList" resultType="com.devlogmh.www.domain.model.users.UsersDto">
+        <![CDATA[
+        SELECT
+            users.id,
+            users.name AS "userName",
+            users.email,
+            users.password,
+            users.role_id AS "roleId",
+            users.updater_id AS "updaterId",
+            users.created,
+            users.updated,
+            users.delflg,
+            updater.name AS "updaterName"
+        FROM
+            users
+        INNER JOIN users AS updater
+        ON users.updater_id = updater.id
+        WHERE
+            users.id <> #{loginId}
+            AND users.delflg = #{delflg}
+        ORDER BY updated DESC
+        ]]>
+    </select>
+
+    <!-- ゴミ箱へ移動させる -->
+    <update id="trashMove" parameterType="com.devlogmh.www.domain.model.users.UsersDto">
+        UPDATE users SET
+            delflg = #{delflg}
+        WHERE
+            id in
+        <foreach item="item" collection="checkId" open="(" separator="," close=")">
+            ${item}
+        </foreach>
+    </update>
+
+    <!-- 削除処理 -->
+    <delete id="destroy" parameterType="com.devlogmh.www.domain.model.users.UsersDto">
+        DELETE FROM users
+        WHERE
+            id in
+        <foreach item="item" collection="checkId" open="(" separator="," close=")">
+            ${item}
+        </foreach>
+    </delete>
+
+</mapper>

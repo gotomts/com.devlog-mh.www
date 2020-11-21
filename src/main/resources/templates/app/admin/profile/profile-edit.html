@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{app/admin/common/_base}">
+
+<head>
+  <title>プロフィール編集</title>
+  <meta name="keywords" content="プロフィール編集" />
+  <meta name="description" content="プロフィール編集" />
+</head>
+
+<body>
+
+<div class="container" layout:fragment="contents">
+
+  <p th:if="${!#strings.isEmpty(successMsg)}" th:text="${successMsg}" class="alert alert-success mt-3 text-center"></p>
+
+  <div layout:replace="app/admin/common/_component::btnPrev(url='/admin')"></div>
+  <div layout:replace="app/admin/common/_component::pageTitle(title='プロフィール編集')"></div>
+  <form th:action="@{/admin/profile}" th:method="put" th:object="${form}">
+
+    <div class="form-group">
+      <p class="text-danger mb-0" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+      <label for="inputUserName1">ユーザー名</label>
+      <input class="form-control" id="inputUserName1" type="text" placeholder="ユーザー名" name="name" th:field="*{userName}" th:classappend="${#fields.hasErrors('userName')}? is-invalid">
+    </div>
+    <div class="form-group">
+      <p class="text-danger mb-0" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+      <label for="inputEmail1">メールアドレス</label>
+      <input class="form-control" id="inputEmail1" type="email" placeholder="メールアドレス" name="email" th:field="*{email}" th:classappend="${#fields.hasErrors('email')}? is-invalid">
+    </div>
+    <div class="form-group">
+      <p class="text-danger mb-0" th:if="${#fields.hasErrors('roleId')}" th:errors="*{roleId}"></p>
+      <label for="inputStatus">ユーザー権限</label>
+      <select class="custom-select" id="inputStatus" name="roleId" th:classappend="${#fields.hasErrors('roleId')}? is-invalid" disabled="disabled">
+        <option th:each="item : ${form.roleList}" th:value="${item.key}" th:selected="${item.key} == *{roleId}" th:text="${item.value}"></option>
+      </select>
+    </div>
+    <div class="form-group">
+      <p class="text-danger mb-0" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+      <label for="inputPassword1">パスワード</label>
+      <input class="form-control" id="inputPassword1" type="password" placeholder="パスワード" name="password" th:classappend="${#fields.hasErrors('password')}? is-invalid">
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary custom-btn-submit" type="submit">更新する</button>
+    </div>
+  </form>
+</div>
+
+<script layout:fragment="customScript">
+  // 更新ボタン押下時にdisabledを解除して情報を送る
+  $('.custom-btn-submit').on('click', function(){
+    $(this).parents('form').find('input, select').prop('disabled', false);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+
+// ログイン画面
+.flex-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4% 0;
+  background: $bodyColor;
+}
+
+.form-signin {
+  max-width: 330px;
+  width: 100%;
+  padding: 40px 20px;
+  border: 1px solid $borderColor;
+  background: #fff;
+}
+
+// form
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+// フッター
+.footer {
+  border-top: 1px solid $borderColor;
+  padding: 10px;
+  p {
+    margin: 0;
+  }
+}
+
+// title
+.page-title {
+  margin: 1rem 0;
+  h1 {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 0;
+    margin-right: 0.5rem;
+  }
+}

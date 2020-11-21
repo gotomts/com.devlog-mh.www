@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{app/admin/common/_base}">
+
+<head>
+  <title>ログイン</title>
+  <meta name="keywords" content="ログイン" />
+  <meta name="description" content="ログイン" />
+</head>
+
+<body>
+
+  <div class="flex-body" layout:fragment="contents">
+    <div class="form-signin">
+      <p th:if="${param.error}" class="text-center text-danger">
+        メールアドレス<br>
+        またはパスワードが間違っています。
+      </p>
+      <p th:if="${param.logout}" class="text-center">
+        ログアウトしました。
+      </p>
+      <h1 class="text-center">ログイン</h1>
+      <form th:action="@{/admin/login/sign_in}" method="post">
+        <div class="form-group">
+          <label for="inputEmail">メールアドレス</label>
+          <input class="form-control" id="inputEmail" type="text" name="email" placeholder="メールアドレス">
+        </div>
+        <div class="form-group">
+          <label for="inputPassword">パスワード</label>
+          <input class="form-control" id="inputPassword" type="password" name="password" placeholder="パスワード">
+          <!--
+          <p><small class="form-text text-muted"><a href="./user-recovery.html">パスワードを忘れた方はこちら</a></small></p>
+          -->
+        </div>
+        <div class="text-center">
+          <button class="btn btn-primary" type="submit">ログイン</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
